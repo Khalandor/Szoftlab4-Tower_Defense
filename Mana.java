@@ -11,7 +11,12 @@ public class Mana {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Hozzáadja a jelenlegi varázserőhöz a kapott értéket
+	 * @param value ezzel inkrementál
+	 */ 
 	public void increase(int value) {
-		throw new UnsupportedOperationException();
+		System.out.println("--> Mana.increase(" + value + ")");
+		System.out.println("<--");
 	}
 }

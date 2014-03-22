@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class PathTile extends Tile {
-	private PathTile NextTile;
-	private ArrayList<Enemy> EnemyList = new ArrayList<Enemy>();
+	private PathTile nextTile;
+	private ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 
 	/**
 	 * A PathTile osztály konstruktora.
@@ -21,7 +21,9 @@ public class PathTile extends Tile {
 	 * @return Az úton lévő ellenség
 	 */
 	public Enemy getEnemy() {
-		return EnemyList[0];
+		System.out.println("--> PathTile.getEnemy()");
+		System.out.println("<-- " + enemyList.get(0));
+		return enemyList.get(0);
 	}
 
 	/**
@@ -29,7 +31,9 @@ public class PathTile extends Tile {
 	 * @return Az úton ezután következő csempe
 	 */
 	public Tile getNextTile() {
-		return NextTile;
+		System.out.println("--> PathTile.getNextTile()");
+		System.out.println("<-- " + nextTile);
+		return nextTile;
 	}
 
 	/**
@@ -37,7 +41,8 @@ public class PathTile extends Tile {
 	 * @param enemy a törölt ellenség
 	 */
 	public void removeEnemy(Enemy enemy) {
-		EnemyList.remove(enemy);
+		System.out.println("--> PathTile.RemoveEnemy()");
+		System.out.println("<-- ");
+		enemyList.remove(enemy);
 	}
-
 }

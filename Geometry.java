@@ -16,8 +16,19 @@ public class Geometry {
 		tiles.add(new EndTile(this));			//Létrehozzuk a végzet hegyét
 	}
 	
-	public Tile[] getNearby(Tile centre, int range) {
-		throw new UnsupportedOperationException();
+	/**
+	 * Egy csempe adott sugarú körén belüli csempéit adja vissza
+	 * @param center a csempe, amelyikről a lövést indítjuk
+	 * @param range a lövés hatótáva (kör sugara)
+	 * @return azok a csempék, amik elérhetőek az adott pályán a megadott paraméterekkel 
+	 */
+	public ArrayList<PathTile> getNearby(Tile center, int range) {
+		System.out.println("-->getNearby(" + center + "," + range + ")");
+		System.out.println("<-- "+ tiles);
+		PathTile tesztTarget = (PathTile)tiles.get(0);
+		ArrayList<PathTile> targets = new ArrayList<PathTile>();
+		targets.add(tesztTarget);
+		return targets;	
 	}
 	
 	/**
@@ -28,3 +39,4 @@ public class Geometry {
 		return tiles;							//Visszaadja az összes csempét
 	}
 }
+
