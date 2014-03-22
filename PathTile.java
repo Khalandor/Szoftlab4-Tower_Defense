@@ -1,17 +1,19 @@
 import java.util.ArrayList;
 
 public class PathTile extends Tile {
-	public PathTile NextTile;
-	public PathTile unnamed_PathTile_;
-	public PathGenerator unnamed_PathGenerator_;
-	public ArrayList<Enemy> EnemyList = new ArrayList<Enemy>();
+	private PathTile NextTile;
+	private ArrayList<Enemy> EnemyList = new ArrayList<Enemy>();
 
 	/**
-	 * Beállítja a csempe típusát
+	 * A PathTile osztály konstruktora.
+	 * Beállítja típusát, és a Geometry-re mutató referenciáját.
+	 * @param geometry Az a Geometry, ami őt létrehozta (és tárolja)
 	 */
-	public PathTile()
+	public PathTile (Geometry geometry)
 	{
-		Type = "PathTile";
+		System.out.println("--> PathTile( "+geometry+" )");
+		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
+		type = "PathTile";										//Beállítjuk a saját típusát
 	}
 
 	/**

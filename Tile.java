@@ -1,9 +1,11 @@
 public class Tile {
-	private String Type;
-	public Geometry unnamed_Geometry_;
-	public Construct _builton;
-	public Enemy EnemyOnTile;
+	protected String type;
+	protected Geometry geometry;
+	protected Construct builton;
+	protected Enemy EnemyOnTile;
 
+	public Tile (){}
+	
 	public void addConstruct(Construct construct) {
 	}
 
