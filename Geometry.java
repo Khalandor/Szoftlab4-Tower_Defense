@@ -24,10 +24,11 @@ public class Geometry {
 	 */
 	public ArrayList<PathTile> getNearby(Tile center, int range) {
 		System.out.println("-->getNearby(" + center + "," + range + ")");
-		System.out.println("<-- "+ tiles);
-		PathTile tesztTarget = (PathTile)tiles.get(0);
+		// teszteléshez az utolsó cellát adja vissza (ezen álljon az ellenség, ha lőni akarunk rá)
+		PathTile tesztTarget = (PathTile)tiles.get(tiles.size()-1);
 		ArrayList<PathTile> targets = new ArrayList<PathTile>();
 		targets.add(tesztTarget);
+		System.out.println("<-- " + targets);
 		return targets;	
 	}
 	

@@ -1,5 +1,5 @@
 public class Construct {
-	private String type;
+	protected String type;
 	public Updater unnamed_Updater_;
 	public MagicGem _construct;
 

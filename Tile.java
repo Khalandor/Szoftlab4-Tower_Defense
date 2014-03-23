@@ -1,7 +1,7 @@
 public class Tile {
 	protected String type;
-	public Geometry geometry;
-	public Construct constructOnTile;
+	protected Geometry geometry;
+	protected Construct constructOnTile;
 
 	public void addConstruct(Construct construct) {
 	}
@@ -30,7 +30,7 @@ public class Tile {
 	 */
 	public String getType() {
 		System.out.println("--> Tile.getType");
-		System.out.println("<-- " + geometry);
+		System.out.println("<-- " + type);
 		return type;
 	}
 

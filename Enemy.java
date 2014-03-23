@@ -16,6 +16,9 @@ public class Enemy {
 	 */
 	public void damage(int value) {
 		System.out.println("--> Enemy.damage(" + value +")");
+		if (value >= health)
+			health = 0;
+		else health -= value;
 		System.out.println("<--");
 	}
 
@@ -84,7 +87,7 @@ public class Enemy {
 		
 		Construct constructOnTile = currentTile.getConstruct();
 		//FIXME BUG: itt lekérjük a típusát, hogy tudjuk, hogy Barricade-e, ez lemaradt az 5. szekv diagramról.
-		if (constructOnTile.getType() == "Barricade")
+		if (constructOnTile != null && constructOnTile.getType() == "Barricade")
 		{
 			//TODO barrikádra lépett.
 		}
@@ -101,6 +104,5 @@ public class Enemy {
 	 */
 	public void setMoveDelay(int delay) {
 		System.out.println("--> Enemy.setMoveDelay(" + delay + ")");
-		System.out.println("<--" + manaValue);
 	}
 }
