@@ -4,11 +4,18 @@ public class Mana {
 	public Updater unnamed_Updater_;
 
 	public void decrease(int value) {
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	public Boolean hasEnought(int value) {
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
+		System.out.println("--> Mana.hasEnought(" + value + ")");
+		System.out.println("<--" + (value <= mana));
+		return (value <= mana);
+	}
+	
+	public void setMana(int value) {
+		mana = value;
 	}
 
 	/**

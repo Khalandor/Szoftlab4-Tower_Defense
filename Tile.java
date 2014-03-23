@@ -4,12 +4,15 @@ public class Tile {
 	protected Construct constructOnTile;
 
 	public void addConstruct(Construct construct) {
+		System.out.println("--> Tile.addConstruct("+construct+")");
+		//System.out.println("<-- ");
 	}
 
 	/**
 	 * Visszaadja a csempén lévő épületet.
 	 * @return a csempén lévő épület.
 	 */
+	
 	public Construct getConstruct() {
 		System.out.println("--> Tile.getConstruct()");
 		System.out.println("<-- " + constructOnTile);

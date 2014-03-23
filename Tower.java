@@ -47,4 +47,8 @@ public class Tower extends Construct {
 	public void setRange(int range) {
 		throw new UnsupportedOperationException();
 	}
+	
+	public void setTowerLocation(FieldTile loc) {
+		towerLocation = loc;
+	}
 }

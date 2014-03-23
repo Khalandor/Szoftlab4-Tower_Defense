@@ -35,6 +35,10 @@ public class PathTile extends Tile {
 		System.out.println("<-- " + nextTile);
 		return nextTile;
 	}
+	
+	public void setNextTile(PathTile path) {
+		nextTile = path;
+	}
 
 	/**
 	 * Törli a csempéről a paraméterül átadott ellenséget
