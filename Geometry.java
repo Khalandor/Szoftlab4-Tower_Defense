@@ -9,11 +9,6 @@ public class Geometry {
 	 */
 	public Geometry() {
 		System.out.println("--> Geometry()");
-		for(int i = 0; i < 3; i++){				
-			tiles.add(new FieldTile(this));		//Létrehozunk 3 csempét, melyekre tornyokat lehet építeni
-			tiles.add(new PathTile(this));		//Létrehozunk 3 útcsempét
-		}
-		tiles.add(new EndTile(this));			//Létrehozzuk a végzet hegyét
 	}
 	
 	/**
@@ -37,7 +32,13 @@ public class Geometry {
 	 * @return Az összes csempe
 	 */
 	public ArrayList<Tile> getTiles() { 
+		System.out.println("-->getTiles()");
+		System.out.println("<-- "+tiles);
 		return tiles;							//Visszaadja az összes csempét
+	}
+	
+	public ArrayList<Tile> getTilesList() { 
+		return tiles;	
 	}
 }
 

@@ -28,7 +28,7 @@ public class Updater {
 	}
 
 	public void addEnemy(Enemy enemy) {
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	public void gameOver(Boolean isover) {
@@ -55,9 +55,9 @@ public class Updater {
 	*/
 	public void init() {
 		System.out.println("--> Updater.init()");
-		geometry = new Geometry();									//Létrehozzuk a pályát
+		/*geometry = new Geometry();									//Létrehozzuk a pályát
 		PathGenerator pathGenerator = new PathGenerator(geometry);	//Létrehozzuk az útvonalgenerátort
 		enemyGenerator = new EnemyGenerator(pathGenerator);			//Létrehozzuk az ellenséggenerátort útvonalgenerátor segítségével
-		new ConstructManager(this);									//Létrehozzuk az épületkezelőt
+		new ConstructManager(this);		*/							//Létrehozzuk az épületkezelőt
 	}
 }
