@@ -45,7 +45,7 @@ public class PathTile extends Tile {
 	 * @param enemy a törölt ellenség
 	 */
 	public void removeEnemy(Enemy enemy) {
-		System.out.println("--> PathTile.RemoveEnemy()");
+		System.out.println("--> PathTile.RemoveEnemy(" + enemy + ")");
 		System.out.println("<-- ");
 		enemies.remove(enemy);
 	}

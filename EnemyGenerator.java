@@ -17,7 +17,13 @@ public class EnemyGenerator {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 *  Ha elértük a végleges generatingSpeed-et és az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
+	 */
 	public Boolean isLastEnemyGenerated() {
-		throw new UnsupportedOperationException();
+		System.out.println("--> EnemyGenerator.isLastEnemyGenerated()");
+		System.out.println("<--");
+		//TODO ide mit írjunk? a 10. tesztben elvileg true-val tér vissza, de megoldható
+		return true;
 	}
 }

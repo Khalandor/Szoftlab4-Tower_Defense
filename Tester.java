@@ -183,16 +183,41 @@ public class Tester {
 		updater = new Updater();
 		geometry = new Geometry();
 		PathGenerator pathGenerator = new PathGenerator(geometry);
-		EnemyGenerator enemyGenerator = new EnemyGenerator(pathGenerator);
+		updater.enemyGenerator = new EnemyGenerator(pathGenerator);
 		Hobbit frodo = new Hobbit();
+		frodo.health = 0;
+		frodo.manaValue = 30;
 		updater.addEnemy(frodo);
-		Tower tower = new Tower();
+		//Tower tower = new Tower();
 		PathTile tileInRange = new PathTile(geometry);
+		tileInRange.addEnemy(frodo);
+		frodo.currentTile = tileInRange;
 		
 	}
 	
-	public static void test10() {
+	public static void test10() {	
+		clearConsole();
+		Hobbit Frodo = (Hobbit) updater.enemies.get(0);
+		// if nélkül is ugyanúgy lefut, de így talán érthetőbb
+		if (Frodo.getHealth() <= 0 )
+		{
+			int manaValue = Frodo.getManaValue();
+			PathTile FrodoTile = (PathTile)Frodo.getTile();  //Castolhatunk, mert az ellenség biztos PathTile-on áll (ha a Végzet hegyén állna, már vége lenne a játéknak).
+			// itt egy private method törli az updater enemies listájából a halott ellenséget
+			updater.enemies.clear();
+			FrodoTile.removeEnemy(Frodo);
+			updater.getMana().increase(manaValue);
+		}
 		
+		// ha minden ellenség a pályára került, és nincs a pályán több ellenség, akkor nyert a játékos
+		boolean lastWave = updater.enemyGenerator.isLastEnemyGenerated();
+		lastWave = true; //ebben a tesztben nincs több ellenség.
+		if (lastWave)
+		{
+			int numOfEnemies = updater.getNumOfEnemies(); //TODO ez private method lenne
+			if (numOfEnemies == 0)
+				updater.gameOver(true);	
+		}	
 	}
 
 	
@@ -228,6 +253,11 @@ public class Tester {
 	
 	public static void main(String[] args)
 	{	
+		test10_init();
+		System.out.println("!!!!!!!!!!!!!!!!");
+		test10();
+		
+		/*
 		switch(args[0]) {
 		case "1":
 			System.out.println(args[0]+". teszteset");
@@ -283,5 +313,6 @@ public class Tester {
 			System.out.println("Buta vagy fiam");
 			break;
 		}
+		*/
 	}
 }

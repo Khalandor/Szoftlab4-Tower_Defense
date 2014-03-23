@@ -28,11 +28,13 @@ public class Updater {
 	}
 
 	public void addEnemy(Enemy enemy) {
-		//throw new UnsupportedOperationException();
+		System.out.println("--> Updater.addEnemy(" + enemy + ")");
+		System.out.println("<--");
+		enemies.add(enemy);
 	}
 
 	public void gameOver(Boolean isover) {
-		throw new UnsupportedOperationException();
+		System.out.println("--> Updater.gameOver(" + isover + ")");
 	}
 	
 	public void setGeometry(Geometry geometry) {
@@ -59,5 +61,11 @@ public class Updater {
 		PathGenerator pathGenerator = new PathGenerator(geometry);	//Létrehozzuk az útvonalgenerátort
 		enemyGenerator = new EnemyGenerator(pathGenerator);			//Létrehozzuk az ellenséggenerátort útvonalgenerátor segítségével
 		new ConstructManager(this);		*/							//Létrehozzuk az épületkezelőt
+	}
+
+	public int getNumOfEnemies() {
+		System.out.println("--> Updater.getNumOfEnemies()");
+		System.out.println("<-- " + enemies.size());
+		return enemies.size();
 	}
 }
