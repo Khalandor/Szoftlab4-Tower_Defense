@@ -12,9 +12,16 @@ public class EnemyGenerator {
 		System.out.println("--> EnemyGenerator( " +pathGenerator+ " )");
 		this.pathGenerator = pathGenerator;
 	}
-	
-	public void generateEnemies() {
-		throw new UnsupportedOperationException();
+	/**
+	 * Ellenségek létrehozására szolgáló függvény
+	 * @return visszatér az adott ellenséggel
+	 */
+	public Enemy generateEnemies() {
+		System.out.println("--> EnemyGenerator.generateEnemies() ");
+		Dwarf Tyrion = new Dwarf();
+		pathGenerator.start(Tyrion);
+		System.out.println("<-- Enemy");
+		return Tyrion;
 	}
 
 	/**
@@ -23,7 +30,6 @@ public class EnemyGenerator {
 	public Boolean isLastEnemyGenerated() {
 		System.out.println("--> EnemyGenerator.isLastEnemyGenerated()");
 		System.out.println("<--");
-		//TODO ide mit írjunk? a 10. tesztben elvileg true-val tér vissza, de megoldható
 		return true;
 	}
 }

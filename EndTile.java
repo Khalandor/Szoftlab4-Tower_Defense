@@ -13,11 +13,13 @@ public class EndTile extends Tile {
 		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
 		type = "EndTile";										//Beállítjuk a saját típusát
 	}
-	
+	/**
+	 * Az adott csempé ellenség listájához hozzáad egy ellenséget, amennyiben az szükséges
+	 */
 	public void addEnemy(Enemy enemy) {
 		System.out.println("--> EndTile.addEnemy(" + enemy +")");
 		enemies.add(enemy);
-		System.out.println("<--");
+		//System.out.println("<--");
 	}
 }
 

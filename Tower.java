@@ -8,7 +8,6 @@ public class Tower extends Construct {
 
 	/**
 	 * A Tower osztály konstruktora.
-	 * Beállítja típusát, TODO és még? range stb.
 	 */
 	public Tower ()
 	{
@@ -23,10 +22,16 @@ public class Tower extends Construct {
 	 */
 	public Enemy shoot() {
 		System.out.println("--> Tower.shoot()");
-		//FIXME BUG: towerLocationt nem adjuk meg a build diagramban, a konstruktorban kéne
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
 		Enemy target = tilesInRange.get(0).getEnemy();
+		
+		if (gem!=null)
+		{
+			String type = target.getType();
+			gem.getDamageBonus(type);
+		};
+		
 		target.damage(damage);
 		System.out.println("<--" + target);
 		return target;
@@ -40,14 +45,27 @@ public class Tower extends Construct {
 		this.damage = damage;
 	}
 
+	/**
+	 * Beallitja a torony tuzgyorsasagat
+	 * @param rate ez a tuzgyorsasag uj erteke
+	 */
 	public void setFireRate(int rate) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Beallitja a torony hatotavolsagat
+	 * @param range a torony uj hatotavolsaga
+	 */
 	public void setRange(int range) {
-		throw new UnsupportedOperationException();
+		System.out.println("--> Tower.setRange(int)");
+		this.range = range;
 	}
 	
+	/**
+	 * Beallitja azta referenciat amely megmondja hogy a torony melyik csempen van.
+	 * @param loc a csempe melyre a torony epult
+	 */
 	public void setTowerLocation(FieldTile loc) {
 		towerLocation = loc;
 	}

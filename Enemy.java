@@ -5,9 +5,6 @@ public class Enemy {
 	protected String type;
 	protected int moveDelay;
 	protected Tile currentTile;
-	public PathTile unnamed_PathTile_;
-	public EndTile unnamed_EndTile_;
-	public Updater unnamed_Updater_;
 
 
 	/**
@@ -15,19 +12,21 @@ public class Enemy {
 	 * @param value ennyivel sérül
 	 */
 	public void damage(int value) {
-		System.out.println("--> Enemy.damage(" + value +")");
+		System.out.println("--> Enemy.damage(damage)");
 		if (value >= health)
 			health = 0;
 		else health -= value;
-		System.out.println("<--");
 	}
 
 	/**
 	 * Csökkenti a moveDelay attribútum értékét egyel.
 	 */
 	public void decreaseMoveDelay() {
-		System.out.println("--> Enemy.decreaseMoveDelay");
-		System.out.println("<--");
+		System.out.println("--> Enemy.decreaseMoveDelay()");
+		//System.out.println("<--");
+		if(moveDelay!=0){
+			moveDelay--;
+		}
 	}
 
 	/**
@@ -35,7 +34,7 @@ public class Enemy {
 	 */
 	public int getHealth() {
 		System.out.println("--> Enemy.getHealth()");
-		System.out.println("<--" + health);
+		System.out.println("<-- health");
 		return this.health;
 	}
 
@@ -44,7 +43,7 @@ public class Enemy {
 	 */
 	public int getManaValue() {
 		System.out.println("--> Enemy.getManaValue()");
-		System.out.println("<--" + manaValue);
+		System.out.println("<-- reward");
 		return this.manaValue;
 	}
 
@@ -53,11 +52,17 @@ public class Enemy {
 	 */
 	public Tile getTile() {
 		System.out.println("--> Enemy.getTile()");
-		System.out.println("<--" + currentTile);
+		System.out.println("<-- tile");
 		return this.currentTile;
 	}
-
+	
+	/**
+	 * Az ellenség típusát adja vissza
+	 * @return maga a típus
+	 */
 	public String getType() {
+		System.out.println("--> Enemy.getType()");
+		System.out.println("<-- type");
 		return this.type;
 	}
 
@@ -69,40 +74,48 @@ public class Enemy {
 		System.out.println("--> Enemy.move()");
 		decreaseMoveDelay();
 		
-		String tileType = currentTile.getType();
-		
-		//FIXME BUG: ez bajlehet. itt előbbre kellett hoznom a getType-ot, mert csak a PathTile-nak van getNextTile-ja és removeEnemy()-je, máson nem lehet meghívni
-		if (tileType == "PathTile")
-		{
+		if(moveDelay==0){
 			Tile nextTile = ((PathTile) currentTile).getNextTile();
 			nextTile.addEnemy(this);
-			
 			((PathTile) currentTile).removeEnemy(this);
 			currentTile = nextTile;
+			
+			String tileType = currentTile.getType();
+			if (tileType == "EndTile")
+			{
+				//vesztés, return true;
+				System.out.println("<-- reachedEnd");
+				return true ;
+			}
+			
+			
+			Construct constructOnTile = currentTile.getConstruct();
+			if (constructOnTile != null)
+			{
+				
+				int modifier = ((Barricade)(constructOnTile)).getSpeedModifier();
+				setMoveDelay(modifier);
+			}
+			else 
+				setMoveDelay(0);
 		}
-		else if (tileType == "EndTile")
-		{
-			//TODO TileType==végzethegye -> vesztés, return true;
-		}
-		
-		Construct constructOnTile = currentTile.getConstruct();
-		//FIXME BUG: itt lekérjük a típusát, hogy tudjuk, hogy Barricade-e, ez lemaradt az 5. szekv diagramról.
-		if (constructOnTile != null && constructOnTile.getType() == "Barricade")
-		{
-			//TODO barrikádra lépett.
-		}
-		else 
-			setMoveDelay(0);
-
-		//visszatérés lemaradt a szekvenciadiagramról
-		System.out.println("<-- false");
 		return false;
+		
 	}
 
 	/**
 	 * Beállítja a moveDelay-t a sebesség és a kapott modifier összegére.
 	 */
 	public void setMoveDelay(int delay) {
-		System.out.println("--> Enemy.setMoveDelay(" + delay + ")");
+		System.out.println("--> Enemy.setMoveDelay(delay)");
+		moveDelay = delay;
+	}
+	
+	/**
+	 * Az ellenséghez hozzárendeli a csempét, amin tartózkodik
+	 * @param tile - az adott csempe, amin az ellenség áll
+	 */
+	public void setTile(Tile tile){
+		currentTile=tile;
 	}
 }

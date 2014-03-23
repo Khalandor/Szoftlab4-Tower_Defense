@@ -3,9 +3,14 @@ public class Tile {
 	protected Geometry geometry;
 	protected Construct constructOnTile;
 
+	
+	/**
+	 * A Tile-on egy Construct elhelyezeset szavatolja 
+	 * @param construct ezt a Constructott helyezzuk el a Tile-re
+	 */
 	public void addConstruct(Construct construct) {
 		System.out.println("--> Tile.addConstruct("+construct+")");
-		//System.out.println("<-- ");
+		constructOnTile = construct; //
 	}
 
 	/**
@@ -15,7 +20,7 @@ public class Tile {
 	
 	public Construct getConstruct() {
 		System.out.println("--> Tile.getConstruct()");
-		System.out.println("<-- " + constructOnTile);
+		System.out.println("<-- " +  constructOnTile);
 		return constructOnTile;
 	}
 
@@ -32,8 +37,8 @@ public class Tile {
 	 * Visszaadja a csempe típusát.
 	 */
 	public String getType() {
-		System.out.println("--> Tile.getType");
-		System.out.println("<-- " + type);
+		System.out.println("--> Tile.getType()");
+		System.out.println("<-- type");
 		return type;
 	}
 
@@ -41,7 +46,6 @@ public class Tile {
 	 * A kapott ellenséget felveszi az ellenségek közé, ha lehet rajta.
 	 * @param enemy a kapott ellenség
 	 */
-	// FIXME Ez semmit nem csinál, mert itt nem tárolunk ellenséglistát, nincs is mihez hozzáadni. Overloadolni kell az EndTile-ban meg a Pathtile-ban, hogy csináljon is valamit. 
 	public void addEnemy(Enemy enemy) {
 		System.out.println("--> Tile.addEnemy(" + enemy +")");
 		System.out.println("<--");
