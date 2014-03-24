@@ -67,7 +67,9 @@ public class Enemy {
 	}
 
 	/**
-	 *  Lépteti az ellenséget a currentTile-ról a currentTile nextTile-jára. Megnézi, hogy a végzet hegyére léptünk-e, ha igen akkor true-val tér vissza. Lépés után meghívja a setMoveDelay-t az esetleges akadálytól kapott lassítás mértékével.
+	 *  Lépteti az ellenséget a currentTile-ról a currentTile nextTile-jára. 
+	 *  Megnézi, hogy a végzet hegyére léptünk-e, ha igen akkor true-val tér vissza. 
+	 *  Lépés után meghívja a setMoveDelay-t az esetleges akadálytól kapott lassítás mértékével.
 	 *  @return a végzet hegyén áll-e az ellenség?
 	 */
 	public boolean move() {

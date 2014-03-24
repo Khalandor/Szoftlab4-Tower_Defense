@@ -2,7 +2,7 @@
 public class Tester {
 	
 	/**
-	 * else teszt eset inicializalasa
+	 * else teszt esetinicializalasa
 	 */
 	public static void test1_init()
 	{
@@ -11,7 +11,7 @@ public class Tester {
 	}
 	
 	/**
-	 * elso teszt eset
+	 * elso teszteset
 	 * Jatak inditasa.
 	 */
 	public static void test1()
@@ -22,7 +22,7 @@ public class Tester {
 	}
 
 	/**
-	 * masodik teszt eset inicializalasa
+	 * masodik teszteset inicializalasa
 	 */
 	public static void test2_init() {
 		System.out.println("Inicializálás:");
@@ -36,7 +36,7 @@ public class Tester {
 	}
 	
 	/**
-	 * masodik teszt eset
+	 * masodik teszteset
 	 * Letrehozunk egy ellenseget.
 	 */
 	public static void test2() {
@@ -47,7 +47,7 @@ public class Tester {
 	}
 	
 	/**
-	 * harmadik teszt eset inicializalasa
+	 * harmadik teszteset inicializalasa
 	 */
 	public static void test3_init() {
 		System.out.println("Inicializálás:");
@@ -61,7 +61,7 @@ public class Tester {
 	}
 	
 	/**
-	 * harmadik teszt eset
+	 * harmadik teszteset
 	 * Egy ellenseg lep, majd mivel a Vegzet hegyere lepett, vesztunk.
 	 */
 	public static void test3() {
@@ -73,7 +73,7 @@ public class Tester {
 	
 	
 	/**
-	 * negyedik teszt eset inicializalasa
+	 * negyedik teszteset inicializalasa
 	 */
 	public static void test4_init() {
 		System.out.println("Inicializálás:");
@@ -97,7 +97,7 @@ public class Tester {
 	}
 	
 	/**
-	 * negyedik teszt eset
+	 * negyedik teszteset
 	 * Egy ellenseg akadalyra lep, majd kesleltetve tovabblep.
 	 */
 	public static void test4() {
@@ -109,7 +109,7 @@ public class Tester {
 	}
 	
 	/**
-	 * otodik teszt eset inicializalasa
+	 * otodik teszteset inicializalasa
 	 */
 	public static void test5_init()
 	{	
@@ -150,7 +150,7 @@ public class Tester {
 	}
 	
 	/**
-	 * otodik teszt eset
+	 * otodik teszteset
 	 * Egy ellenseg lep, majd ralo egy torony, es meghal.
 	 */
 	public static void test5()
@@ -172,7 +172,7 @@ public class Tester {
 	
 	
 	/**
-	 * hatodik teszt eset inicializalasa
+	 * hatodik teszteset inicializalasa
 	 */
 	public static void test6_init() {
 		System.out.println("Inicializálás:");
@@ -205,7 +205,7 @@ public class Tester {
 	}
 	
 	/**
-	 * hatodik teszt eset
+	 * hatodik teszteset
 	 * Loves varazskovel ellatott toronnyal.
 	 */
 	public static void test6() {
@@ -216,7 +216,7 @@ public class Tester {
 	}
 	
 	/**
-	 * hetedik teszt eset inicializalasa
+	 * hetedik teszteset inicializalasa
 	 */
 	public static void test7_init() {
 		System.out.println("Inicializálás:");
@@ -227,7 +227,7 @@ public class Tester {
 	}
 	
 	/**
-	 * hetedik teszt eset
+	 * hetedik teszteset
 	 * A jatekos  epiteni akar valamit, de nincs ra eleg varazsero.
 	 */
 	public static void test7() {
@@ -238,7 +238,7 @@ public class Tester {
 	
 	
 	/**
-	 * nyolcadik teszt eset inicializalasa
+	 * nyolcadik teszteset inicializalasa
 	 */
 	public static void test8_init()
 	{
@@ -252,7 +252,7 @@ public class Tester {
 	}
 	
 	/**
-	 * nyolcadik teszt eset
+	 * nyolcadik teszteset
 	 * A jatekos  epit egy akadalyt.
 	 */
 	public static void test8()
@@ -265,7 +265,7 @@ public class Tester {
 	
 	
 	/**
-	 * kilencedik teszt eset inicializalasa
+	 * kilencedik teszteset inicializalasa
 	 */
 	public static void test9_init() {
 		System.out.println("Inicializálás:");
@@ -277,7 +277,7 @@ public class Tester {
 		constructManager.setMana(mana);		
 	}
 	/**
-	 * kilencedik teszt eset
+	 * kilencedik teszteset
 	 * A jatekos  epit egy tornyot, majd vasarol bele egy (hatotav novelo) varazskovet.
 	 */
 	public static void test9() {
@@ -290,7 +290,7 @@ public class Tester {
 	
 	
 	/**
-	 * tizedik teszt eset inicializalasa
+	 * tizedik teszteset inicializalasa
 	 */
 	public static void test10_init() {
 		System.out.println("Inicializálás:");
@@ -311,7 +311,7 @@ public class Tester {
 	
 	
 	/**
-	 * tizedik teszt eset
+	 * tizedik teszteset
 	 * Egy torony lo egy ellensegre, aki meghal, majd mivel ez volt az utolso ellenseg, gyozunk.
 	 */
 	public static void test10() {	
@@ -349,12 +349,13 @@ public class Tester {
 
 	/**
 	 * A teszt esetek elinditasaert felelos. Parancssori argumentumkent megkapott
-	 * ertek szerinti teszt eset fog lefutni
+	 * ertek szerinti teszt eset fog lefutni. Minden tesztesethez tartozik egy
+	 * inicializalo metodus, es egy futtato metodus.
 	 * @param args parancssori argomentumok
 	 */
 	public static void main(String[] args)
 	{	
-		if (args.length == 0 || !args[0].matches("[0-9].*"))
+		if (args.length == 0 || !args[0].matches("[0-9].*"))  //nem szam volt megadva.
 		{
 			System.out.println("Adja meg parameterkent a teszteset szamat! (1-10)");
 			return;
@@ -363,57 +364,57 @@ public class Tester {
 		int teszt = Integer.parseInt(args[0]);
 		switch(teszt) {
 		case 1:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//1. teszteset
 			test1_init();
 			test1();
 			break;
 		case 2:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//2. teszteset
 			test2_init();
 			test2();
 			break;
 		case 3:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//3. teszteset
 			test3_init();
 			test3();
 			break;
 		case 4:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//4. teszteset
 			test4_init();
 			test4();
 			break;
 		case 5:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//5. teszteset
 			test5_init();
 			test5();
 			break;
 		case 6:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//6. teszteset
 			test6_init();
 			test6();
 			break;
 		case 7:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//7. teszteset
 			test7_init();
 			test7();
 			break;
 		case 8:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//8. teszteset
 			test8_init();
 			test8();
 			break;
 		case 9:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//9. teszteset
 			test9_init();
 			test9();
 			break;
 		case 10:
-			System.out.println(args[0]+". teszteset");
+			System.out.println(args[0]+". teszteset");	//10. teszteset
 			test10_init();
 			test10();
 			break;
 		default:
-			System.out.println("Adja meg parameterkent a teszteset szamat! (1-10)");
+			System.out.println("Adja meg parameterkent a teszteset szamat! (1-10)");  //Rossz szam volt megadva
 			break;
 		}
 		

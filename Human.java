@@ -1,7 +1,7 @@
 public class Human extends Enemy {
 
 	/**
-	 *  Human osztály konstruktora.
+	 *  Human osztaly konstruktora.
 	 */
 	public Human() {
 		System.out.println("--> <<create>> ");

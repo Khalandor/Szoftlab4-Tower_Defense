@@ -17,7 +17,10 @@ public class Tower extends Construct {
 	
 	
 	/**
-	 * Lekérdezi a hatótávon belüli csempéket, majd kér valamelyikről egy ellenséget. Ha van varázskő a toronyban, megkérdezi milyen plusz sebzést biztosít a varázskő, és a saját értékéhez hozzáadva belesebzi azt az ellenségbe, annyiszor, amennyi a fireRate attribútumának az értéke. Visszatér azzal az ellenséggel, akit meglőtt.
+	 * Lekérdezi a hatótávon belüli csempéket, majd kér valamelyikről egy ellenséget. 
+	 * Ha van varázskő a toronyban, megkérdezi milyen plusz sebzést biztosít a varázskő,
+	 * és a saját értékéhez hozzáadva belesebzi azt az ellenségbe, annyiszor, amennyi a fireRate attribútumának az értéke.
+	 * Visszatér azzal az ellenséggel, akit meglőtt.
 	 * @return a meglőtt ellenség
 	 */
 	public Enemy shoot() {
