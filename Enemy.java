@@ -128,6 +128,14 @@ public class Enemy {
 	}
 	
 	/**
+	 * Beállítja az ellenség életerejét
+	 * @param health az új életereje
+	 */
+	public void setHealth(int health){
+		this.health = health;
+	}
+	
+	/**
 	 * Az ellenséghez hozzárendeli a csempét, amin tartózkodik
 	 * @param tile - az adott csempe, amin az ellenség áll
 	 */
