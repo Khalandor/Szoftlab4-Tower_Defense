@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class Tower extends Construct {
 	private int damage;
 	private int fireRate;
+	private int rangeModifier;
 	private int range;
 	private FieldTile towerLocation;
 
@@ -66,10 +67,20 @@ public class Tower extends Construct {
 	}
 	
 	/**
+	 * Beállítja a torony hatótávolságának módosítóját
+	 * @param rangeModifier a torony hatótávának módosítója
+	 */
+	public void setRangeModifier(int rangeModifier) {
+		this.rangeModifier = rangeModifier;
+	}
+	
+	/**
 	 * Beallitja azta referenciat amely megmondja hogy a torony melyik csempen van.
 	 * @param loc a csempe melyre a torony epult
 	 */
 	public void setTowerLocation(FieldTile loc) {
 		towerLocation = loc;
 	}
+	
+	
 }

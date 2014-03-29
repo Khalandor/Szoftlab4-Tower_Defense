@@ -46,3 +46,10 @@ Diagramok:
 6. Játékos nyer:
 
  ![Játékos nyer](diagrams/seq06-win.png "Játékos nyer")
+7. Leszáll a köd:
+
+ ![Játékos nyer](diagrams/seq07-fogdown.png "Játékos nyer")
+8. Felszáll a köd:
+
+ ![Játékos nyer](diagrams/seq08-fogup.png "Játékos nyer")
+

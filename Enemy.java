@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Enemy {
 	protected int health;
 	protected int speed;
@@ -16,6 +18,14 @@ public class Enemy {
 		if (value >= health)
 			health = 0;
 		else health -= value;
+	}
+	
+	/**
+	 * Felezi az életerejét
+	 */
+	public void damageHalf()
+	{
+		health /= 2;
 	}
 
 	/**
@@ -66,6 +76,10 @@ public class Enemy {
 		return this.type;
 	}
 
+	private Tile chooseTile(ArrayList<Tile> Tiles)
+	{
+		return Tiles.get(0);
+	}
 	/**
 	 *  Lépteti az ellenséget a currentTile-ról a currentTile nextTile-jára. 
 	 *  Megnézi, hogy a végzet hegyére léptünk-e, ha igen akkor true-val tér vissza. 
@@ -77,7 +91,7 @@ public class Enemy {
 		decreaseMoveDelay();
 		
 		if(moveDelay==0){
-			Tile nextTile = ((PathTile) currentTile).getNextTile();
+			Tile nextTile = chooseTile(((PathTile) currentTile).getNextTiles());
 			nextTile.addEnemy(this);
 			((PathTile) currentTile).removeEnemy(this);
 			currentTile = nextTile;

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class Tester {
 	
@@ -56,7 +58,9 @@ public class Tester {
 		updater.addEnemy(frodo);
 		PathTile currentTile = new PathTile(geometry);
 		EndTile nextTile = new EndTile(geometry);
-		currentTile.setNextTile(nextTile);
+		ArrayList<Tile> nextTiles = new ArrayList<Tile>();
+		nextTiles.add(nextTile);
+		currentTile.setNextTiles(nextTiles);
 		frodo.setTile(currentTile);
 	}
 	
@@ -83,8 +87,13 @@ public class Tester {
 		PathTile tile1 = new PathTile(geometry);
 		PathTile tile2 = new PathTile(geometry);
 		PathTile tile3 = new PathTile(geometry);
-		tile1.setNextTile(tile2);
-		tile2.setNextTile(tile3);
+		ArrayList<Tile> nextTiles = new ArrayList<Tile>();
+		nextTiles.add(tile2);
+		tile1.setNextTiles(nextTiles);
+		
+		nextTiles.clear();
+		nextTiles.add(tile3);
+		tile2.setNextTiles(nextTiles);
 		
 		Barricade barricade = new Barricade();
 		tile2.addConstruct(barricade);
@@ -141,7 +150,10 @@ public class Tester {
 		FieldTile towerTile = new FieldTile(geometry);
 		geometry.getTiles().add(start);
 		geometry.getTiles().add(next);
-		start.setNextTile(next);
+		
+		ArrayList<Tile> nextTiles = new ArrayList<Tile>();
+		nextTiles.add(next);
+		start.setNextTiles(nextTiles);
 		
 		// ellenség és torony felhelyezése a csempére
 		Legolas.currentTile = start;

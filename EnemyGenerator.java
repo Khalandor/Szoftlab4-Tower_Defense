@@ -32,4 +32,12 @@ public class EnemyGenerator {
 		System.out.println("<--");
 		return true;
 	}
+	
+	/**
+	 * Lemásolja a paraméterül kapott ellenséget a paraméterül kapott csempére
+	 */
+	public void duplicateEnemy(Enemy enemy, PathTile pathTile)
+	{
+		
+	}
 }
