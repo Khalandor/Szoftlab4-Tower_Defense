@@ -39,4 +39,9 @@ public class Mana {
 		System.out.println("--> Mana.increase(value)");
 		//System.out.println("<--");
 	}
+	
+	public int getMana() {
+		return mana;
+	}
+	
 }

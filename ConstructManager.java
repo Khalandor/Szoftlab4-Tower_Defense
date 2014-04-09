@@ -10,7 +10,6 @@ public class ConstructManager {
 	 * @param updater Az updater ami létrehozta
 	 */
 	public ConstructManager (Updater updater){
-		System.out.println("--> ConstructManager()");
 		this.updater = updater;							//Beállítjuk az updater attribútumot
 	}	
 	

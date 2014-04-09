@@ -7,7 +7,6 @@ public class FieldTile extends Tile {
 	 */
 	public FieldTile (Geometry geometry)
 	{
-		System.out.println("--> FieldTile( "+geometry+" )");	
 		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
 		type = "FieldTile";										//Beállítjuk a saját típusát
 	}

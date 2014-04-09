@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class PathTile extends Tile {
-	private ArrayList<Tile> nextTiles;
+	private ArrayList<Tile> nextTiles = new ArrayList<Tile>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 	/**
@@ -11,7 +11,6 @@ public class PathTile extends Tile {
 	 */
 	public PathTile(Geometry geometry)
 	{
-		System.out.println("--> PathTile( "+geometry+" )");
 		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
 		type = "PathTile";										//Beállítjuk a saját típusát
 	}
@@ -21,9 +20,6 @@ public class PathTile extends Tile {
 	 * @return Az úton lévő ellenség
 	 */
 	public Enemy getEnemy() {
-		System.out.println("--> PathTile.getEnemy()");
-		//System.out.println("<-- " + enemies.get(0));
-		System.out.println("<-- Enemy");
 		return enemies.get(0);
 	}
 
@@ -32,8 +28,6 @@ public class PathTile extends Tile {
 	 * @return Az úton ezután következő csempe
 	 */
 	public ArrayList<Tile> getNextTiles() {
-		System.out.println("--> PathTile.getNextTile()");
-		System.out.println("<-- nextTile");
 		return nextTiles;
 	}
 	
@@ -41,8 +35,8 @@ public class PathTile extends Tile {
 	 * Beállítja a csempéket, amikre az úton innen lépni lehet
 	 * @param path ez lesz a nextTile uj erteke
 	 */
-	public void setNextTiles(ArrayList<Tile> path) {
-		nextTiles = path;
+	public void setNextTile(PathTile path) {
+		nextTiles.add(path);
 	}
 
 	/**
@@ -50,7 +44,6 @@ public class PathTile extends Tile {
 	 * @param enemy a törölt ellenség
 	 */
 	public void removeEnemy(Enemy enemy) {
-		System.out.println("--> PathTile.RemoveEnemy(" + enemy + ")");
 		enemies.remove(enemy);
 	}
 	
@@ -60,8 +53,6 @@ public class PathTile extends Tile {
 	 * @param enemy a kapott ellenség
 	 */
 	public void addEnemy(Enemy enemy) {
-		System.out.println("--> PathTile.addEnemy(" + enemy +")");
-		System.out.println("<--");
 		enemies.add(enemy);
 	}
 }

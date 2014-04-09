@@ -1,14 +1,21 @@
 import java.util.ArrayList;
 
 public class Geometry {
-	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	private Tile[] tiles;
 
 	/**
 	 * A Geometry osztály konstruktora.
 	 * Létrehozza a csempéket.
 	 */
 	public Geometry() {
-		System.out.println("--> Geometry()");
+	}
+	
+	/*public Geometry(int size) {
+		tiles = new Tile[size];
+	}*/
+	
+	public void setMapSize(int size) {
+		tiles = new Tile[size];
 	}
 	
 	/**
@@ -21,29 +28,27 @@ public class Geometry {
 		System.out.println("--> Geometry.getNearby(" + center + "," + range + ")");
 		// teszteléshez az utolsó cellát adja vissza (ezen álljon az ellenség, ha lőni akarunk rá)
 		
-		// a teszt target a tiles utolso eleme
+		/*// a teszt target a tiles utolso eleme
 		PathTile tesztTarget = (PathTile)tiles.get(tiles.size()-1);
 		ArrayList<PathTile> targets = new ArrayList<PathTile>();
 		// a targets lista az teszt target egz listaba agyazva
 		targets.add(tesztTarget);
 		//System.out.println("<-- " + targets);
 		System.out.println("<-- tilesInRange");
-		return targets;	
+		return targets;	*/
+		return null;
 	}
 	
 	/**
 	 * Visszaadja az összes csempét
 	 * @return Az összes csempe
 	 */
-	public ArrayList<Tile> getTiles() { 
-		System.out.println("--> getTiles()");
-		System.out.println("<-- "+tiles);
+	public Tile[] getTiles() { 
 		return tiles;							//Visszaadja az összes csempét
 	}
 	
-	
-	public ArrayList<Tile> getTilesList() { 
-		return tiles;	
+	public void addTile(Tile tile, int index) {
+		tiles[index]=tile;
 	}
 }
 

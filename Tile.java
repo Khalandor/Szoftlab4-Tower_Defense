@@ -9,7 +9,6 @@ public class Tile {
 	 * @param construct ezt a Constructott helyezzuk el a Tile-re
 	 */
 	public void addConstruct(Construct construct) {
-		System.out.println("--> Tile.addConstruct("+construct+")");
 		constructOnTile = construct; //
 	}
 
@@ -19,8 +18,6 @@ public class Tile {
 	 */
 	
 	public Construct getConstruct() {
-		System.out.println("--> Tile.getConstruct()");
-		System.out.println("<-- " +  constructOnTile);
 		return constructOnTile;
 	}
 
@@ -28,8 +25,6 @@ public class Tile {
 	 * Visszaadja a csempét tároló Geometry-t
 	 */
 	public Geometry getGeometry() {
-		System.out.println("--> Tile.getGeometry()");
-		System.out.println("<-- " + geometry);
 		return geometry;
 	}
 
@@ -37,8 +32,6 @@ public class Tile {
 	 * Visszaadja a csempe típusát.
 	 */
 	public String getType() {
-		System.out.println("--> Tile.getType()");
-		System.out.println("<-- type");
 		return type;
 	}
 
@@ -47,8 +40,6 @@ public class Tile {
 	 * @param enemy a kapott ellenség
 	 */
 	public void addEnemy(Enemy enemy) {
-		System.out.println("--> Tile.addEnemy(" + enemy +")");
-		System.out.println("<--");
 	}
 }
 

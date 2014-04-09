@@ -9,7 +9,6 @@ public class EnemyGenerator {
 	 * @param pathGenerator PathGenerator, melyen keresztül le fogja tenni az ellenségeket egy útvonalra.
 	 */
 	public EnemyGenerator (PathGenerator pathGenerator){
-		System.out.println("--> EnemyGenerator( " +pathGenerator+ " )");
 		this.pathGenerator = pathGenerator;
 	}
 	/**

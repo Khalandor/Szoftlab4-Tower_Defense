@@ -9,8 +9,7 @@ public class PathGenerator {
 	 * @param geometry Palyat reprezentáló változó, melyen keresztül elérjük a csempeket
 	 */
 	public PathGenerator (Geometry geometry){
-		System.out.println("--> PathGenerator( " +geometry+ " )");
-		geometry.getTiles();										//Elkérjük az összes csempét
+		geometry.getTiles();	//Elkérjük az összes csempét
 	}	
 	
 	
