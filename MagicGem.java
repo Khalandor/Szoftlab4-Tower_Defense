@@ -7,7 +7,6 @@ public class MagicGem {
 	 */
 	public MagicGem ()
 	{
-		System.out.println("--> MagicGem()");
 		type = "MagicGem";
 	}
 	
@@ -18,8 +17,6 @@ public class MagicGem {
 	 * @param type az ellenseget tipusat adja meg 
 	 */
 	public int getDamageBonus(String type) {
-		System.out.println("--> MagicGem.getDamageBonus(type)");
-		System.out.println("<-- amount");
 		return 10;
 	}
 }

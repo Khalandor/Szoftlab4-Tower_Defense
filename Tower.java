@@ -12,7 +12,6 @@ public class Tower extends Construct {
 	 */
 	public Tower ()
 	{
-		System.out.println("--> Tower()");
 		type = "Tower";										//Beállítjuk a saját típusát
 	}
 	
@@ -25,7 +24,6 @@ public class Tower extends Construct {
 	 * @return a meglőtt ellenség
 	 */
 	public Enemy shoot() {
-		System.out.println("--> Tower.shoot()");
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
 		Enemy target = tilesInRange.get(0).getEnemy();
@@ -37,7 +35,6 @@ public class Tower extends Construct {
 		};
 		
 		target.damage(damage);
-		System.out.println("<--" + target);
 		return target;
 	}
 
@@ -62,7 +59,6 @@ public class Tower extends Construct {
 	 * @param range a torony uj hatotavolsaga
 	 */
 	public void setRange(int range) {
-		System.out.println("--> Tower.setRange(int)");
 		this.range = range;
 	}
 	

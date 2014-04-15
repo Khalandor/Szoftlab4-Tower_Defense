@@ -25,7 +25,6 @@ public class Geometry {
 	 * @return azok a csempék, amik elérhetőek az adott pályán a megadott paraméterekkel 
 	 */
 	public ArrayList<PathTile> getNearby(Tile center, int range) {
-		System.out.println("--> Geometry.getNearby(" + center + "," + range + ")");
 		// teszteléshez az utolsó cellát adja vissza (ezen álljon az ellenség, ha lőni akarunk rá)
 		
 		/*// a teszt target a tiles utolso eleme
@@ -33,8 +32,6 @@ public class Geometry {
 		ArrayList<PathTile> targets = new ArrayList<PathTile>();
 		// a targets lista az teszt target egz listaba agyazva
 		targets.add(tesztTarget);
-		//System.out.println("<-- " + targets);
-		System.out.println("<-- tilesInRange");
 		return targets;	*/
 		return null;
 	}

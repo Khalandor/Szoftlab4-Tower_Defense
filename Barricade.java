@@ -6,8 +6,6 @@ public class Barricade extends Construct {
 	 * @return speedModifier  
 	 */
 	public int getSpeedModifier() {
-		System.out.println("--> Barricade.getSpeedModifier()");
-		System.out.println("<-- modifier");
 		return speedModifier;
 	}
 	
@@ -16,7 +14,6 @@ public class Barricade extends Construct {
 	 */
 	public Barricade()
 	{
-		System.out.println("--> Barricade()");
 		type = "Barricade";										//Beállítjuk a saját típusát
 		speedModifier = 2 ;
 	}

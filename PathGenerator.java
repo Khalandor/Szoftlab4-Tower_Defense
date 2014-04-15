@@ -18,9 +18,7 @@ public class PathGenerator {
 	 * @param enemy ezt a peldanyt rakja ra a csempere
 	 */
 	public void start(Enemy enemy) {
-		System.out.println("--> PathGenerator.start(Enemy)");
 		pathStarts.get(0).addEnemy(enemy);
-		System.out.println("<--");
 	}
 	
 	

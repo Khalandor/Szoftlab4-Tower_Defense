@@ -8,7 +8,6 @@ public class Mana {
 	 * @param cost ezzel az ertekkel kel csokkenteni a mana erteket
 	 */
 	public void decrease(int cost) {
-		System.out.println("--> Mana.decrease(cost)");
 	}
 
 	/**
@@ -18,8 +17,6 @@ public class Mana {
 	 * @return true ha van eleg mana.
 	 */
 	public Boolean hasEnough(int value) {
-		System.out.println("--> Mana.hasEnough(cost)");
-		System.out.println("<-- Boolean");
 		return (value <= mana);
 	}
 	
@@ -36,8 +33,6 @@ public class Mana {
 	 * @param value ezzel inkrementál
 	 */ 
 	public void increase(int value) {
-		System.out.println("--> Mana.increase(value)");
-		//System.out.println("<--");
 	}
 	
 	public int getMana() {

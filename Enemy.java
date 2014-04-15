@@ -14,7 +14,6 @@ public class Enemy {
 	 * @param value ennyivel sérül
 	 */
 	public void damage(int value) {
-		System.out.println("--> Enemy.damage(damage)");
 		if (value >= health)
 			health = 0;
 		else health -= value;
@@ -32,8 +31,6 @@ public class Enemy {
 	 * Csökkenti a moveDelay attribútum értékét egyel.
 	 */
 	public void decreaseMoveDelay() {
-		System.out.println("--> Enemy.decreaseMoveDelay()");
-		//System.out.println("<--");
 		if(moveDelay!=0){
 			moveDelay--;
 		}
@@ -43,8 +40,6 @@ public class Enemy {
 	 * Az ellenség életerejével tér vissza
 	 */
 	public int getHealth() {
-		System.out.println("--> Enemy.getHealth()");
-		System.out.println("<-- health");
 		return this.health;
 	}
 
@@ -52,8 +47,6 @@ public class Enemy {
 	 * Visszaadja, hogy mennyi manát ér a megölése
 	 */
 	public int getManaValue() {
-		System.out.println("--> Enemy.getManaValue()");
-		System.out.println("<-- reward");
 		return this.manaValue;
 	}
 
@@ -61,8 +54,6 @@ public class Enemy {
 	 * Visszaadja a csempét melyen az ellenség jelenleg tartózkodik.
 	 */
 	public Tile getTile() {
-		System.out.println("--> Enemy.getTile()");
-		System.out.println("<-- tile");
 		return this.currentTile;
 	}
 	
@@ -71,8 +62,6 @@ public class Enemy {
 	 * @return maga a típus
 	 */
 	public String getType() {
-		System.out.println("--> Enemy.getType()");
-		System.out.println("<-- type");
 		return this.type;
 	}
 
@@ -87,7 +76,6 @@ public class Enemy {
 	 *  @return a végzet hegyén áll-e az ellenség?
 	 */
 	public boolean move() {
-		System.out.println("--> Enemy.move()");
 		decreaseMoveDelay();
 		
 		if(moveDelay==0){
@@ -100,7 +88,6 @@ public class Enemy {
 			if (tileType == "EndTile")
 			{
 				//vesztés, return true;
-				System.out.println("<-- reachedEnd");
 				return true ;
 			}
 			
@@ -123,7 +110,6 @@ public class Enemy {
 	 * Beállítja a moveDelay-t a sebesség és a kapott modifier összegére.
 	 */
 	public void setMoveDelay(int delay) {
-		System.out.println("--> Enemy.setMoveDelay(delay)");
 		moveDelay = delay;
 	}
 	

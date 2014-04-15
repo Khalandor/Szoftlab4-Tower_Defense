@@ -43,9 +43,7 @@ public class Updater {
 	 * @param construct az uj construct erteke
 	 */
 	public void addConstruct(Construct construct) {
-		System.out.println("--> Updater.addConstruct(" + construct + ")");
 		constructs.add(construct);
-		//System.out.println("<--");
 	}
 
 	/**
@@ -53,8 +51,6 @@ public class Updater {
 	 * @param enemy
 	 */
 	public void addEnemy(Enemy enemy) {
-		System.out.println("--> Updater.addEnemy(" + enemy + ")");
-		System.out.println("<--");
 		enemies.add(enemy);
 	}
 
@@ -63,7 +59,6 @@ public class Updater {
 	 * @param isover 
 	 */
 	public void gameOver(Boolean isover) {
-		System.out.println("--> Updater.gameOver(Boolean)");
 	}
 	
 	/**
@@ -97,7 +92,6 @@ public class Updater {
 	*készen áll a játék a futásra.
 	*/
 	/*public void init() {
-		System.out.println("--> Updater.init()");
 		geometry = new Geometry();		//Létrehozzuk a pályát
 		for(int i = 0; i < 3; i++){				
 			geometry.getTilesList().add(new FieldTile(geometry));		//Létrehozunk 3 csempét, melyekre tornyokat lehet építeni
@@ -114,8 +108,6 @@ public class Updater {
 	 * @return az ellensegek szama
 	 */
 	public int getNumOfEnemies() {
-		System.out.println("--> Updater.getNumOfEnemies()");
-		System.out.println("<-- " + enemies.size());
 		return enemies.size();
 	}
 

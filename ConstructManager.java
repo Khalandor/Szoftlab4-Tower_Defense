@@ -19,7 +19,6 @@ public class ConstructManager {
 	 * @param location - egy csempe, ahova az adott épülettípust elhelyezzük
 	 */
 	public void build(String type, Tile location) {
-		System.out.println("--> ConstructManager.build("+type+", "+location+")");
 		int cost = 20;
 		if (mana.hasEnough(cost)) {
 			location.getType();
@@ -42,7 +41,6 @@ public class ConstructManager {
 	 * @param construct az épület, amelyen a fejlesztést véghezvisszük
 	 */
 	public void upgrade(String type, Construct construct) {
-		System.out.println("--> ConstructManager.upgrade(gemType, "+construct+")");
 		int cost = 20;
 		if (mana.hasEnough(cost)) {
 			if(construct.getType() == "Tower"){

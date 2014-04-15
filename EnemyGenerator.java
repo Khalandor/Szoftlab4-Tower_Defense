@@ -16,10 +16,8 @@ public class EnemyGenerator {
 	 * @return visszatér az adott ellenséggel
 	 */
 	public Enemy generateEnemies() {
-		System.out.println("--> EnemyGenerator.generateEnemies() ");
 		Dwarf Tyrion = new Dwarf();
 		pathGenerator.start(Tyrion);
-		System.out.println("<-- Enemy");
 		return Tyrion;
 	}
 
@@ -27,8 +25,6 @@ public class EnemyGenerator {
 	 *  Ha elértük a végleges generatingSpeed-et és az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
 	 */
 	public Boolean isLastEnemyGenerated() {
-		System.out.println("--> EnemyGenerator.isLastEnemyGenerated()");
-		System.out.println("<--");
 		return true;
 	}
 	
