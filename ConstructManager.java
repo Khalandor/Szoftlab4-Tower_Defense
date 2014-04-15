@@ -1,6 +1,8 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class ConstructManager {
-	private int costs;
-	private String[] types;
+	private Map<String, Integer> costs = new HashMap<String, Integer> ();
 	private Mana mana;
 	private Updater updater;
 
@@ -11,6 +13,12 @@ public class ConstructManager {
 	 */
 	public ConstructManager (Updater updater){
 		this.updater = updater;							//Beállítjuk az updater attribútumot
+		costs.put("Tower", 50);
+		costs.put("Barricade", 30);
+		costs.put("Range", 20);
+		costs.put("FireRate", 20);
+		costs.put("Damage", 20);
+		costs.put("Slow", 20);
 	}	
 	
 	/**
@@ -19,18 +27,17 @@ public class ConstructManager {
 	 * @param location - egy csempe, ahova az adott épülettípust elhelyezzük
 	 */
 	public void build(String type, Tile location) {
-		int cost = 20;
-		if (mana.hasEnough(cost)) {
+		if (mana.hasEnough(costs.get(type))) {
 			location.getType();
-			Construct construct = null;//
-			if(type == "Tower") {//
-				construct = new Tower();  //
-			}//
-			if(type == "Barricade") {//
-				construct = new Barricade();//
-			}//
+			Construct construct = null;
+			if(type == "Tower") {
+				construct = new Tower();  
+			}
+			if(type == "Barricade") {
+				construct = new Barricade();
+			}
 			location.addConstruct(construct);
-			mana.decrease(cost);
+			mana.decrease(costs.get(type));
 			updater.addConstruct(construct);
 		}		
 	}
@@ -41,16 +48,19 @@ public class ConstructManager {
 	 * @param construct az épület, amelyen a fejlesztést véghezvisszük
 	 */
 	public void upgrade(String type, Construct construct) {
-		int cost = 20;
-		if (mana.hasEnough(cost)) {
-			if(construct.getType() == "Tower"){
-				MagicGem gem = new MagicGem();
-				construct.setMagicGem(gem);
-				if(type == "Range") {
-					((Tower)construct).setRange(20);
-				}
+		if (mana.hasEnough(costs.get(type))) {
+			MagicGem gem = new MagicGem(type);
+			construct.setMagicGem(gem);
+			if(type == "Range") {
+				((Tower)construct).setRange(20);
 			}
-			mana.decrease(cost);
+			if(type == "FireRate") {
+				((Tower)construct).setFireRate(10);
+			}
+			if(type == "Slow") {
+				((Barricade)construct).setSpeedModifier(20);
+			}
+			mana.decrease(costs.get(type));
 		}	
 	}
 
