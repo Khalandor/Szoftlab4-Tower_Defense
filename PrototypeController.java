@@ -20,8 +20,8 @@ public class PrototypeController {
 		endTile = false;
 		geometry = new Geometry();
 		pathGenerator = new PathGenerator(geometry);
-		enemyGenerator = new EnemyGenerator(pathGenerator);
 		updater = new Updater();
+		enemyGenerator = new EnemyGenerator(pathGenerator, updater);
 		constructManager = new ConstructManager(updater);
 		updater.setConstructManager(constructManager);
 		updater.setEnemyGenerator(enemyGenerator);
@@ -63,9 +63,10 @@ public class PrototypeController {
 			setFog(parts[1]);
 		} else if (parts[0].equals("setMana")) {
 			setMana(parts[1]);
-		} else if (parts[0].equals("buiild")) {
+		} else if (parts[0].equals("Build")) {
 			build(parts[1], parts[2], parts[3]);
-		} 
+		}
+		//simulate, Upgrade, Shoot, addEnemy, setRemainingEnemies, move, generatePaths
 	}
 
 	private static void build(String tileID, String type, String costsMana) {
@@ -164,6 +165,7 @@ public class PrototypeController {
 	}
 
 	private static void createMap(int x, int y) {
+		//TODO: ez nem lesz így jó, csak a területet kapja meg a geometry, ebből nem tudja melyik oldal mekkora
 		geometry.setMapSize(x*y);
 		mapSizeX = x;
 		mapSizeY = y;
