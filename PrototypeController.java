@@ -13,12 +13,12 @@ public class PrototypeController {
 	private static boolean endTile;
 	private static ArrayList<Tile> tilesOnMap = new ArrayList<Tile>();
 	private static ArrayList<Construct> constructsOnMap = new ArrayList<Construct>();
-	private static ArrayList<Enemy> enemiesOnMap = new ArrayList<Enemy>();
+	private static ArrayList<Enemy> enemiesOnMap = new ArrayList<Enemy>(); //enemy generatorból ebbe szépen bele kell majd szopkodni az ellenségeket
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String command;
-		//ezeknek lehet kéne egy külön init blokk, ha esetleg tesztelés közben ki szeretnénk dobálni minde objektumot
+		//ezeknek lehet kéne egy külön init blokk, ha esetleg tesztelés közben ki szeretnénk dobálni minden objektumot
 		endTile = false;
 		geometry = new Geometry();
 		pathGenerator = new PathGenerator(geometry);
@@ -77,8 +77,51 @@ public class PrototypeController {
 			setRemainingEnemies(parts[1]);
 		} else if (parts[0].equals("move")) {
 			move(parts[1]);
+		} else if (parts[0].equals("simulate")) {
+			simulate(parts[1]);
+		} else if (parts[0].equals("addEnemy")) {
+			addEnemy(parts[1], parts[2]);
 		}
-		//simulate, addEnemy, move
+	}
+
+	private static void addEnemy(String tileID, String type) {
+		int target = Integer.parseInt(tileID.substring(1));
+		if (! tilesOnMap.get(target).getType().equals("PathTile")) {
+			System.out.println(tileID+" nem útcsempe!");
+		} else if (type.equals("Elf") || type.equals("Dwarf") || type.equals("Hobbit") || type.equals("Hobbit")) {
+			Enemy enemy = null;
+			if (type.equals("Elf")) enemy = new Elf();
+			else if (type.equals("Human")) enemy = new Human();
+			else if (type.equals("Dwarf")) enemy = new Dwarf();
+			else if (type.equals("Hobbit")) enemy = new Hobbit();
+			tilesOnMap.get(target).addEnemy(enemy);
+			enemiesOnMap.add(enemy);
+			System.out.println("Sikeresen létrehoztad az E"+enemiesOnMap.size()+" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
+		} else System.out.println("Nincs ilyen típusú ellenség!");
+	}
+
+	private static void simulate(String count) {
+		for (int i=0; i < Integer.parseInt(count); i++) { //idővel ez is el fog készülni
+			//updater.update();
+		}
+		System.out.println("A szimuláció véget ért. "+count+" ciklus futott le!");
+		
+		/*
+		1.	A szimuláció véget ért. <count> ciklus futott le!
+		2.	A szimuláció véget ért. <count> ciklus futott le!
+		−	A(z) 1. ciklusban generálódott az E1 azonosítójú ellenség. 
+		−	A(z) 5. ciklusban generálódott az E2 azonosítójú ellenség.
+		
+		3.	A szimuláció véget ért. <count> ciklus futott le!
+		−	A(z) 3. ciklusban lépett az E5 azonosítójú ellenség a T1 celláról a T2-re. 
+		−	A 3. ciklusban az E5 azonosítójú ellenség a végzet hegyére lépett, vesztettél!
+		
+		4.	A szimuláció véget ért. <count> ciklus futott le!
+		−	A(z) 1. ciklusben generálódott az E4 azonosítójú ellenség.
+		−	A(z) 3. ciklusban lőtt a T1 azonosítójú torony az E4 ellenségre, levéve tőle 15 életerőt.
+		−	A(z) 3. ciklusban lőtt a T2 azonosítójú torony az E4 ellenségre, mely meghalt, így a varázserőd 6-tal nőtt.
+		−	Az utolsó ellenség is meghalt a 2. ciklusban, nyertél!
+		 */
 	}
 
 	private static void move(String enemyID) {
@@ -86,21 +129,23 @@ public class PrototypeController {
 		Enemy enemy = enemiesOnMap.get(target);
 		int health = enemy.health;
 		int delay = enemy.moveDelay;
+		Tile current = enemy.currentTile;
 		enemy.move();
 		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) System.out.println(enemyID+" nem tudott lépni");
 		else {
 			if (delay>0) System.out.println(enemyID+" moveDelay értéke egyel csökkent.");
-			else if (enemy.currentTile.getConstruct()==null) {
-				System.out.println(enemyID+" lépett T1-ről T2-re. Legközelebb 5 szimulációs ciklus után lépne.");
+			else {
+				int ID, ID2;
+				for (ID=0; ID<tilesOnMap.size() || tilesOnMap.get(ID)==current; ID++);
+				for (ID2=0; ID2<tilesOnMap.size() || tilesOnMap.get(ID2)==enemy.currentTile; ID2++);
+				System.out.print(enemyID+" lépett T"+ID+"-ről T"+ID2+"-re. ");
+				if (enemy.currentTile.getConstruct()!=null &&
+						enemy.currentTile.getConstruct().getType().equals("barricade")) {
+					System.out.print("T"+ID2+"-n akadály van, lelassult. ");
+				}
+				System.out.println("Legközelebb +"+enemy.moveDelay+" szimulációs ciklus után lépne.");
 			}
 		}
-		/*
-		1. <enemyID> moveDelay értéke egyel csökkent.
-		2. <enemyID> lépett T1-ről T2-re. Legközelebb 5 szimulációs ciklus után lépne.
-		3. <enemyID> lépett T1-ről T2-re. T2-n akadály van, lelassult. Legközelebb 10 szimulációs ciklus után lépne.
-		4. <enemyID> nem tudott lépni.
-		*/
-
 	}
 
 	private static void setRemainingEnemies(String value) {
@@ -206,11 +251,27 @@ public class PrototypeController {
 		srcTile.setNextTile(destTile);
 	}
 
-	private static void getStatus() {
+	private static void getStatus() { //40 szűznek kell még leszopnia, hogy ezt befejezzem
+		System.out.println("Pálya: "+mapSizeX+"x"+mapSizeY);
 		
+		System.out.println();
+		System.out.println("Csempék:");
 		for (int i = 0; i < tilesOnMap.size(); i++) {
 				System.out.println(i+1+": T" + i + ": " + tilesOnMap.get(i).getType());
 		}
+		
+		System.out.println();
+		System.out.println("Épületek");
+		for (int i = 0; i < constructsOnMap.size(); i++) {
+			System.out.println(i+1+": C" + i + ": " + constructsOnMap.get(i).getType());
+		}
+		
+		System.out.println();
+		System.out.println("Ellenségek:");
+		for (int i = 0; i < enemiesOnMap.size(); i++) {
+			System.out.println(i+1+": C" + i + ": " + enemiesOnMap.get(i).getType());
+		}
+		System.out.println();
 		System.out.println("Varázserő: "+updater.mana.getMana());
 	}
 
@@ -222,7 +283,7 @@ public class PrototypeController {
 		else {
 			EndTile tile = new EndTile(geometry);
 			tilesOnMap.add(tile);
-			geometry.addTile(tile, x + y * mapSizeX);
+			geometry.addTile(tile, x, y);
 			System.out.println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú végzet hegye csempét az " + x + ", " + y
 					+ " helyre.");
 			endTile = true;
@@ -235,7 +296,7 @@ public class PrototypeController {
 		else {
 			PathTile tile = new PathTile(geometry);
 			tilesOnMap.add(tile);
-			geometry.addTile(tile, x + y * mapSizeX);
+			geometry.addTile(tile, x, y);
 			System.out.println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú út csempét az " + x + ", " + y + " helyre.");
 		}
 	}
@@ -246,7 +307,7 @@ public class PrototypeController {
 		else {
 			FieldTile tile = new FieldTile(geometry);
 			tilesOnMap.add(tile);
-			geometry.addTile(tile, x + y * mapSizeX);
+			geometry.addTile(tile, x, y);
 			System.out.println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú terep csempét az " + x + ", " + y
 					+ " helyre.");
 		}
@@ -254,7 +315,7 @@ public class PrototypeController {
 
 	private static void createMap(int x, int y) {
 		//TODO: ez nem lesz így jó, csak a területet kapja meg a geometry, ebből nem tudja melyik oldal mekkora
-		geometry.setMapSize(x*y);
+		geometry.setMapSize(x, y);
 		mapSizeX = x;
 		mapSizeY = y;
 		System.out.println("Sikeresen létrejött az " + x + ", " + y + " méretű pálya!");
