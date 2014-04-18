@@ -1,8 +1,9 @@
-import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Updater {
+    private boolean isFoggy;
 	public ConstructManager constructManager;
 	public Geometry geometry;
 	public EnemyGenerator enemyGenerator;
@@ -10,44 +11,36 @@ public class Updater {
 	public ArrayList<Construct> constructs = new ArrayList<Construct>();
 	public Mana mana = new Mana();
 
+    public Updater()
+    {
+        isFoggy = false;
+    }
 	/**
-	 * Visszadja az enemies erteket
-	 * @return visszaadott ertek
+	 * Visszadja az összes ellenség listáját
+	 * @return ArrayList<Enemy>
 	 */
 	public ArrayList<Enemy> getEnemies() {
 		return enemies;
 	}
 	
-	public Updater() {
-	}
-	
-	
 	/**
-	 * Visszaadja a Mana osztaly peldanyat
-	 * @return Mana osztallyal
-	 */
-	/*public Mana getMana() {
-		return mana;
-	}*/
-	
-	/**
-	 * Visszater a Constructokkal amiket az Updater tartalmaz   
-	 * @return constructokkat tartalmazo Arraylisttel
+	 * Visszatér a Constructokkal amiket az Updater tartalmaz
+	 * @return ArrayList<Construct>
 	 */
 	public ArrayList<Construct> getConstructs() {
 		return constructs;
 	}
 	
 	/**
-	 * Uj Construct-ok felvételét teszi lehetőve
-	 * @param construct az uj construct erteke
+	 * Új Construct-ok felvételét teszi lehetővé
+	 * @param construct az uj construct
 	 */
 	public void addConstruct(Construct construct) {
 		constructs.add(construct);
 	}
 
 	/**
-	 * Uj Enemy-k felvetelet teszi lehetove 
+	 * Új Enemy-k felvételét teszi lehetőve
 	 * @param enemy
 	 */
 	public void addEnemy(Enemy enemy) {
@@ -55,10 +48,15 @@ public class Updater {
 	}
 
 	/**
-	 * Veget vet a jateknak gyozelemmel, ha igaz a parameter, vereseggel ha hamis 
+	 * Véget vet a játeknak győzelemmel, ha igaz a parameter, vereséggel ha hamis
 	 * @param isover 
 	 */
 	public void gameOver(Boolean isover) {
+		if (isover == true) {
+			System.out.println("Játékos győzött.");
+		}
+		else
+			System.out.println("Játékos vesztett.");
 	}
 	
 	/**
@@ -86,24 +84,6 @@ public class Updater {
 	}
 	
 	/**
-	*Játék kezdeténél lefutó inicializálás.
-	*Létrehozza a szükséges objektumokat és
-	*beállítja a referenciákat. Lefutása után
-	*készen áll a játék a futásra.
-	*/
-	/*public void init() {
-		geometry = new Geometry();		//Létrehozzuk a pályát
-		for(int i = 0; i < 3; i++){				
-			geometry.getTilesList().add(new FieldTile(geometry));		//Létrehozunk 3 csempét, melyekre tornyokat lehet építeni
-			geometry.getTilesList().add(new PathTile(geometry));		//Létrehozunk 3 útcsempét
-		}
-		geometry.getTilesList().add(new EndTile(geometry));			//Létrehozzuk a végzet hegyét
-		PathGenerator pathGenerator = new PathGenerator(geometry);	//Létrehozzuk az útvonalgenerátort
-		enemyGenerator = new EnemyGenerator(pathGenerator);			//Létrehozzuk az ellenséggenerátort útvonalgenerátor segítségével
-		new ConstructManager(this);								//Létrehozzuk az épületkezelőt
-	}*/
-
-	/**
 	 * Visszaadja a palyan levo ellensegek szamat
 	 * @return az ellensegek szama
 	 */
@@ -118,4 +98,43 @@ public class Updater {
 	public Geometry getGeometry() {
 		return geometry;
 	}
+
+    /**
+     * Köd leszáll
+     */
+    public void fogDown()
+    {
+        isFoggy = true;
+    }
+
+    /**
+     * Köd felszáll
+     */
+    public void fogUp()
+    {
+        isFoggy = false;
+    }
+
+    /**
+     * Ellenségek / tereptárgyak aktiválása
+     */
+    public void update(){
+        // minden torony lő
+        for (Construct c : constructs)
+            if (c.getType().equals("Tower"))
+                ((Tower) c).shoot();
+
+        // minden ellenség mozgatása
+        for (Enemy e : enemies)
+            e.move();
+
+        // ellenség-generálás
+        enemyGenerator.generateEnemies();
+
+        // 10%, hogy le/felszáll a köd
+        int random = new Random().nextInt(100);
+        if (random < 10)
+            isFoggy = !isFoggy;
+    }
+
 }

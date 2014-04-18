@@ -8,6 +8,7 @@ public class EnemyGenerator {
 	private int placedEnemies;
 	private PathGenerator pathGenerator;
 	private Updater updater;
+    private int delay;
 
 	/**
 	 * Az EnemyGenerator konstruktora.
@@ -18,6 +19,10 @@ public class EnemyGenerator {
 	public EnemyGenerator (PathGenerator pathGenerator, Updater updater){
 		this.pathGenerator = pathGenerator;
 		this.updater = updater;
+        this.generatingSpeed = 1;
+        this.delay = 5;
+        this.placedEnemies = 0;
+
 	}
 
 	/**
@@ -61,25 +66,47 @@ public class EnemyGenerator {
 		return new Enemy();
 	}
 
-	/**
-	 * Ellenségek létrehozására szolgáló függvény
-	 * @return generált ellenségek
-	 */
+    /*
+    // Csúnya tickek nélküli függvény, szerencsére elkerülhető:
 	public void generateEnemies() {
-		//FIXME a szekvencia-diagramokon ez visszatér, a class diagramon meg void, szerintem jobb a void.
 		for (int i = 0; i < generatingSpeed; i++)
 		{
 			Enemy newEnemy = createRandomEnemy();
 			updater.addEnemy(newEnemy);
 			pathGenerator.start(newEnemy);
+			placedEnemies++;
 		}
+		generatingSpeed++;
 	}
+	*/
+
+    // Gyönyörű időkezelős függvény, sokkal jobb:
+    /**
+     * Új ellenség pályára helyezése a megfelelő időben
+     */
+    public void generateEnemies() {
+        delay--;
+        if(delay > 0)
+            return;
+        // sebesség nő a maxig => delay csökken 0-ig
+        if (maxGeneratingSpeed > generatingSpeed){
+            delay = maxGeneratingSpeed - generatingSpeed;
+            generatingSpeed++;
+        }
+        else
+            delay = 0;
+
+        Enemy newEnemy = createRandomEnemy();
+        updater.addEnemy(newEnemy);
+        pathGenerator.start(newEnemy);
+        placedEnemies++;
+    }
 
 	/**
-	 *  Ha elértük a végleges generatingSpeed-et és az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
+	 *  Ha az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
 	 */
 	public Boolean isLastEnemyGenerated() {
-		if (generatingSpeed >= maxGeneratingSpeed && placedEnemies >= maxEnemies)
+		if (placedEnemies >= maxEnemies)
 			return true;
 		return false;
 	}

@@ -21,7 +21,7 @@ public class Geometry {
 	 */
 	public void setMapSize(int sizex , int sizey) {
 		size_x=sizex;
-		size_y=sizey
+		size_y=sizey;
 		tiles = new Tile[sizex][sizey];
 	}
 	
@@ -60,7 +60,7 @@ public class Geometry {
 			// TODO Ez azt jelentené hogy a center Tile nincs a térképen nem tudom hogy foglalkozni kéne ezzel
 		}
 		
-		ArrayList<Tile> result = new Arraylist();
+		ArrayList<PathTile> result = new ArrayList<PathTile>();
 		
 		// megnézzük a center tile közelében lévő csempéket
 		for( int x=center_pozition_x-range     ; x<=center_pozition_x+range ; x++){

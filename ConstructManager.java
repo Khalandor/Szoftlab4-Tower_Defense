@@ -61,7 +61,7 @@ public class ConstructManager {
 				((Barricade)construct).setSpeedModifier(20);
 			}
 			mana.decrease(costs.get(type));
-		}	
+		}
 	}
 
 	/**

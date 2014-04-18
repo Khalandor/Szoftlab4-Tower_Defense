@@ -1,7 +1,7 @@
 public class Dwarf extends Enemy {
 	
 	/**
-	 * A dwarf konstruktora, beállítsa az enemy típusát 'Dwarf'-ra
+	 * A dwarf konstruktora, beállítja az enemy típusát 'Dwarf'-ra
 	 */
 	
 	public Dwarf() {
