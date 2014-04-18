@@ -17,4 +17,8 @@ public class Barricade extends Construct {
 		type = "Barricade";										//Beállítjuk a saját típusát
 		speedModifier = 2 ;
 	}
+
+	public void setSpeedModifier(int i) {
+		// TODO Auto-generated method stub
+	}
 }

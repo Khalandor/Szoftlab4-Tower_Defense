@@ -8,6 +8,7 @@ public class Mana {
 	 * @param cost ezzel az ertekkel kel csokkenteni a mana erteket
 	 */
 	public void decrease(int cost) {
+		mana -= cost;
 	}
 
 	/**
@@ -33,6 +34,7 @@ public class Mana {
 	 * @param value ezzel inkrementál
 	 */ 
 	public void increase(int value) {
+		mana += value;
 	}
 	
 	public int getMana() {

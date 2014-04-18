@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Enemy {
-	protected int health;
+	public int health;
 	protected int speed;
 	protected int manaValue;
 	protected String type;
-	protected int moveDelay;
-	protected Tile currentTile;
+	public int moveDelay;
+	public Tile currentTile;
 
 
 	/**
@@ -65,10 +65,6 @@ public class Enemy {
 		return this.type;
 	}
 
-	private Tile chooseTile(ArrayList<Tile> Tiles)
-	{
-		return Tiles.get(0);
-	}
 	/**
 	 *  Lépteti az ellenséget a currentTile-ról a currentTile nextTile-jára. 
 	 *  Megnézi, hogy a végzet hegyére léptünk-e, ha igen akkor true-val tér vissza. 
@@ -76,41 +72,32 @@ public class Enemy {
 	 *  @return a végzet hegyén áll-e az ellenség?
 	 */
 	public boolean move() {
-		decreaseMoveDelay();
+		decreaseMoveDelay(); //csökkenti a késleltetést
 		
-		if(moveDelay==0){
-			Tile nextTile = chooseTile(((PathTile) currentTile).getNextTiles());
-			nextTile.addEnemy(this);
-			((PathTile) currentTile).removeEnemy(this);
-			currentTile = nextTile;
-			
-			String tileType = currentTile.getType();
-			if (tileType == "EndTile")
-			{
-				//vesztés, return true;
-				return true ;
+		if (moveDelay==0) { //ha 0 a késleltetés
+			if (((PathTile) currentTile).getNextTiles().size()>0) {
+				ArrayList<Tile> nextTile  = ((PathTile) currentTile).getNextTiles(); //lekéri az elérhető cellákat
+				((PathTile) currentTile).removeEnemy(this); //eltávolítja magát az aktuális celláról
+				setTile(nextTile.get((int) (Math.random() % nextTile.size()))); //véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
+				currentTile.addEnemy(this); //hozzáadja magát az akutális csempéhez
+				if (currentTile.getType().equals("EndTile")) { //ha végzet hegyére lépett, akkor igazzal visszatér -> vége a játéknak
+					return true;
+				}
+				Construct construct = currentTile.getConstruct(); //lekéri az épületet az adott celláról
+				if (construct!=null &&construct.getType().equals("Barricade")) { //ha van épület a cellán és az akadály
+					setMoveDelay((((Barricade) construct).getSpeedModifier())); //megszorozza az aktuális delay-t az akadály lassításával
+				}
 			}
-			
-			
-			Construct constructOnTile = currentTile.getConstruct();
-			if (constructOnTile != null)
-			{
-				
-				int modifier = ((Barricade)(constructOnTile)).getSpeedModifier();
-				setMoveDelay(modifier);
-			}
-			else 
-				setMoveDelay(0);
 		}
+		setMoveDelay(speed);
 		return false;
-		
 	}
 
 	/**
 	 * Beállítja a moveDelay-t a sebesség és a kapott modifier összegére.
 	 */
 	public void setMoveDelay(int delay) {
-		moveDelay = delay;
+		moveDelay = speed + delay;
 	}
 	
 	/**

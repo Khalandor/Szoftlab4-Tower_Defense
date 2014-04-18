@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class PathGenerator {
-	private ArrayList<PathTile> pathStarts = new ArrayList<PathTile>();
+	public ArrayList<PathTile> pathStarts = new ArrayList<PathTile>();
 
 	/**
 	 * A PathGenerator osztaly konstruktora.

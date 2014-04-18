@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConstructManager {
-	private Map<String, Integer> costs = new HashMap<String, Integer> ();
+	public Map<String, Integer> costs = new HashMap<String, Integer> ();
 	private Mana mana;
 	private Updater updater;
 

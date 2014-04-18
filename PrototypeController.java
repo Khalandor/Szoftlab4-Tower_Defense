@@ -12,7 +12,9 @@ public class PrototypeController {
 	private static int mapSizeY;
 	private static boolean endTile;
 	private static ArrayList<Tile> tilesOnMap = new ArrayList<Tile>();
-
+	private static ArrayList<Construct> constructsOnMap = new ArrayList<Construct>();
+	private static ArrayList<Enemy> enemiesOnMap = new ArrayList<Enemy>();
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String command;
@@ -63,10 +65,85 @@ public class PrototypeController {
 			setFog(parts[1]);
 		} else if (parts[0].equals("setMana")) {
 			setMana(parts[1]);
-		} else if (parts[0].equals("Build")) {
+		} else if (parts[0].equals("build")) {
 			build(parts[1], parts[2], parts[3]);
+		} else if (parts[0].equals("upgrade")) {
+			upgrade(parts[1], parts[2], parts[3]);
+		} else if (parts[0].equals("shoot")) {
+			shoot(parts[1], parts[2]);
+		} else if (parts[0].equals("generatePaths")) {
+			generatePaths();
+		} else if (parts[0].equals("setRemainingEnemies")) {
+			setRemainingEnemies(parts[1]);
+		} else if (parts[0].equals("move")) {
+			move(parts[1]);
 		}
-		//simulate, Upgrade, Shoot, addEnemy, setRemainingEnemies, move, generatePaths
+		//simulate, addEnemy, move
+	}
+
+	private static void move(String enemyID) {
+		int target = Integer.parseInt(enemyID.substring(1));	
+		Enemy enemy = enemiesOnMap.get(target);
+		int health = enemy.health;
+		int delay = enemy.moveDelay;
+		enemy.move();
+		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) System.out.println(enemyID+" nem tudott lépni");
+		else {
+			if (delay>0) System.out.println(enemyID+" moveDelay értéke egyel csökkent.");
+			else if (enemy.currentTile.getConstruct()==null) {
+				System.out.println(enemyID+" lépett T1-ről T2-re. Legközelebb 5 szimulációs ciklus után lépne.");
+			}
+		}
+		/*
+		1. <enemyID> moveDelay értéke egyel csökkent.
+		2. <enemyID> lépett T1-ről T2-re. Legközelebb 5 szimulációs ciklus után lépne.
+		3. <enemyID> lépett T1-ről T2-re. T2-n akadály van, lelassult. Legközelebb 10 szimulációs ciklus után lépne.
+		4. <enemyID> nem tudott lépni.
+		*/
+
+	}
+
+	private static void setRemainingEnemies(String value) {
+		enemyGenerator.setRemainingEnemies(Integer.parseInt(value));
+		System.out.println(value+" számú ellenség vár még a legenerálásra!");
+	}
+
+	private static void generatePaths() { //ez sincs kész, kellenek még metódusok a pathGenerator osztályba
+		boolean sikeres = false;
+		if (sikeres) {
+			System.out.print("Az útvonalak létrehozása sikeres. Kezdőcsempeként használható útcsempék a");
+			for (int i = 0; i<pathGenerator.pathStarts.size(); i++) {
+				System.out.print(" T"+i);
+			}
+			System.out.println();
+		} else System.out.println("Nem sikerült létrehozni az útvonalakat.");
+	}
+
+	private static void shoot(String towerID, String critical) { //a tornyot hogy utasítjuk, hogy milyen lőjön? //hogy tudjuk meg, hogy talált-e ellenséget?
+		int target = Integer.parseInt(towerID.substring(1));
+		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("tower")) {
+			System.out.println("A megadott torony nem létezik.");
+			return;
+		}
+		Tower tower = (Tower) constructsOnMap.get(target);
+		tower.shoot();
+		//ide meg még végtelen sok visszajelzés kell
+	}
+
+	private static void upgrade(String constructID, String gemType, String costsMana) { //ki tudja, hogy melyik kő mibe mehet?
+		int target = Integer.parseInt(constructID.substring(1));
+		if (target >= constructsOnMap.size() || target < 0) {
+			System.out.println("A megadott épület nem létezik.");
+			return;
+		}
+		Construct targetConstruct = constructsOnMap.get(target);
+		MagicGem gem = new MagicGem(gemType);
+		if ((costsMana.equals("1") && true) || costsMana.equals("0")) { //kéne tudni, hogy honnan szopunk árat
+			targetConstruct.setMagicGem(gem);
+			System.out.print(constructID+" épületbe "+gemType+" varázskövet tettél.. ");
+			if (costsMana.equals("1")) System.out.println("-Faszomtudjamennyi- varázserőbe került.");
+			else System.out.println();
+		} else System.out.println("incs elég varázserőd "+gemType+" vásárlására!");
 	}
 
 	private static void build(String tileID, String type, String costsMana) {
@@ -74,10 +151,21 @@ public class PrototypeController {
 		if (!((tilesOnMap.get(target).getType().equals("FieldTile") && type.equals("tower"))) || 
 				(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("barricade"))) {
 			System.out.println("A megadott csempére nem helyezhető el az épület.");
-		} else { //ide kell még az az eset, ha nincs elég varázskövünk
-			System.out.println(tileID+" csempére "+type+" épült.");
-			if (costsMana.equals("1"))
-				System.out.println("20 varázserőbe került."); //ki kell nyerni az árat valahonnan
+		} else {
+			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) { //ez kicsit kétséges, hogy működik-e
+				if (type.equals("tower")) {
+					Tower tower = new Tower();
+					tilesOnMap.get(target).addConstruct(tower);
+					constructsOnMap.add(tower);
+				} else if (type.equals("barricade")) {
+					Barricade barricade = new Barricade();
+					tilesOnMap.get(target).addConstruct(barricade);
+					constructsOnMap.add(barricade);
+				}
+				System.out.print(tileID+" csempére "+type+" épült. ");
+				if (costsMana.equals("1")) System.out.println(constructManager.costs.get(type)+" varázserőbe került.");
+				else System.out.println();
+			}	
 		}
 	}
 
@@ -87,7 +175,7 @@ public class PrototypeController {
 		System.out.println("A varázserő sikeresen beállítva "+value+" értékre!");
 	}
 
-	private static void setFog(String param) {
+	private static void setFog(String param) { //tisztázni kell, hogy mit takar a modifier
 		if (param.equals("1")) {
 			System.out.println("Köd bekapcsolva. Az összes torony hatótávja 0.7-szeresére csökkent.");
 			ArrayList<Construct> constructs = updater.getConstructs();

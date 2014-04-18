@@ -5,9 +5,9 @@ public class MagicGem {
 	/**
 	 * MagicGem konstruktora.
 	 */
-	public MagicGem ()
+	public MagicGem (String type)
 	{
-		type = "MagicGem";
+		this.type = type;
 	}
 	
 	/**
