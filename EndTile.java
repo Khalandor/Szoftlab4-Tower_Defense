@@ -9,8 +9,8 @@ public class EndTile extends Tile {
 	 * @param geometry Az a Geometry, ami őt létrehozta (és tárolja)
 	 */
 	public EndTile (Geometry geometry) {
-		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
-		type = "EndTile";										//Beállítjuk a saját típusát
+		super(geometry);									//Beállítjuk az őt tároló Geometry-re mutató referenciát
+		type = "EndTile";									//Beállítjuk a saját típusát
 	}
 	/**
 	 * Az adott csempé ellenség listájához hozzáad egy ellenséget, amennyiben az szükséges

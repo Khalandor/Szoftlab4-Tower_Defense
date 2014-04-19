@@ -3,6 +3,9 @@ public class Tile {
 	protected Geometry geometry;
 	protected Construct constructOnTile;
 
+	public Tile(Geometry geometry) {
+		this.geometry = geometry;
+	}
 	
 	/**
 	 * A Tile-on egy Construct elhelyezeset szavatolja 

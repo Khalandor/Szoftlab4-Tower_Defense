@@ -10,9 +10,14 @@ public class Tower extends Construct {
 	/**
 	 * A Tower osztály konstruktora.
 	 */
-	public Tower ()
+	public Tower (FieldTile towerLocation)
 	{
+		this.towerLocation = towerLocation;
 		type = "Tower";										//Beállítjuk a saját típusát
+		damage = 20;
+		fireRate = 3;
+		rangeModifier = 1;
+		range = 4;
 	}
 	
 	
@@ -26,8 +31,19 @@ public class Tower extends Construct {
 	public Enemy shoot() {
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
-		Enemy target = tilesInRange.get(0).getEnemy();
 		
+		Enemy target = null;
+		for (int i = 0; i < tilesInRange.size() || target != null; i++) {
+			System.out.println(tilesInRange.size());
+			if (tilesInRange.get(i) != null) {
+				System.out.println("kurva");
+				target = tilesInRange.get(i).getEnemy();
+			}
+			if (target == null && i == tilesInRange.size() - 1) {
+				return null;
+			}
+		}
+				
 		if (gem!=null)
 		{
 			String type = target.getType();

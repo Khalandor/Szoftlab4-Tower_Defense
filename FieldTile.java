@@ -7,7 +7,7 @@ public class FieldTile extends Tile {
 	 */
 	public FieldTile (Geometry geometry)
 	{
-		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
+		super(geometry);								//Beállítjuk az őt tároló Geometry-re mutató referenciát
 		type = "FieldTile";										//Beállítjuk a saját típusát
 	}
 }

@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
+//5. teszteset addNextTile T2 T0 -> addNextTile T2 T1
+//5. teszteset build T1 Tower 0 -> build T0 Tower 0
 
 public class PrototypeController {
 
@@ -96,7 +98,7 @@ public class PrototypeController {
 			else if (type.equals("Hobbit")) enemy = new Hobbit(enemyGenerator);
 			tilesOnMap.get(target).addEnemy(enemy);
 			enemiesOnMap.add(enemy);
-			System.out.println("Sikeresen létrehoztad az E"+enemiesOnMap.size()+" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
+			System.out.println("Sikeresen létrehoztad az E"+ (enemiesOnMap.size() - 1) +" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
 		} else System.out.println("Nincs ilyen típusú ellenség!");
 	}
 
@@ -166,7 +168,7 @@ public class PrototypeController {
 
 	private static void shoot(String towerID, String critical) { //a tornyot hogy utasítjuk, hogy milyen lőjön? //hogy tudjuk meg, hogy talált-e ellenséget?
 		int target = Integer.parseInt(towerID.substring(1));
-		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("tower")) {
+		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("Tower")) {
 			System.out.println("A megadott torony nem létezik.");
 			return;
 		}
@@ -185,24 +187,24 @@ public class PrototypeController {
 		MagicGem gem = new MagicGem(gemType);
 		if ((costsMana.equals("1") && true) || costsMana.equals("0")) { //kéne tudni, hogy honnan szopunk árat
 			targetConstruct.setMagicGem(gem);
-			System.out.print(constructID+" épületbe "+gemType+" varázskövet tettél.. ");
-			if (costsMana.equals("1")) System.out.println("-Faszomtudjamennyi- varázserőbe került.");
+			System.out.print(constructID+" épületbe "+gemType+" varázskövet tettél. ");
+			if (costsMana.equals("1")) System.out.println(constructManager.costs.get(gemType) + " varázserőbe került.");
 			else System.out.println();
 		} else System.out.println("incs elég varázserőd "+gemType+" vásárlására!");
 	}
 
 	private static void build(String tileID, String type, String costsMana) {
 		int target = Integer.parseInt(tileID.substring(1));
-		if (!((tilesOnMap.get(target).getType().equals("FieldTile") && type.equals("tower"))) || 
-				(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("barricade"))) {
+		if (!(tilesOnMap.get(target).getType().equals("FieldTile") && type.equals("Tower")) && 
+				!(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("Barricade"))) {
 			System.out.println("A megadott csempére nem helyezhető el az épület.");
 		} else {
 			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) { //ez kicsit kétséges, hogy működik-e
-				if (type.equals("tower")) {
-					Tower tower = new Tower();
+				if (type.equals("Tower")) {
+					Tower tower = new Tower((FieldTile) tilesOnMap.get(target));
 					tilesOnMap.get(target).addConstruct(tower);
 					constructsOnMap.add(tower);
-				} else if (type.equals("barricade")) {
+				} else if (type.equals("Barricade")) {
 					Barricade barricade = new Barricade();
 					tilesOnMap.get(target).addConstruct(barricade);
 					constructsOnMap.add(barricade);
@@ -257,19 +259,19 @@ public class PrototypeController {
 		System.out.println();
 		System.out.println("Csempék:");
 		for (int i = 0; i < tilesOnMap.size(); i++) {
-				System.out.println(i+1+": T" + i + ": " + tilesOnMap.get(i).getType());
+				System.out.println("T" + i + " " + tilesOnMap.get(i).getType());
 		}
 		
 		System.out.println();
-		System.out.println("Épületek");
+		System.out.println("Épületek:");
 		for (int i = 0; i < constructsOnMap.size(); i++) {
-			System.out.println(i+1+": C" + i + ": " + constructsOnMap.get(i).getType());
+			System.out.println("C" + i + " " + constructsOnMap.get(i).getType());
 		}
 		
 		System.out.println();
 		System.out.println("Ellenségek:");
 		for (int i = 0; i < enemiesOnMap.size(); i++) {
-			System.out.println(i+1+": C" + i + ": " + enemiesOnMap.get(i).getType());
+			System.out.println("E" + i + " " + enemiesOnMap.get(i).getType());
 		}
 		System.out.println();
 		System.out.println("Varázserő: "+updater.mana.getMana());

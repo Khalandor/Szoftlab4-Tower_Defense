@@ -31,7 +31,7 @@ public class ConstructManager {
 			location.getType();
 			Construct construct = null;
 			if(type == "Tower") {
-				construct = new Tower();  
+				construct = new Tower((FieldTile) location);  
 			}
 			if(type == "Barricade") {
 				construct = new Barricade();

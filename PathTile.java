@@ -11,7 +11,7 @@ public class PathTile extends Tile {
 	 */
 	public PathTile(Geometry geometry)
 	{
-		this.geometry = geometry;								//Beállítjuk az őt tároló Geometry-re mutató referenciát
+		super(geometry);								//Beállítjuk az őt tároló Geometry-re mutató referenciát
 		type = "PathTile";										//Beállítjuk a saját típusát
 	}
 
