@@ -90,10 +90,10 @@ public class PrototypeController {
 			System.out.println(tileID+" nem útcsempe!");
 		} else if (type.equals("Elf") || type.equals("Dwarf") || type.equals("Hobbit") || type.equals("Hobbit")) {
 			Enemy enemy = null;
-			if (type.equals("Elf")) enemy = new Elf();
-			else if (type.equals("Human")) enemy = new Human();
-			else if (type.equals("Dwarf")) enemy = new Dwarf();
-			else if (type.equals("Hobbit")) enemy = new Hobbit();
+			if (type.equals("Elf")) enemy = new Elf(enemyGenerator);
+			else if (type.equals("Human")) enemy = new Human(enemyGenerator);
+			else if (type.equals("Dwarf")) enemy = new Dwarf(enemyGenerator);
+			else if (type.equals("Hobbit")) enemy = new Hobbit(enemyGenerator);
 			tilesOnMap.get(target).addEnemy(enemy);
 			enemiesOnMap.add(enemy);
 			System.out.println("Sikeresen létrehoztad az E"+enemiesOnMap.size()+" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");

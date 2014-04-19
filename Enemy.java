@@ -7,8 +7,12 @@ public class Enemy {
 	protected String type;
 	public int moveDelay;
 	public Tile currentTile;
+	public EnemyGenerator enemyGenerator;
 
-
+	public Enemy(EnemyGenerator enemyGenerator) {
+		this.enemyGenerator = enemyGenerator;
+	}
+	
 	/**
 	 * value értékével csökkenti az életerejét
 	 * @param value ennyivel sérül
@@ -25,6 +29,7 @@ public class Enemy {
 	public void damageHalf()
 	{
 		health /= 2;
+		enemyGenerator.duplicateEnemy(this, (PathTile)currentTile);
 	}
 
 	/**

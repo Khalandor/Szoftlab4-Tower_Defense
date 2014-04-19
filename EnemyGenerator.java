@@ -31,18 +31,17 @@ public class EnemyGenerator {
 	 * @return az új ellenség
 	 * @throws Exception ha olyan ellenséget kérnek tőle, ami nincs
 	 */
-	private Enemy createEnemy(String type) throws Exception {
+	private Enemy createEnemy(String type) {
 		Enemy newEnemy;
 		if (type.equals("Dwarf"))
-			return new Dwarf();
+			return new Dwarf(this);
 		else if (type.equals("Elf"))
-			return new Elf();
+			return new Elf(this);
 		else if (type.equals("Hobbit"))
-			return new Hobbit();
+			return new Hobbit(this);
 		else if (type.equals("Human"))
-			return new Human();
-		else
-			throw new Exception("Unknown Enemy type");
+			return new Human(this);
+		return null;
 	}
 
 	/**
@@ -55,15 +54,15 @@ public class EnemyGenerator {
 		int random = randomGenerator.nextInt(4);
 		switch (random){
 			case 0:
-				return new Dwarf();
+				return new Dwarf(this);
 			case 1:
-				return new Elf();
+				return new Elf(this);
 			case 2:
-				return new Hobbit();
+				return new Hobbit(this);
 			case 3:
-				return new Human();
+				return new Human(this);
 		}
-		return new Enemy();
+		return null;
 	}
 
     /*
@@ -114,7 +113,7 @@ public class EnemyGenerator {
 	/**
 	 * Lemásolja a paraméterül kapott ellenséget a paraméterül kapott csempére
 	 */
-	public void duplicateEnemy(Enemy enemy, PathTile pathTile) throws Exception {
+	public void duplicateEnemy(Enemy enemy, PathTile pathTile) {
 		Enemy clonedEnemy = createEnemy( enemy.getType() ); // ugyanolyan típusú ellenség létrehozása
 		clonedEnemy.setHealth(enemy.getHealth());	//azonos Health
 		pathTile.addEnemy(clonedEnemy);		// rárakás a megadott útra
