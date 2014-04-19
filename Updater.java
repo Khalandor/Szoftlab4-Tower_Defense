@@ -102,17 +102,21 @@ public class Updater {
     /**
      * Köd leszáll
      */
-    public void fogDown()
-    {
+    public void fogDown(){
         isFoggy = true;
+        for (Construct c : constructs)
+            if (c.getType().equals("Tower"))
+                ((Tower) c).setRangeModifier(0.7);
     }
 
     /**
      * Köd felszáll
      */
-    public void fogUp()
-    {
+    public void fogUp(){
         isFoggy = false;
+        for (Construct c : constructs)
+            if (c.getType().equals("Tower"))
+                ((Tower) c).setRangeModifier(1.0);
     }
 
     /**
