@@ -44,9 +44,7 @@ public class Geometry {
 		int center_position_x = -1;
 		int center_position_y = -1;
 		
-		
 		// A center tile pozíciójának megkeresése
-		// TODO  baj-e az hogy miután megtalálta a keresett Tile-t akkor még feleslegesn futt.
 		for(int x=0; x<size_x; x++){
 			for(int y=0 ; y<size_y; y++){
 				if(tiles[x][y] == center){
@@ -56,35 +54,35 @@ public class Geometry {
 			}
 		}
 		
-		if(center_position_x == -1 || center_position_y == -1){
-			// TODO Ez azt jelentené hogy a center Tile nincs a térképen nem tudom hogy foglalkozni kéne ezzel
-		}
 		
 		ArrayList<PathTile> result = new ArrayList<PathTile>();
 		
-		int search_x=center_position_x-range;
-		int search_y=center_position_y-range;
-		int search_condition_x=center_position_x+range;
-		int search_condition_y=center_position_y+range;
+		int search_x = center_position_x-range;
+		int search_y = center_position_y-range;
+		int search_condition_x = center_position_x+range;
+		int search_condition_y = center_position_y+range;
 		
+		// Ha a hatósugara a toronynak "lelógna" a pályáról
 		if(search_x<0){
 			search_x=0;
 		}
 		if(search_y<0){
 			search_y=0;
 		}
-		if(search_condition_x>=size_x){
-			search_condition_x=size_x-1;
+		if(search_condition_x>size_x){
+			search_condition_x=size_x;
 		}
-		if(search_condition_y>=size_y){
-			search_condition_y=size_y-1;
+		if(search_condition_y>size_y){
+			search_condition_y=size_y;
 		}
 		
+		// lőhető pathTile-ok keresése
 		for( int x=search_x ; x<search_condition_x ; x++){
 			for( int y=search_y ; y<search_condition_y ; y++){ 
 				
 				// ha egy csempe a center csempétõl vett távolságának kerekített értéke kisebb vagy egyenlõ a hatótávolságnál akkor hatótávon belül van
-				if( range>=Math.round(Math.sqrt(x*x+y*y))){
+				float distance = (float) Math.sqrt((x-center_position_x)*(x-center_position_x) + (y-center_position_y)*(y-center_position_y));
+				if( range>=Math.round(distance)){
 					if( tiles[x][y].getType().equals("PathTile")) {
 						result.add((PathTile) tiles[x][y]);
 					}
