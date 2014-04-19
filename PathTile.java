@@ -20,7 +20,10 @@ public class PathTile extends Tile {
 	 * @return Az úton lévő ellenség
 	 */
 	public Enemy getEnemy() {
-		return enemies.get(0);
+		if(enemies.size()>0){
+			return enemies.get(0);
+		}
+		return null;
 	}
 
 	/**

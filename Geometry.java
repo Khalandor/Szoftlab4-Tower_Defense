@@ -83,7 +83,7 @@ public class Geometry {
 				// ha egy csempe a center csempétõl vett távolságának kerekített értéke kisebb vagy egyenlõ a hatótávolságnál akkor hatótávon belül van
 				float distance = (float) Math.sqrt((x-center_position_x)*(x-center_position_x) + (y-center_position_y)*(y-center_position_y));
 				if( range>=Math.round(distance)){
-					if( tiles[x][y].getType().equals("PathTile")) {
+					if( tiles[x][y]!=null && tiles[x][y].getType().equals("PathTile")) {
 						result.add((PathTile) tiles[x][y]);
 					}
 				}
