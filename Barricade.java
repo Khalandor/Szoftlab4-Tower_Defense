@@ -15,7 +15,7 @@ public class Barricade extends Construct {
 	public Barricade()
 	{
 		type = "Barricade";										//Beállítjuk a saját típusát
-		speedModifier = 2 ;
+		speedModifier = 1 ;
 	}
 
 	public void setSpeedModifier(int i) {

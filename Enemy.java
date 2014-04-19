@@ -79,22 +79,24 @@ public class Enemy {
 	public boolean move() {
 		decreaseMoveDelay(); 														//csökkenti a késleltetést
 		
-		if (moveDelay==0) { 														//ha 0 a késleltetés
+		if (moveDelay==0) { 													//ha 0 a késleltetés
 			if (((PathTile) currentTile).getNextTiles().size()>0) {
+				
 				ArrayList<Tile> nextTile  = ((PathTile) currentTile).getNextTiles();//lekéri az elérhető cellákat
 				((PathTile) currentTile).removeEnemy(this); 						//eltávolítja magát az aktuális celláról
-				setTile(nextTile.get((int) (Math.random() % nextTile.size()))); 	//véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
+				currentTile = nextTile.get((int) (Math.random() % nextTile.size())); 	//véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
 				currentTile.addEnemy(this); 										//hozzáadja magát az akutális csempéhez
+				
 				if (currentTile.getType().equals("EndTile")) { 						//ha végzet hegyére lépett, akkor igazzal visszatér -> vége a játéknak
 					return true;
 				}
 				Construct construct = currentTile.getConstruct();					//lekéri az épületet az adott celláról
-				if (construct!=null &&construct.getType().equals("Barricade")) { 	//ha van épület a cellán és az akadály
+				
+				if (construct!=null && construct.getType().equals("Barricade")) { 	//ha van épület a cellán és az akadály
 					setMoveDelay((((Barricade) construct).getSpeedModifier())); 	//megszorozza az aktuális delay-t az akadály lassításával
-				}
+				} else setMoveDelay(0);
 			}
 		}
-		setMoveDelay(0);
 		return false;
 	}
 

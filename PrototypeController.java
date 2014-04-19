@@ -1,7 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
+
+//kis és nagybetűk
 //5. teszteset addNextTile T2 T0 -> addNextTile T2 T1
 //5. teszteset build T1 Tower 0 -> build T0 Tower 0
+//6. teszteset move E1 -> move E0
+//x3
+//fájlba mentés
+//részletes adatok, getStatus formátum
+
 
 public class PrototypeController {
 
@@ -97,6 +104,7 @@ public class PrototypeController {
 			else if (type.equals("Dwarf")) enemy = new Dwarf(enemyGenerator);
 			else if (type.equals("Hobbit")) enemy = new Hobbit(enemyGenerator);
 			tilesOnMap.get(target).addEnemy(enemy);
+			enemy.setTile(tilesOnMap.get(target));
 			enemiesOnMap.add(enemy);
 			System.out.println("Sikeresen létrehoztad az E"+ (enemiesOnMap.size() - 1) +" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
 		} else System.out.println("Nincs ilyen típusú ellenség!");
@@ -132,20 +140,20 @@ public class PrototypeController {
 		int health = enemy.health;
 		int delay = enemy.moveDelay;
 		Tile current = enemy.currentTile;
-		enemy.move();
 		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) System.out.println(enemyID+" nem tudott lépni");
 		else {
-			if (delay>0) System.out.println(enemyID+" moveDelay értéke egyel csökkent.");
+			enemy.move();
+			if (delay>1) System.out.println(enemyID+" moveDelay értéke egyel csökkent.");
 			else {
 				int ID, ID2;
-				for (ID=0; ID<tilesOnMap.size() || tilesOnMap.get(ID)==current; ID++);
-				for (ID2=0; ID2<tilesOnMap.size() || tilesOnMap.get(ID2)==enemy.currentTile; ID2++);
+				for (ID=0; ID<tilesOnMap.size() && tilesOnMap.get(ID)==current; ID++);
+				for (ID2=0; ID2<tilesOnMap.size() && tilesOnMap.get(ID2)==enemy.currentTile; ID2++);
 				System.out.print(enemyID+" lépett T"+ID+"-ről T"+ID2+"-re. ");
 				if (enemy.currentTile.getConstruct()!=null &&
-						enemy.currentTile.getConstruct().getType().equals("barricade")) {
+						enemy.currentTile.getConstruct().getType().equals("Barricade")) {
 					System.out.print("T"+ID2+"-n akadály van, lelassult. ");
 				}
-				System.out.println("Legközelebb +"+enemy.moveDelay+" szimulációs ciklus után lépne.");
+				System.out.println("Legközelebb "+enemy.moveDelay+" szimulációs ciklus után lépne.");
 			}
 		}
 	}

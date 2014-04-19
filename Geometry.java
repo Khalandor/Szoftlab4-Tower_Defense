@@ -41,8 +41,8 @@ public class Geometry {
 		targets.add(tesztTarget);
 		return targets;	*/
 		
-		int center_pozition_x = -1;
-		int center_pozition_y = -1;
+		int center_position_x = -1;
+		int center_position_y = -1;
 		
 		
 		// A center tile pozíciójának megkeresése
@@ -50,25 +50,44 @@ public class Geometry {
 		for(int x=0; x<size_x; x++){
 			for(int y=0 ; y<size_y; y++){
 				if(tiles[x][y] == center){
-					center_pozition_x = x;
-					center_pozition_y = y;
+					center_position_x = x;
+					center_position_y = y;
 				}
 			}
 		}
 		
-		if(center_pozition_x == -1 || center_pozition_y == -1){
+		if(center_position_x == -1 || center_position_y == -1){
 			// TODO Ez azt jelentené hogy a center Tile nincs a térképen nem tudom hogy foglalkozni kéne ezzel
 		}
 		
 		ArrayList<PathTile> result = new ArrayList<PathTile>();
 		
-		// megnézzük a center tile közelében lévő csempéket
-		for( int x = center_pozition_x-range; x <= center_pozition_x+range ; x++){
-			for( int y = center_pozition_y-range; y <= center_pozition_y+range; y++){ 
+		int search_x=center_position_x-range;
+		int search_y=center_position_y-range;
+		int search_condition_x=center_position_x+range;
+		int search_condition_y=center_position_y+range;
+		
+		if(search_x<0){
+			search_x=0;
+		}
+		if(search_y<0){
+			search_y=0;
+		}
+		if(search_condition_x>=size_x){
+			search_condition_x=size_x-1;
+		}
+		if(search_condition_y>=size_y){
+			search_condition_y=size_y-1;
+		}
+		
+		for( int x=search_x ; x<search_condition_x ; x++){
+			for( int y=search_y ; y<search_condition_y ; y++){ 
 				
-				// ha egy csempe a center csempétől vett távolságának kerekített értéke kisebb vagy egyenlő a hatótávolságnál akkor hatótávon belül van
-				if( range >= Math.round(Math.sqrt(x*x+y*y)) ){
-					result.add((PathTile) tiles[x][y]);
+				// ha egy csempe a center csempétõl vett távolságának kerekített értéke kisebb vagy egyenlõ a hatótávolságnál akkor hatótávon belül van
+				if( range>=Math.round(Math.sqrt(x*x+y*y))){
+					if( tiles[x][y].getType().equals("PathTile")) {
+						result.add((PathTile) tiles[x][y]);
+					}
 				}
 			}
 		}
