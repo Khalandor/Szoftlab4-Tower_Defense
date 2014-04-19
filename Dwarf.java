@@ -6,5 +6,8 @@ public class Dwarf extends Enemy {
 	
 	public Dwarf() {
 		this.type = "Dwarf";
+		this.health = 80;
+		this.manaValue = 8;
+		this.speed = 6;
 	}
 }

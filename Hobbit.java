@@ -5,5 +5,8 @@ public class Hobbit extends Enemy {
 	 */
 	public Hobbit() {
 		this.type = "Hobbit";
+		this.health = 20;
+		this.manaValue = 3;
+		this.speed = 4;
 	}
 }

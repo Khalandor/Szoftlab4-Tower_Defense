@@ -47,7 +47,7 @@ public class Geometry {
 		
 		// A center tile pozíciójának megkeresése
 		// TODO  baj-e az hogy miután megtalálta a keresett Tile-t akkor még feleslegesn futt.
-		for(int x=0 ; x<size_x ; x++){
+		for(int x=0; x<size_x; x++){
 			for(int y=0 ; y<size_y; y++){
 				if(tiles[x][y] == center){
 					center_pozition_x = x;
@@ -63,12 +63,12 @@ public class Geometry {
 		ArrayList<PathTile> result = new ArrayList<PathTile>();
 		
 		// megnézzük a center tile közelében lévő csempéket
-		for( int x=center_pozition_x-range     ; x<=center_pozition_x+range ; x++){
-			for( int y=center_pozition_x-range ; y<=center_pozition_x+range ; y++){ 
+		for( int x=center_pozition_x-range; x<=center_pozition_x+range ; x++){
+			for( int y=center_pozition_x-range; y<=center_pozition_x+range; y++){ 
 				
 				// ha egy csempe a center csempétől vett távolságának kerekített értéke kisebb vagy egyenlő a hatótávolságnál akkor hatótávon belül van
-				if( range>=round(sqrt(x*x+y*y)) ){
-					result.add(tiles[x][y]);
+				if( range>=Math.round(Math.sqrt(x*x+y*y)) ){
+					result.add((PathTile) tiles[x][y]);
 				}
 			}
 		}

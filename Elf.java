@@ -5,5 +5,8 @@ public class Elf extends Enemy {
 	 */
 	public Elf() {
 		this.type = "Elf";
+		this.health = 20;
+		this.manaValue = 5;
+		this.speed = 1;
 	}
 }
