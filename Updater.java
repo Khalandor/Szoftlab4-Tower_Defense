@@ -119,14 +119,19 @@ public class Updater {
      * Ellenségek / tereptárgyak aktiválása
      */
     public void update(){
+        // ha nincs több ellenség, akkor győzelem
+        if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated())
+            gameOver(false);
+
+        // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
+        for (Enemy e : enemies)
+            if (e.move())
+                gameOver(true);
+
         // minden torony lő
         for (Construct c : constructs)
             if (c.getType().equals("Tower"))
                 ((Tower) c).shoot();
-
-        // minden ellenség mozgatása
-        for (Enemy e : enemies)
-            e.move();
 
         // ellenség-generálás
         enemyGenerator.generateEnemies();
