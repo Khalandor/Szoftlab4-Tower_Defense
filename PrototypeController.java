@@ -37,9 +37,9 @@ public class PrototypeController {
 		updater.setConstructManager(constructManager);
 		updater.setEnemyGenerator(enemyGenerator);
 		updater.setGeometry(geometry);
-		while (true) { // igen, tudom, hogy undorító
+		while (true) {
 			command = br.readLine();
-			commandParser(command); // meghívjuk a parancsétrelmezőt
+			commandParser(command); //meghívjuk a parancsétrelmezőt
 		}
 	}
 
@@ -207,7 +207,7 @@ public class PrototypeController {
 				!(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("Barricade"))) {
 			System.out.println("A megadott csempére nem helyezhető el az épület.");
 		} else {
-			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) { //ez kicsit kétséges, hogy működik-e
+			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) {
 				if (type.equals("Tower")) {
 					Tower tower = new Tower((FieldTile) tilesOnMap.get(target));
 					tilesOnMap.get(target).addConstruct(tower);
@@ -230,7 +230,7 @@ public class PrototypeController {
 		System.out.println("A varázserő sikeresen beállítva "+value+" értékre!");
 	}
 
-	private static void setFog(String param) { //tisztázni kell, hogy mit takar a modifier
+	private static void setFog(String param) { //újra kell írni.
 		if (param.equals("1")) {
 			System.out.println("Köd bekapcsolva. Az összes torony hatótávja 0.7-szeresére csökkent.");
 			ArrayList<Construct> constructs = updater.getConstructs();
@@ -261,7 +261,7 @@ public class PrototypeController {
 		srcTile.setNextTile(destTile);
 	}
 
-	private static void getStatus() { //40 szűznek kell még leszopnia, hogy ezt befejezzem
+	private static void getStatus() { //40 szűznek kell még leszopnia, hogy ezt befejezzem - WIP
 		System.out.println("Pálya: "+mapSizeX+"x"+mapSizeY);
 		
 		System.out.println();
@@ -324,7 +324,6 @@ public class PrototypeController {
 	}
 
 	private static void createMap(int x, int y) {
-		//TODO: ez nem lesz így jó, csak a területet kapja meg a geometry, ebből nem tudja melyik oldal mekkora
 		geometry.setMapSize(x, y);
 		mapSizeX = x;
 		mapSizeY = y;
@@ -338,6 +337,7 @@ public class PrototypeController {
 		while ((outString = br.readLine()) != null) {
 			System.out.println(outString);
 		}
+		in.close();
 	}
 
 	private static void exit() {
@@ -350,9 +350,9 @@ public class PrototypeController {
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		String outString = null;
 		while ((outString = br.readLine()) != null) {
-			// System.out.println(outString);
 			commandParser(outString);
 		}
+		in.close();
 	}
 
 	private static void beginWriteCommands(String fileName) throws Exception {
