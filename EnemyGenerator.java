@@ -20,7 +20,7 @@ public class EnemyGenerator {
 		this.pathGenerator = pathGenerator;
 		this.updater = updater;
         this.generatingSpeed = 1;
-        this.delay = 5;
+        this.delay = 999;
         this.placedEnemies = 0;
 
 	}

@@ -217,6 +217,7 @@ public class PrototypeController {
 					tilesOnMap.get(target).addConstruct(barricade);
 					constructsOnMap.add(barricade);
 				}
+				updater.constructs = constructsOnMap;
 				System.out.print(tileID+" csempére "+type+" épült. ");
 				if (costsMana.equals("1")) System.out.println(constructManager.costs.get(type)+" varázserőbe került.");
 				else System.out.println();
@@ -230,15 +231,14 @@ public class PrototypeController {
 		System.out.println("A varázserő sikeresen beállítva "+value+" értékre!");
 	}
 
-	private static void setFog(String param) { //újra kell írni.
+	private static void setFog(String param) {
 		if (param.equals("1")) {
+			updater.fogDown();
 			System.out.println("Köd bekapcsolva. Az összes torony hatótávja 0.7-szeresére csökkent.");
-			ArrayList<Construct> constructs = updater.getConstructs();
-			for (Construct item : constructs) {
-				if (item.getType() == "tower") ((Tower) item).setRangeModifier(7);
-			}
-		} else 
+		} else {
+			updater.fogUp();
 			System.out.println("Köd kikapcsolva. Az összes torony hatótávja eredeti értékre állt vissza.");
+		}
 	}
 
 	private static void setStartTile(String ID) {

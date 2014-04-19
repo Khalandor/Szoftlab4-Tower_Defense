@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Tower extends Construct {
 	private int damage;
 	private int fireRate;
-	private double rangeModifier;
+	public double rangeModifier;
 	private int range;
 	private FieldTile towerLocation;
 
