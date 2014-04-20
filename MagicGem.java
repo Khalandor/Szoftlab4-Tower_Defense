@@ -1,13 +1,19 @@
 public class MagicGem {
 	public String type;
 	public Construct construct;
+	private String EnemyType;
+	
 	
 	/**
-	 * MagicGem konstruktora.
+	 * 
+	 * A MAgicGem konstruktora
+	 * 
+	 * @param t az ellenseg tipusat jelolo String
 	 */
-	public MagicGem (String type)
+	public MagicGem (String t)
 	{
-		this.type = type;
+		type = "MagicGem";
+		this.EnemyType = t;
 	}
 	
 	/**
@@ -17,6 +23,7 @@ public class MagicGem {
 	 * @param type az ellenseget tipusat adja meg 
 	 */
 	public int getDamageBonus(String type) {
-		return 10;
+		if (EnemyType.equals(type)) 	return 10;
+		else return 0;
 	}
 }

@@ -3,7 +3,7 @@ import java.util.Random;
 
 
 public class Updater {
-    private boolean isFoggy;
+    public boolean isFoggy;
 	public ConstructManager constructManager;
 	public Geometry geometry;
 	public EnemyGenerator enemyGenerator;

@@ -89,15 +89,9 @@ public class PrototypeController {
 			simulate(parts[1]);
 		} else if (parts[0].equals("addEnemy")) {
 			addEnemy(parts[1], parts[2]);
-		} else if (parts[0].equals("debug")) {
-			debug();
 		}
 	}
-	
-	private static void debug() {
-		//updater.mana.hasEnough(constructManager.costs.get(type));
-		//String type = "Tower";
-	}
+
 
 	private static void println(String output) {
 		outToFile = false;
@@ -168,7 +162,6 @@ public class PrototypeController {
 	private static void move(String enemyID) {
 		int target = Integer.parseInt(enemyID.substring(1));	
 		Enemy enemy = enemiesOnMap.get(target);
-		//int health = enemy.health;
 		int delay = enemy.moveDelay;
 		Tile current = enemy.currentTile;
 		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) println(enemyID+" nem tudott lépni");
@@ -205,7 +198,7 @@ public class PrototypeController {
 		} else println("Nem sikerült létrehozni az útvonalakat.");
 	}
 
-	private static void shoot(String towerID, String critical) { //a tornyot hogy utasítjuk, hogy milyen lőjön? //hogy tudjuk meg, hogy talált-e ellenséget?
+	private static void shoot(String towerID, String critical) { //a tornyot hogy utasítjuk, hogy milyet lőjön? //hogy tudjuk meg, hogy talált-e ellenséget?
 		int target = Integer.parseInt(towerID.substring(1));
 		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("Tower")) {
 			println("A megadott torony nem létezik.");
@@ -296,7 +289,7 @@ public class PrototypeController {
 		srcTile.setNextTile(destTile);
 	}
 
-	private static void getStatus() { //40 szűznek kell még leszopnia, hogy ezt befejezzem - WIP --csempék megvannak
+	private static void getStatus() {
 		println("Pálya: "+mapSizeX+"x"+mapSizeY); //pálya mérete
 		
 		println("Csempék:"); //csempék listázása
@@ -329,7 +322,6 @@ public class PrototypeController {
 					if ( pathGenerator.pathStarts.contains( ((PathTile) tilesOnMap.get(i)) ) ) print("true");
 					else print("false");
 				}
-				
 				println(); //sortörés
 		}
 		
@@ -346,24 +338,32 @@ public class PrototypeController {
 			if (constructsOnMap.get(i).gem != null) print(constructsOnMap.get(i).gem.type); //ha van benne kő, akkor kiírjuk, hogy milyen
 			
 			if (constructsOnMap.get(i).getType().equals("Barricade")) { //ha akadály
-				print("\tLassítás mértéke: "+((Barricade) constructsOnMap.get(i)).getSpeedModifier());
+				println("\tLassításMértéke: "+((Barricade) constructsOnMap.get(i)).getSpeedModifier());
 			} else if (constructsOnMap.get(i).getType().equals("Tower")) { //ha torony
 				Tower tower = (Tower) constructsOnMap.get(i);
 				print("\tSebzés: "+tower.damage);
-				print("\tTüzelési Sebesség: "+tower.fireRate);
+				print("\tTüzelésiSebesség: "+tower.fireRate);
 				print("\tHatótáv: "+tower.range);
-				print("\tHatótáv szorzó: "+tower.rangeModifier);
-				print("\tKövetkező lövés: ");
+				print("\tHatótávSzorzó: "+tower.rangeModifier);
+				println("\tKövetkezőLövés: ");
 			}
 		}
-		println();
+		println(); //sortörés
 		
 		println("Ellenségek:"); //ellenségek listázása
 		for (int i = 0; i < enemiesOnMap.size(); i++) {
-			println("\tE" + i + " " + enemiesOnMap.get(i).getType());
+			print("\tE" + i + " " + enemiesOnMap.get(i).getType());
+			print("\tTípus: "+enemiesOnMap.get(i).getType());
+			print("\tÉleterő: "+enemiesOnMap.get(i).health);
+			print("\tSebesség: "+enemiesOnMap.get(i).speed);
+			print("\tKövetkezőLépés: "+enemiesOnMap.get(i).moveDelay);
+			println("\tÉrték: "+enemiesOnMap.get(i).manaValue);
 		}
 		println();
-		println("Varázserő: "+updater.mana.getMana());
+		print("Varázserő: "+updater.mana.getMana());
+		print("\tLegenerálhatóEllenségek: "+enemyGenerator.maxEnemies);
+		println("\tLegközelebbiGenerálás: "+enemyGenerator.delay);
+		println("Köd: "+updater.isFoggy);
 	}
 
 	private static void addEndTile(int x, int y) {

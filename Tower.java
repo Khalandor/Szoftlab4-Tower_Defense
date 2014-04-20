@@ -34,7 +34,6 @@ public class Tower extends Construct {
 		
 		Enemy target = null;
 		for (int i = 0; i < tilesInRange.size() && target == null; i++) {
-			System.out.println(tilesInRange.size());
 			if (tilesInRange.get(i) != null) {
 				target = tilesInRange.get(i).getEnemy();
 			}

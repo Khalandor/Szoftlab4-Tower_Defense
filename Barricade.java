@@ -15,10 +15,14 @@ public class Barricade extends Construct {
 	public Barricade()
 	{
 		type = "Barricade";										//Beállítjuk a saját típusát
-		speedModifier = 1 ;
+		speedModifier = 2 ;
 	}
-
-	public void setSpeedModifier(int i) {
-		// TODO Auto-generated method stub
+	/**
+	 * A Barricade lassitasanak beallitoja
+	 * @param speedModifier a beallitando ertek
+	 */
+	public void setSpeedModifier(int speedModifier)
+	{	
+		this.speedModifier = speedModifier;
 	}
 }

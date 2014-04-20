@@ -2,13 +2,13 @@ import java.util.Random;
 
 public class EnemyGenerator {
 	private final int maxGeneratingSpeed = 10;
-	private int maxEnemies = 30;
+	public int maxEnemies = 30;
 
 	private int generatingSpeed;
 	private int placedEnemies;
 	private PathGenerator pathGenerator;
 	private Updater updater;
-    private int delay;
+    public int delay;
 
 	/**
 	 * Az EnemyGenerator konstruktora.
