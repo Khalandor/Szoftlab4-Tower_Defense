@@ -1,14 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
 
-//kis és nagybetűk //ok
-//5. teszteset addNextTile T2 T0 -> addNextTile T2 T1 //ok
-//5. teszteset build T1 Tower 0 -> build T0 Tower 0 //ok
-//6. teszteset move E1 -> move E0 //ok
-//x3 //WTF?
-//fájlba mentés //ok
-//részletes adatok, getStatus formátum
-
 
 public class PrototypeController {
 
@@ -34,7 +26,7 @@ public class PrototypeController {
 			pathGenerator = new PathGenerator(geometry);
 			updater = new Updater();
 			enemyGenerator = new EnemyGenerator(pathGenerator, updater);
-			constructManager = new ConstructManager(updater);
+			constructManager = new ConstructManager(updater, updater.mana);
 			updater.setConstructManager(constructManager);
 			updater.setEnemyGenerator(enemyGenerator);
 			updater.setGeometry(geometry);
@@ -236,7 +228,7 @@ public class PrototypeController {
 			println("Nincs elég varázserőd "+gemType+" vásárlására!");
 		} else {
 			Construct targetConstruct = constructsOnMap.get(target);
-			if (costsMana.equals("1")) updater.mana.increase(constructManager.costs.get(gemType));
+			if (costsMana.equals("0")) updater.mana.increase(constructManager.costs.get(gemType)); //nem nem akarunk fizetni érte, akkor itt pont az árnak megfelelő értékkel növeli a varázserőt, amit rögtön utána csökkent is
 			constructManager.upgrade(gemType, targetConstruct);
 			print(constructID+" épületbe "+gemType+" varázskövet tettél. ");
 			if (costsMana.equals("1")) println(constructManager.costs.get(gemType) + " varázserőbe került.");
@@ -340,7 +332,7 @@ public class PrototypeController {
 					if ( pathGenerator.pathStarts.contains( ((PathTile) tilesOnMap.get(i)) ) ) print("true");
 					else print("false");
 				}
-				println(); //sortörés
+				println();
 		}
 		
 		println("Épületek:"); //épületek listázása
@@ -366,7 +358,7 @@ public class PrototypeController {
 				println("\tKövetkezőLövés: ");
 			}
 		}
-		println(); //sortörés
+		println();
 		
 		println("Ellenségek:"); //ellenségek listázása
 		for (int i = 0; i < enemiesOnMap.size(); i++) {
