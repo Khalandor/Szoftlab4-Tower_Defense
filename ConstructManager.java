@@ -29,15 +29,15 @@ public class ConstructManager {
 	 */
 	public void build(String type, Tile location) {
 		if (mana.hasEnough(costs.get(type))) {
-			location.getType();
 			Construct construct = null;
 			
-			if(type.equals("tower")) {
+			if(type.equals("tower") && location.getType().equals("FieldTile")) {
 				construct = new Tower((FieldTile) location);  
-			}
-			if(type.equals("barricade")) {
+			} else
+			if(type.equals("barricade") && location.getType().equals("PathTile")) {
 				construct = new Barricade();
-			}
+			} else
+				return;
 			
 			location.addConstruct(construct);
 			mana.decrease(costs.get(type));
@@ -64,7 +64,7 @@ public class ConstructManager {
 					((Tower)construct).setFireRate(10);
 					construct.setMagicGem(gem);
 				}
-				if(type.equals("damage")) {
+				if(type.equals("elf") || type.equals("hobbit") || type.equals("dwarf") || type.equals("human")) {
 					construct.setMagicGem(gem);
 				}
 			}

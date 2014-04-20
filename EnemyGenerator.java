@@ -33,13 +33,13 @@ public class EnemyGenerator {
 	 */
 	private Enemy createEnemy(String type) {
 		Enemy newEnemy;
-		if (type.equals("Dwarf"))
+		if (type.equals("dwarf"))
 			return new Dwarf(this);
-		else if (type.equals("Elf"))
+		else if (type.equals("elf"))
 			return new Elf(this);
-		else if (type.equals("Hobbit"))
+		else if (type.equals("hobbit"))
 			return new Hobbit(this);
-		else if (type.equals("Human"))
+		else if (type.equals("human"))
 			return new Human(this);
 		return null;
 	}
