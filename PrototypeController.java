@@ -86,7 +86,7 @@ public class PrototypeController {
 
 
 	private static void println(String output) {
-		outToFile = false;
+		//outToFile = false;
 		if (!outToFile)	System.out.println(output);
 		else {
 			writer.println(output);
@@ -94,7 +94,7 @@ public class PrototypeController {
 	}
 	
 	private static void print(String output) {
-		outToFile = false;
+		//outToFile = false;
 		if (!outToFile)	System.out.print(output);
 		else {
 			writer.print(output);
@@ -102,7 +102,7 @@ public class PrototypeController {
 	}
 	
 	private static void println() {
-		outToFile = false;
+		//outToFile = false;
 		if (!outToFile)	System.out.println();
 		else {
 			writer.println();
@@ -161,10 +161,9 @@ public class PrototypeController {
 			enemy.move();
 			if (delay>1) println(enemyID+" moveDelay értéke egyel csökkent.");
 			else {
-				int ID, ID2;
-				for (ID=0; ID<tilesOnMap.size() && tilesOnMap.get(ID)==current; ID++);
-				for (ID2=0; ID2<tilesOnMap.size() && tilesOnMap.get(ID2)==enemy.currentTile; ID2++);
-				print(enemyID+" lépett T"+ID+"-ről T"+ID2+"-re. ");
+				int ID1 = tilesOnMap.indexOf(current);
+				int ID2 = tilesOnMap.indexOf(enemy.currentTile);
+				print(enemyID+" lépett T"+ID1+"-ről T"+ID2+"-re. ");
 				if (enemy.currentTile.getConstruct()!=null &&
 						enemy.currentTile.getConstruct().getType().equals("Barricade")) {
 					print("T"+ID2+"-n akadály van, lelassult. ");
@@ -235,12 +234,13 @@ public class PrototypeController {
 		}
 	}
 
-	private static void build(String tileID, String type, String costsMana) {
+	private static void build(String tileID, String type, String costsMana) { 
 		int target = Integer.parseInt(tileID.substring(1));
 		type = type.toLowerCase();
 		if (!(tilesOnMap.get(target).getType().equals("FieldTile") && type.equals("tower")) && 
 				!(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("barricade"))) {
 			println("A megadott csempére nem helyezhető el az épület.");
+			//TODO lehet ide be lehetne venni azt az esetet is, amikor nem létező csempét jelölünk ki
 		} else {
 			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) {
 				if (type.equals("tower")) {
@@ -358,22 +358,24 @@ public class PrototypeController {
 				println("\tKövetkezőLövés: ");
 			}
 		}
-		println();
 		
 		println("Ellenségek:"); //ellenségek listázása
 		for (int i = 0; i < enemiesOnMap.size(); i++) {
 			print("\tE" + i + " " + enemiesOnMap.get(i).getType());
 			print("\tTípus: "+enemiesOnMap.get(i).getType());
+			print("\tHely: T"+tilesOnMap.indexOf(enemiesOnMap.get(i).getTile()));
 			print("\tÉleterő: "+enemiesOnMap.get(i).health);
 			print("\tSebesség: "+enemiesOnMap.get(i).speed);
-			print("\tKövetkezőLépés: "+enemiesOnMap.get(i).moveDelay);
+			print("\tKövetkezőLépés: "+enemiesOnMap.get(i).moveDelay+" ciklus");
 			println("\tÉrték: "+enemiesOnMap.get(i).manaValue);
 		}
-		println();
+
 		print("Varázserő: "+updater.mana.getMana());
 		print("\tLegenerálhatóEllenségek: "+enemyGenerator.maxEnemies);
 		println("\tLegközelebbiGenerálás: "+enemyGenerator.delay);
-		println("Köd: "+updater.isFoggy);
+		if (updater.isFoggy ) println("Köd: igen");
+			else println("Köd: nem");
+		println();
 	}
 
 	private static void addEndTile(int x, int y) {

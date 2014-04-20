@@ -18,7 +18,10 @@ public class ConstructManager {
 		costs.put("barricade", 30);
 		costs.put("range", 20);
 		costs.put("fireRate", 20);
-		costs.put("damage", 20);
+		costs.put("elf", 20);
+		costs.put("dwarf", 20);
+		costs.put("hobbit", 20);
+		costs.put("human", 20);
 		costs.put("slow", 20);
 	}	
 	
@@ -54,7 +57,7 @@ public class ConstructManager {
 		if (mana.hasEnough(costs.get(type))) {
 			MagicGem gem = new MagicGem(type);
 			
-			if(construct.getType().equals("tower")) {
+			if(construct.getType().equals("Tower")) {
 				
 				if(type.equals("range")) {
 					((Tower)construct).setRange(20);
@@ -69,7 +72,7 @@ public class ConstructManager {
 				}
 			}
 			
-			if(construct.getType().equals("barricade")) {
+			if(construct.getType().equals("Barricade")) {
 				
 				if(type.equals("slow")) {
 					((Barricade)construct).setSpeedModifier(2);
