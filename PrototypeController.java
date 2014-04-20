@@ -229,15 +229,18 @@ public class PrototypeController {
 		if (target >= constructsOnMap.size() || target < 0) {
 			println("A megadott épület nem létezik.");
 			return;
-		}
-		Construct targetConstruct = constructsOnMap.get(target);
-		MagicGem gem = new MagicGem(gemType);
-		if ((costsMana.equals("1") && true) || costsMana.equals("0")) { //kéne tudni, hogy honnan szopunk árat
-			targetConstruct.setMagicGem(gem);
+		} else if (constructsOnMap.get(target).type.equals("Barricade") && !gemType.equals("slow")) { //lehet ilyen épületbe ilyen követ tenni?
+			//TODO itt elég ha csak azt szűröm, hogy barricade-be akarunk-e pakolni és ha igen, de az nem slow, akkor garantált rossz?
+			println("A "+gemType+" varázskő nem helyezhető a "+constructID+" azonosítójú épületbe.");
+		} else if (costsMana.equals("1") && !updater.mana.hasEnough(constructManager.costs.get(gemType))) {
+			println("Nincs elég varázserőd "+gemType+" vásárlására!");
+		} else {
+			Construct targetConstruct = constructsOnMap.get(target);
+			if (costsMana.equals("1")) updater.mana.increase(constructManager.costs.get(gemType));
+			constructManager.upgrade(gemType, targetConstruct);
 			print(constructID+" épületbe "+gemType+" varázskövet tettél. ");
 			if (costsMana.equals("1")) println(constructManager.costs.get(gemType) + " varázserőbe került.");
-			else println();
-		} else println("incs elég varázserőd "+gemType+" vásárlására!");
+		}
 	}
 
 	private static void build(String tileID, String type, String costsMana) {
