@@ -129,6 +129,7 @@ public class EnemyGenerator {
 		Enemy newEnemy = createEnemy( type );		// a megadott típusú ellenség létrehozása
 		tile.addEnemy(newEnemy);		//rárakás a megadott útra
 		updater.addEnemy(newEnemy);		// hozzáadás az ellenség-listához
+        newEnemy.setTile(tile);
 	}
 
 	/**

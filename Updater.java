@@ -125,12 +125,12 @@ public class Updater {
     public void update(){
         // ha nincs több ellenség, akkor győzelem
         if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated())
-            gameOver(false);
+            gameOver(true);
 
         // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
         for (Enemy e : enemies)
             if (e.move())
-                gameOver(true);
+                gameOver(false);
 
         // minden torony lő
         for (Construct c : constructs)
