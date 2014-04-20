@@ -132,10 +132,22 @@ public class Updater {
             if (e.move())
                 gameOver(false);
 
-        // minden torony lő
+        // minden torony lő, a halott ellenséget törli
         for (Construct c : constructs)
             if (c.getType().equals("Tower"))
-                ((Tower) c).shoot();
+            {
+                Enemy shotEnemy = ((Tower) c).shoot();
+                if (shotEnemy != null)
+                {
+                    if (shotEnemy.getHealth() <= 0)
+                    {
+                        mana.increase(shotEnemy.getManaValue());
+                        ((PathTile)shotEnemy.getTile()).removeEnemy(shotEnemy);
+                        enemies.remove(shotEnemy);
+                    }
+
+                }
+            }
 
         // ellenség-generálás
         enemyGenerator.generateEnemies();
