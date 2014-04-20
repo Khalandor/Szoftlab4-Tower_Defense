@@ -8,6 +8,15 @@ public class Enemy {
 	public int moveDelay;
 	public Tile currentTile;
 	public EnemyGenerator enemyGenerator;
+	private String name;
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
 
 	public Enemy(EnemyGenerator enemyGenerator) {
 		this.enemyGenerator = enemyGenerator;

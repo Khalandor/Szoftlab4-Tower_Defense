@@ -85,7 +85,7 @@ public class PrototypeController {
 
 
 	private static void println(String output) {
-		//outToFile = false;
+		outToFile = false;
 		if (!outToFile)	System.out.println(output);
 		else {
 			writer.println(output);
@@ -93,7 +93,7 @@ public class PrototypeController {
 	}
 	
 	private static void print(String output) {
-		//outToFile = false;
+		outToFile = false;
 		if (!outToFile)	System.out.print(output);
 		else {
 			writer.print(output);
@@ -101,7 +101,7 @@ public class PrototypeController {
 	}
 	
 	private static void println() {
-		//outToFile = false;
+		outToFile = false;
 		if (!outToFile)	System.out.println();
 		else {
 			writer.println();
@@ -114,26 +114,31 @@ public class PrototypeController {
 		if (! tilesOnMap.get(target).getType().equals("PathTile")) {
 			println(tileID+" nem útcsempe!");
 		} else if (type.equals("elf") || type.equals("dwarf") || type.equals("human") || type.equals("hobbit")) {
-			enemyGenerator.addEnemy((PathTile) tilesOnMap.get(target), type);
-			println("Sikeresen létrehoztad az E"+ (updater.enemies.size() - 1) +" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
+			Enemy enemy = enemyGenerator.addEnemy((PathTile) tilesOnMap.get(target), type);
+			println("Sikeresen létrehoztad az "+enemy.getName()+" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
 		} else println("Nincs ilyen típusú ellenség!");
 	}
 
 	private static void simulate(String count) { //idővel ez is el fog készülni
-		for (int i = 0; i < Integer.parseInt(count); i++) {
+		int i;
+		for (i = 0; i < Integer.parseInt(count); i++) {
 			updater.update();
             if (updater.result.equals("win")){
-                println("A szimuláció véget ért. "+ i +" ciklus futott le!");
-                System.out.println("Az utolsó ellenség is meghalt a " + i + ". ciklusban, nyertél!");
-                return;
+                break;
             }
             else if (updater.result.equals("lose")){
-                println("A szimuláció véget ért. "+ i +" ciklus futott le!");
-                System.out.println("Egy ellenség elérte a Végzet Hegyét a " + i + ". ciklusban, vesztettél!");
-                return;
+                break;
             }
 		}
-        println("A szimuláció véget ért. "+ count +" ciklus futott le!");
+		println("A szimuláció véget ért. "+ count +" ciklus futott le!");
+		//ide sön a shitstorm
+		
+		if (updater.result.equals("win")){
+            println("Az utolsó ellenség is meghalt a " + i + ". ciklusban, nyertél!");
+        }
+        else if (updater.result.equals("lose")){
+           println("Egy ellenség elérte a Végzet Hegyét a " + i + ". ciklusban, vesztettél!");
+        }
 		/*
 		1.	A szimuláció véget ért. <count> ciklus futott le!
 		2.	A szimuláció véget ért. <count> ciklus futott le!
@@ -153,8 +158,13 @@ public class PrototypeController {
 	}
 
 	private static void move(String enemyID) {
-		int target = Integer.parseInt(enemyID.substring(1));	
-		Enemy enemy = updater.enemies.get(target);
+		Enemy enemy = null;
+		for (Enemy e : updater.enemies) {
+			if (e.getName().equals(enemyID)) {
+				enemy = e;
+				break;
+			}
+		}
 		int delay = enemy.moveDelay;
 		Tile current = enemy.currentTile;
 		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) println(enemyID+" nem tudott lépni");
@@ -199,15 +209,14 @@ public class PrototypeController {
 			Tower tower = (Tower) constructsOnMap.get(target);
 			Enemy targetEnemy = tower.shoot();
 			if (targetEnemy!=null) {
-				int enemyID = updater.enemies.indexOf(targetEnemy);
+				String enemyID = targetEnemy.getName();
 				int demage = tower.damage;	//a torony sebzése
 				if (tower.gem!=null) demage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
-				print(towerID+" lőtt, E"+enemyID+" azonosítójú ellenségre, ");
+				print(towerID+" lőtt, "+enemyID+" azonosítójú ellenségre, ");
 				if (critical.equals("1")) print("felező lövéssel, ");	//ha felező lövést adtunk le
 				print("levéve tőle "+demage+" életerőt.");
 				if (critical.equals("1")) {	//ha felező lövést adtunk le
-					print("Létrejött E"+updater.enemies.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
-					//TODO itt kicsit kétséges, hogy hogy fog bekerülni a most generált ellenség a parser listájába, de valószínűleg elég lesz egy egyszerű összefűzés
+					print("Létrejött "+updater.enemies.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
 				}
 				println();
 			} else {
@@ -362,7 +371,7 @@ public class PrototypeController {
 		
 		println("Ellenségek:"); //ellenségek listázása
 		for (int i = 0; i < updater.enemies.size(); i++) {
-			print("\tE" + i + " " + updater.enemies.get(i).getType());
+			print("\t"+updater.enemies.get(i).getName()+ " " + updater.enemies.get(i).getType());
 			print("\tTípus: "+updater.enemies.get(i).getType());
 			print("\tHely: T"+tilesOnMap.indexOf(updater.enemies.get(i).getTile()));
 			print("\tÉleterő: "+updater.enemies.get(i).health);
