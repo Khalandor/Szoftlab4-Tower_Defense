@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class Updater {
     public boolean isFoggy;
+    public String result;
 	public ConstructManager constructManager;
 	public Geometry geometry;
 	public EnemyGenerator enemyGenerator;
@@ -11,9 +12,9 @@ public class Updater {
 	public ArrayList<Construct> constructs = new ArrayList<Construct>();
 	public Mana mana = new Mana();
 
-    public Updater()
-    {
+    public Updater(){
         isFoggy = false;
+        result = "running";
     }
 	/**
 	 * Visszadja az összes ellenség listáját
@@ -52,12 +53,11 @@ public class Updater {
 	 * @param isover 
 	 */
 	public void gameOver(Boolean isover) {
-		if (isover == true) {
-			System.out.println("Játékos győzött.");
-		}
+		if (isover == true)
+			result= "win";
 		else
-			System.out.println("Játékos vesztett.");
-	}
+            result = "lose";
+    }
 	
 	/**
 	 * Beallitja geometry valtozot

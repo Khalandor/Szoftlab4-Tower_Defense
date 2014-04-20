@@ -130,9 +130,15 @@ public class PrototypeController {
 	private static void simulate(String count) { //idővel ez is el fog készülni
 		for (int i=0; i < Integer.parseInt(count); i++) {
 			updater.update();
+            if (updater.result.equals("win")){
+                System.out.println("Az utolsó ellenség is meghalt a " + i + ". ciklusban, nyertél!");
+                return;
+            }
+            else if (updater.result.equals("lose")){
+                System.out.println("Egy ellenség elérte a Végzet Hegyét a " + i + ". ciklusban, vesztettél!");
+                return;
+            }
 		}
-		println("A szimuláció véget ért. "+count+" ciklus futott le!");
-		
 		/*
 		1.	A szimuláció véget ért. <count> ciklus futott le!
 		2.	A szimuláció véget ért. <count> ciklus futott le!
