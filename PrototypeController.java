@@ -123,12 +123,11 @@ public class PrototypeController {
 		int i;
 		for (i = 0; i < Integer.parseInt(count); i++) {
 			updater.update();
-            if (updater.result.equals("win")){
-                break;
-            }
-            else if (updater.result.equals("lose")){
-                break;
-            }
+			for (String message : updater.log) {
+				message = message.replace("[nr]",i+". ");
+				println(message);
+			}
+			updater.log.clear();
 		}
 		println("A szimuláció véget ért. "+ count +" ciklus futott le!");
 		//ide sön a shitstorm
@@ -216,8 +215,10 @@ public class PrototypeController {
 				if (critical.equals("1")) print("felező lövéssel, ");	//ha felező lövést adtunk le
 				print("levéve tőle "+demage+" életerőt.");
 				if (critical.equals("1")) {	//ha felező lövést adtunk le
-					print("Létrejött "+updater.enemies.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
+					Enemy newEnemy = updater.enemies.get(updater.enemies.size()-1);
+					print("Létrejött "+newEnemy.getName()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
 				}
+				updater.removeDeadEnemies();
 				println();
 			} else {
 				println(towerID+" nem lőtt, mert nem talált ellenséget.");
@@ -302,10 +303,22 @@ public class PrototypeController {
 
 	private static void addNextTile(String srcID, String destID) {
 		println("Hozzáadtad a "+srcID+" azonosítójú útcsempéből elérhető útcsempékhez a "+destID+" csempét.");
-		int src = Integer.parseInt(srcID.substring(1));
-		int dest = Integer.parseInt(destID.substring(1));
-		PathTile srcTile = (PathTile) tilesOnMap.get(src);
-		Tile destTile = tilesOnMap.get(dest);
+		//int src = Integer.parseInt(srcID.substring(1));
+		//int dest = Integer.parseInt(destID.substring(1));
+		PathTile srcTile = null;
+		for (Tile t : tilesOnMap) {
+			if (t.getName().equals(srcID)) {
+				srcTile = (PathTile) t;
+				break;
+			}
+		}
+		Tile destTile = null;
+		for (Tile t : tilesOnMap) {
+			if (t.getName().equals(destID)) {
+				destTile = (PathTile) t;
+				break;
+			}
+		}
 		srcTile.setNextTile(destTile);
 	}
 
@@ -396,8 +409,9 @@ public class PrototypeController {
 		else {
 			EndTile tile = new EndTile(geometry);
 			tilesOnMap.add(tile);
+			tile.setName("T"+(tilesOnMap.size()-1));
 			geometry.addTile(tile, x, y);
-			println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú végzet hegye csempét az " + x + ", " + y
+			println("Sikeresen hozzáadtad a " + tile.getName() + " azonosítójú végzet hegye csempét az " + x + ", " + y
 					+ " helyre.");
 			endTile = true;
 		}
@@ -409,8 +423,9 @@ public class PrototypeController {
 		else {
 			PathTile tile = new PathTile(geometry);
 			tilesOnMap.add(tile);
+			tile.setName("T"+(tilesOnMap.size()-1));
 			geometry.addTile(tile, x, y);
-			println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú út csempét az " + x + ", " + y + " helyre.");
+			println("Sikeresen hozzáadtad a " + tile.getName() + " azonosítójú út csempét az " + x + ", " + y + " helyre.");
 		}
 	}
 
@@ -420,9 +435,9 @@ public class PrototypeController {
 		else {
 			FieldTile tile = new FieldTile(geometry);
 			tilesOnMap.add(tile);
+			tile.setName("T"+(tilesOnMap.size()-1));
 			geometry.addTile(tile, x, y);
-			println("Sikeresen hozzáadtad a T" + (tilesOnMap.size()-1) + " azonosítójú terep csempét az " + x + ", " + y
-					+ " helyre.");
+			println("Sikeresen hozzáadtad a " + tile.getName() + " azonosítójú terep csempét az " + x + ", " + y + " helyre.");
 		}
 	}
 

@@ -2,9 +2,18 @@ public class Tile {
 	protected String type;
 	protected Geometry geometry;
 	protected Construct constructOnTile;
+	private String name;
 
 	public Tile(Geometry geometry) {
 		this.geometry = geometry;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	/**
