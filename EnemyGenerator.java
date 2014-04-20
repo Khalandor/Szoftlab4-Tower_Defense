@@ -5,7 +5,7 @@ public class EnemyGenerator {
 	public int maxEnemies = 30;
 
 	private int generatingSpeed;
-	private int placedEnemies;
+	private int generatedEnemies;
 	private PathGenerator pathGenerator;
 	private Updater updater;
     public int delay;
@@ -21,8 +21,7 @@ public class EnemyGenerator {
 		this.updater = updater;
         this.generatingSpeed = 1;
         this.delay = 999;
-        this.placedEnemies = 0;
-
+        this.generatedEnemies = 0;
 	}
 
 	/**
@@ -65,21 +64,6 @@ public class EnemyGenerator {
 		return null;
 	}
 
-    /*
-    // Csúnya tickek nélküli függvény, szerencsére elkerülhető:
-	public void generateEnemies() {
-		for (int i = 0; i < generatingSpeed; i++)
-		{
-			Enemy newEnemy = createRandomEnemy();
-			updater.addEnemy(newEnemy);
-			pathGenerator.start(newEnemy);
-			placedEnemies++;
-		}
-		generatingSpeed++;
-	}
-	*/
-
-    // Gyönyörű időkezelős függvény, sokkal jobb:
     /**
      * Új ellenség pályára helyezése a megfelelő időben
      */
@@ -98,14 +82,13 @@ public class EnemyGenerator {
         Enemy newEnemy = createRandomEnemy();
         updater.addEnemy(newEnemy);
         pathGenerator.start(newEnemy);
-        placedEnemies++;
     }
 
 	/**
 	 *  Ha az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
 	 */
 	public Boolean isLastEnemyGenerated() {
-		if (placedEnemies >= maxEnemies)
+		if (generatedEnemies >= maxEnemies)
 			return true;
 		return false;
 	}
@@ -114,11 +97,8 @@ public class EnemyGenerator {
 	 * Lemásolja a paraméterül kapott ellenséget a paraméterül kapott csempére
 	 */
 	public void duplicateEnemy(Enemy enemy, PathTile pathTile) {
-		Enemy clonedEnemy = createEnemy( enemy.getType() ); // ugyanolyan típusú ellenség létrehozása
+        Enemy clonedEnemy = addEnemy(pathTile, enemy.getType()); // ugyanolyan típusú ellenség létrehozása
 		clonedEnemy.setHealth(enemy.getHealth());	//azonos Health
-		pathTile.addEnemy(clonedEnemy);		// rárakás a megadott útra
-		updater.addEnemy(clonedEnemy);		// hozzáadás az ellenség-listához
-        clonedEnemy.setTile(pathTile);
 	}
 
 	/**
@@ -126,11 +106,14 @@ public class EnemyGenerator {
 	 * @param tile A csempe, melyre az ellenséget tesszük le
 	 * @param type Létrehozott ellenség típusa
 	 */
-	public void addEnemy(PathTile tile, String type) {
+	Enemy addEnemy(PathTile tile, String type) {
 		Enemy newEnemy = createEnemy( type );		// a megadott típusú ellenség létrehozása
 		tile.addEnemy(newEnemy);		//rárakás a megadott útra
 		updater.addEnemy(newEnemy);		// hozzáadás az ellenség-listához
         newEnemy.setTile(tile);
+        newEnemy.setName("E" + generatedEnemies);
+        generatedEnemies++;
+        return newEnemy;
 	}
 
 	/**
@@ -138,6 +121,6 @@ public class EnemyGenerator {
 	 * @param remaining a hátralévő ellensége száma
 	 */
 	public void setRemainingEnemies(int remaining) {
-		placedEnemies = maxEnemies - remaining;
+        maxEnemies = generatedEnemies + remaining;
 	}
 }
