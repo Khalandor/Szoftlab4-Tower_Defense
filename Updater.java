@@ -11,7 +11,7 @@ public class Updater {
 	public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	public ArrayList<Construct> constructs = new ArrayList<Construct>();
 	public Mana mana = new Mana();
-    public ArrayList<String> log;
+    public ArrayList<String> log = new ArrayList<String>();
 
     public Updater(){
         isFoggy = false;
@@ -162,7 +162,7 @@ public class Updater {
                 {
                     if (shotEnemy.getHealth() <= 0)
                     {
-                        log.add(new String("- A(z) [nr]. ciklusban lőtt a" + getTowerNr((Tower)c) + "azonosítójú torony az " +
+                        log.add(new String("- A(z) [nr]. ciklusban lőtt a T" + getTowerNr((Tower)c) + " azonosítójú torony az " +
                                 shotEnemy.getName() + " ellenségre, mely meghalt, így a varázserőd " +
                                 shotEnemy.getManaValue() + "-al nőtt."));
                         mana.increase(shotEnemy.getManaValue());
