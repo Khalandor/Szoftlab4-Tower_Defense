@@ -89,9 +89,16 @@ public class PrototypeController {
 			simulate(parts[1]);
 		} else if (parts[0].equals("addEnemy")) {
 			addEnemy(parts[1], parts[2]);
+		} else if (parts[0].equals("debug")) {
+			debug();
 		}
 	}
 	
+	private static void debug() {
+		//updater.mana.hasEnough(constructManager.costs.get(type));
+		//String type = "Tower";
+	}
+
 	private static void println(String output) {
 		outToFile = false;
 		if (!outToFile)	System.out.println(output);
@@ -244,7 +251,10 @@ public class PrototypeController {
 				}
 				updater.constructs = constructsOnMap;
 				print(tileID+" csempére "+type+" épült. ");
-				if (costsMana.equals("1")) println(constructManager.costs.get(type)+" varázserőbe került.");
+				if (costsMana.equals("1")) {
+					println(constructManager.costs.get(type)+" varázserőbe került.");
+					updater.mana.decrease(constructManager.costs.get(type));
+				}
 				else println();
 			}	
 		}
@@ -287,11 +297,11 @@ public class PrototypeController {
 	}
 
 	private static void getStatus() { //40 szűznek kell még leszopnia, hogy ezt befejezzem - WIP --csempék megvannak
-		println("Pálya: "+mapSizeX+"x"+mapSizeY);
+		println("Pálya: "+mapSizeX+"x"+mapSizeY); //pálya mérete
 		
-		println("Csempék:");
+		println("Csempék:"); //csempék listázása
 		for (int i = 0; i < tilesOnMap.size(); i++) {
-				print("\tT" + i + " " + tilesOnMap.get(i).getType()); //csempe típusa
+				print("\tT" + i + " " + tilesOnMap.get(i).getType()); //név és csempe típusa
 				
 				//pozíció keresése és kiírása
 				int idx = -1;
@@ -307,9 +317,9 @@ public class PrototypeController {
 				print("\tx: "+idx+" y: "+idy);
 				
 				//út csempe esetén a belőle elérhető csempék kiírása
-				if (tilesOnMap.get(i).getType().equals("PathTile")) {
+				if (tilesOnMap.get(i).getType().equals("PathTile")) { //ha út csempe
 					print("\tSzomszéd Csempék:");
-					for (int n = 0; n < ((PathTile) tilesOnMap.get(i)).nextTiles.size(); n++) { //végigmegy az összes elérhető csempén
+					for (int n = 0; n < ((PathTile) tilesOnMap.get(i)).nextTiles.size(); n++) { //végigmegy az összes belőle elérhető csempén
 						Tile next = ((PathTile) tilesOnMap.get(i)).nextTiles.get(n); //az elérhető csempe
 						print(" T"+tilesOnMap.indexOf(next)); //a csempe indexének megkeresése és kiírása
 					}
@@ -320,16 +330,35 @@ public class PrototypeController {
 					else print("false");
 				}
 				
-				println();
+				println(); //sortörés
 		}
 		
-		println("Épületek:");
+		println("Épületek:"); //épületek listázása
 		for (int i = 0; i < constructsOnMap.size(); i++) {
-			println("\tC" + i + " " + constructsOnMap.get(i).getType());
+			print("\tC" + i + " " + constructsOnMap.get(i).getType()); //név és típus kiírása
+			
+			int where=0;
+			while (tilesOnMap.get(where).getConstruct()!=constructsOnMap.get(i)) { //megkeressük, hogy az épüle melyik csempén van
+				where++;
+			}
+			print("\tHely: T"+where); //hely kiírása
+			print("\tKő: ");
+			if (constructsOnMap.get(i).gem != null) print(constructsOnMap.get(i).gem.type); //ha van benne kő, akkor kiírjuk, hogy milyen
+			
+			if (constructsOnMap.get(i).getType().equals("Barricade")) { //ha akadály
+				print("\tLassítás mértéke: "+((Barricade) constructsOnMap.get(i)).getSpeedModifier());
+			} else if (constructsOnMap.get(i).getType().equals("Tower")) { //ha torony
+				Tower tower = (Tower) constructsOnMap.get(i);
+				print("\tSebzés: "+tower.damage);
+				print("\tTüzelési Sebesség: "+tower.fireRate);
+				print("\tHatótáv: "+tower.range);
+				print("\tHatótáv szorzó: "+tower.rangeModifier);
+				print("\tKövetkező lövés: ");
+			}
 		}
-		
 		println();
-		println("Ellenségek:");
+		
+		println("Ellenségek:"); //ellenségek listázása
 		for (int i = 0; i < enemiesOnMap.size(); i++) {
 			println("\tE" + i + " " + enemiesOnMap.get(i).getType());
 		}

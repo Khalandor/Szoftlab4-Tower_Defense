@@ -13,12 +13,12 @@ public class ConstructManager {
 	 */
 	public ConstructManager (Updater updater){
 		this.updater = updater;							//Beállítjuk az updater attribútumot
-		costs.put("Tower", 50);
-		costs.put("Barricade", 30);
-		costs.put("Range", 20);
-		costs.put("FireRate", 20);
-		costs.put("Damage", 20);
-		costs.put("Slow", 20);
+		costs.put("tower", 50);
+		costs.put("barricade", 30);
+		costs.put("range", 20);
+		costs.put("fireRate", 20);
+		costs.put("damage", 20);
+		costs.put("slow", 20);
 	}	
 	
 	/**

@@ -1,5 +1,5 @@
 public class MagicGem {
-	private String type;
+	public String type;
 	public Construct construct;
 	
 	/**
