@@ -11,6 +11,7 @@ public class Updater {
 	public ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	public ArrayList<Construct> constructs = new ArrayList<Construct>();
 	public Mana mana = new Mana();
+    public ArrayList<String> log;
 
     public Updater(){
         isFoggy = false;
@@ -119,18 +120,38 @@ public class Updater {
                 ((Tower) c).setRangeModifier(1.0);
     }
 
+    private int getTowerNr(Tower t)
+    {
+        int nr = 0;
+        for (Construct c : constructs){
+            if (c == t)
+                return nr;
+            if (c.getType().equals("Tower"))
+                nr++;
+        }
+        return 9999;
+    }
+
     /**
      * Ellenségek / tereptárgyak aktiválása
      */
     public void update(){
+
         // ha nincs több ellenség, akkor győzelem
-        if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated())
+        if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
             gameOver(true);
+            log.add(new String("- Az utolsó ellenség is meghalt a [nr]. ciklusban, nyertél!"));
+        }
 
         // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
-        for (Enemy e : enemies)
-            if (e.move())
+        for (Enemy e : enemies){
+            Tile from;
+            if (e.move()) {
+                log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
                 gameOver(false);
+                log.add(new String("− A [nr]. ciklusban az " + e.getName() + " azonosítójú ellenség a végzet hegyére lépett, vesztettél!"));
+            }
+        }
 
         // minden torony lő, a halott ellenséget törli
         for (Construct c : constructs)
@@ -141,11 +162,13 @@ public class Updater {
                 {
                     if (shotEnemy.getHealth() <= 0)
                     {
+                        log.add(new String("- A(z) [nr]. ciklusban lőtt a" + getTowerNr((Tower)c) + "azonosítójú torony az " +
+                                shotEnemy.getName() + " ellenségre, mely meghalt, így a varázserőd " +
+                                shotEnemy.getManaValue() + "-al nőtt."));
                         mana.increase(shotEnemy.getManaValue());
                         ((PathTile)shotEnemy.getTile()).removeEnemy(shotEnemy);
                         enemies.remove(shotEnemy);
                     }
-
                 }
             }
 
@@ -158,4 +181,19 @@ public class Updater {
             isFoggy = !isFoggy;
     }
 
+    /**
+     * Végignézi, hogy van-e halott ellenség a listában, törli, ha van.
+     */
+    public void removeDeadEnemies()
+    {
+        for (Enemy e : enemies)
+        {
+            if (e.getHealth() <= 0)
+            {
+                mana.increase(e.getManaValue());
+                ((PathTile)e.getTile()).removeEnemy(e);
+                enemies.remove(e);
+            }
+        }
+    }
 }
