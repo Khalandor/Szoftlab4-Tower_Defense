@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class PathTile extends Tile {
-	private ArrayList<Tile> nextTiles = new ArrayList<Tile>();
+	public ArrayList<Tile> nextTiles = new ArrayList<Tile>();
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 	/**
@@ -36,10 +36,10 @@ public class PathTile extends Tile {
 	
 	/**
 	 * Beállítja a csempéket, amikre az úton innen lépni lehet
-	 * @param path ez lesz a nextTile uj erteke
+	 * @param destTile ez lesz a nextTile uj erteke
 	 */
-	public void setNextTile(PathTile path) {
-		nextTiles.add(path);
+	public void setNextTile(Tile destTile) {
+		nextTiles.add(destTile);
 	}
 
 	/**

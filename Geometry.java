@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Geometry {
-	private Tile[][] tiles;
+	public Tile[][] tiles;
 	private int size_x;
 	private int size_y;
 
