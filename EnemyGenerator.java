@@ -125,7 +125,7 @@ public class EnemyGenerator {
 	 * @param tile A csempe, melyre az ellenséget tesszük le
 	 * @param type Létrehozott ellenség típusa
 	 */
-	public void addEnemy(PathTile tile, String type) throws Exception {
+	public void addEnemy(PathTile tile, String type) {
 		Enemy newEnemy = createEnemy( type );		// a megadott típusú ellenség létrehozása
 		tile.addEnemy(newEnemy);		//rárakás a megadott útra
 		updater.addEnemy(newEnemy);		// hozzáadás az ellenség-listához

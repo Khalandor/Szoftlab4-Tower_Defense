@@ -14,7 +14,6 @@ public class PrototypeController {
 	private static boolean endTile;
 	private static ArrayList<Tile> tilesOnMap = new ArrayList<Tile>();
 	private static ArrayList<Construct> constructsOnMap = new ArrayList<Construct>();
-	private static ArrayList<Enemy> enemiesOnMap = new ArrayList<Enemy>(); //enemy generatorból ebbe szépen bele kell majd szopkodni az ellenségeket
 	private static boolean outToFile = false;
 	private static PrintWriter writer = null;
 	
@@ -115,15 +114,8 @@ public class PrototypeController {
 		if (! tilesOnMap.get(target).getType().equals("PathTile")) {
 			println(tileID+" nem útcsempe!");
 		} else if (type.equals("elf") || type.equals("dwarf") || type.equals("human") || type.equals("hobbit")) {
-			Enemy enemy = null;
-			if (type.equals("elf")) enemy = new Elf(enemyGenerator);
-			else if (type.equals("human")) enemy = new Human(enemyGenerator);
-			else if (type.equals("dwarf")) enemy = new Dwarf(enemyGenerator);
-			else if (type.equals("hobbit")) enemy = new Hobbit(enemyGenerator);
-			tilesOnMap.get(target).addEnemy(enemy);
-			enemy.setTile(tilesOnMap.get(target));
-			enemiesOnMap.add(enemy);
-			println("Sikeresen létrehoztad az E"+ (enemiesOnMap.size() - 1) +" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
+			enemyGenerator.addEnemy((PathTile) tilesOnMap.get(target), type);
+			println("Sikeresen létrehoztad az E"+ (updater.enemies.size() - 1) +" azonosítójú \""+type+"\" típusú ellenséget a "+tileID+" csempén.");
 		} else println("Nincs ilyen típusú ellenség!");
 	}
 
@@ -162,7 +154,7 @@ public class PrototypeController {
 
 	private static void move(String enemyID) {
 		int target = Integer.parseInt(enemyID.substring(1));	
-		Enemy enemy = enemiesOnMap.get(target);
+		Enemy enemy = updater.enemies.get(target);
 		int delay = enemy.moveDelay;
 		Tile current = enemy.currentTile;
 		if (((PathTile) enemy.currentTile).getNextTiles().size()==0) println(enemyID+" nem tudott lépni");
@@ -207,14 +199,14 @@ public class PrototypeController {
 			Tower tower = (Tower) constructsOnMap.get(target);
 			Enemy targetEnemy = tower.shoot();
 			if (targetEnemy!=null) {
-				int enemyID = enemiesOnMap.indexOf(targetEnemy);
+				int enemyID = updater.enemies.indexOf(targetEnemy);
 				int demage = tower.damage;	//a torony sebzése
 				if (tower.gem!=null) demage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
 				print(towerID+" lőtt, E"+enemyID+" azonosítójú ellenségre, ");
 				if (critical.equals("1")) print("felező lövéssel, ");	//ha felező lövést adtunk le
 				print("levéve tőle "+demage+" életerőt.");
 				if (critical.equals("1")) {	//ha felező lövést adtunk le
-					print("Létrejött E"+enemiesOnMap.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
+					print("Létrejött E"+updater.enemies.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
 					//TODO itt kicsit kétséges, hogy hogy fog bekerülni a most generált ellenség a parser listájába, de valószínűleg elég lesz egy egyszerű összefűzés
 				}
 				println();
@@ -369,14 +361,14 @@ public class PrototypeController {
 		}
 		
 		println("Ellenségek:"); //ellenségek listázása
-		for (int i = 0; i < enemiesOnMap.size(); i++) {
-			print("\tE" + i + " " + enemiesOnMap.get(i).getType());
-			print("\tTípus: "+enemiesOnMap.get(i).getType());
-			print("\tHely: T"+tilesOnMap.indexOf(enemiesOnMap.get(i).getTile()));
-			print("\tÉleterő: "+enemiesOnMap.get(i).health);
-			print("\tSebesség: "+enemiesOnMap.get(i).speed);
-			print("\tKövetkezőLépés: "+enemiesOnMap.get(i).moveDelay+" ciklus");
-			println("\tÉrték: "+enemiesOnMap.get(i).manaValue);
+		for (int i = 0; i < updater.enemies.size(); i++) {
+			print("\tE" + i + " " + updater.enemies.get(i).getType());
+			print("\tTípus: "+updater.enemies.get(i).getType());
+			print("\tHely: T"+tilesOnMap.indexOf(updater.enemies.get(i).getTile()));
+			print("\tÉleterő: "+updater.enemies.get(i).health);
+			print("\tSebesség: "+updater.enemies.get(i).speed);
+			print("\tKövetkezőLépés: "+updater.enemies.get(i).moveDelay+" ciklus");
+			println("\tÉrték: "+updater.enemies.get(i).manaValue);
 		}
 
 		print("Varázserő: "+updater.mana.getMana());
