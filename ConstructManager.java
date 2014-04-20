@@ -31,12 +31,14 @@ public class ConstructManager {
 		if (mana.hasEnough(costs.get(type))) {
 			location.getType();
 			Construct construct = null;
-			if(type == "tower") {
+			
+			if(type.equals("tower")) {
 				construct = new Tower((FieldTile) location);  
 			}
-			if(type == "barricade") {
+			if(type.equals("barricade")) {
 				construct = new Barricade();
 			}
+			
 			location.addConstruct(construct);
 			mana.decrease(costs.get(type));
 			updater.addConstruct(construct);
@@ -51,15 +53,28 @@ public class ConstructManager {
 	public void upgrade(String type, Construct construct) {
 		if (mana.hasEnough(costs.get(type))) {
 			MagicGem gem = new MagicGem(type);
-			construct.setMagicGem(gem);
-			if(type == "range") {
-				((Tower)construct).setRange(20);
+			
+			if(construct.getType().equals("tower")) {
+				
+				if(type.equals("range")) {
+					((Tower)construct).setRange(20);
+					construct.setMagicGem(gem);
+				}
+				if(type.equals("firerate")) {
+					((Tower)construct).setFireRate(10);
+					construct.setMagicGem(gem);
+				}
+				if(type.equals("damage")) {
+					construct.setMagicGem(gem);
+				}
 			}
-			if(type == "firerate") {
-				((Tower)construct).setFireRate(10);
-			}
-			if(type == "slow") {
-				((Barricade)construct).setSpeedModifier(20);
+			
+			if(construct.getType().equals("barricade")) {
+				
+				if(type.equals("slow")) {
+					((Barricade)construct).setSpeedModifier(2);
+					construct.setMagicGem(gem);
+				}
 			}
 			mana.decrease(costs.get(type));
 		}
