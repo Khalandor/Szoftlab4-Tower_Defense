@@ -198,15 +198,30 @@ public class PrototypeController {
 		} else println("Nem sikerült létrehozni az útvonalakat.");
 	}
 
-	private static void shoot(String towerID, String critical) { //a tornyot hogy utasítjuk, hogy milyet lőjön? //hogy tudjuk meg, hogy talált-e ellenséget?
+	private static void shoot(String towerID, String critical) {
+		//TODO egyáltalán nincs megvalósítva a Tower-ben a felező lövés
 		int target = Integer.parseInt(towerID.substring(1));
 		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("Tower")) {
 			println("A megadott torony nem létezik.");
-			return;
+		} else {
+			Tower tower = (Tower) constructsOnMap.get(target);
+			Enemy targetEnemy = tower.shoot();
+			if (targetEnemy!=null) {
+				int enemyID = enemiesOnMap.indexOf(targetEnemy);
+				int demage = tower.damage;	//a torony sebzése
+				if (tower.gem!=null) demage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
+				print(towerID+" lőtt, E"+enemyID+" azonosítójú ellenségre, ");
+				if (critical.equals("1")) print("felező lövéssel, ");	//ha felező lövést adtunk le
+				print("levéve tőle "+demage+" életerőt.");
+				if (critical.equals("1")) {	//ha felező lövést adtunk le
+					print("Létrejött E"+enemiesOnMap.size()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
+					//TODO itt kicsit kétséges, hogy hogy fog bekerülni a most generált ellenség a parser listájába, de valószínűleg elég lesz egy egyszerű összefűzés
+				}
+				println();
+			} else {
+				println(towerID+" nem lőtt, mert nem talált ellenséget.");
+			}
 		}
-		Tower tower = (Tower) constructsOnMap.get(target);
-		tower.shoot();
-		//ide meg még végtelen sok visszajelzés kell
 	}
 
 	private static void upgrade(String constructID, String gemType, String costsMana) { //ki tudja, hogy melyik kő mibe mehet?
