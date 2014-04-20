@@ -118,6 +118,7 @@ public class EnemyGenerator {
 		clonedEnemy.setHealth(enemy.getHealth());	//azonos Health
 		pathTile.addEnemy(clonedEnemy);		// rárakás a megadott útra
 		updater.addEnemy(clonedEnemy);		// hozzáadás az ellenség-listához
+        clonedEnemy.setTile(pathTile);
 	}
 
 	/**
