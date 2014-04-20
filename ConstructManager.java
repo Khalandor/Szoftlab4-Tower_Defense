@@ -11,8 +11,9 @@ public class ConstructManager {
 	 * Beállítja az updater attribútumot.
 	 * @param updater Az updater ami létrehozta
 	 */
-	public ConstructManager (Updater updater){
+	public ConstructManager (Updater updater, Mana mana){
 		this.updater = updater;							//Beállítjuk az updater attribútumot
+		this.mana = mana;
 		costs.put("tower", 50);
 		costs.put("barricade", 30);
 		costs.put("range", 20);
@@ -30,10 +31,10 @@ public class ConstructManager {
 		if (mana.hasEnough(costs.get(type))) {
 			location.getType();
 			Construct construct = null;
-			if(type == "Tower") {
+			if(type == "tower") {
 				construct = new Tower((FieldTile) location);  
 			}
-			if(type == "Barricade") {
+			if(type == "barricade") {
 				construct = new Barricade();
 			}
 			location.addConstruct(construct);
@@ -51,13 +52,13 @@ public class ConstructManager {
 		if (mana.hasEnough(costs.get(type))) {
 			MagicGem gem = new MagicGem(type);
 			construct.setMagicGem(gem);
-			if(type == "Range") {
+			if(type == "range") {
 				((Tower)construct).setRange(20);
 			}
-			if(type == "FireRate") {
+			if(type == "firerate") {
 				((Tower)construct).setFireRate(10);
 			}
-			if(type == "Slow") {
+			if(type == "slow") {
 				((Barricade)construct).setSpeedModifier(20);
 			}
 			mana.decrease(costs.get(type));
