@@ -17,7 +17,7 @@ public class ConstructManager {
 		costs.put("tower", 50);
 		costs.put("barricade", 30);
 		costs.put("range", 20);
-		costs.put("fireRate", 20);
+		costs.put("firerate", 20);
 		costs.put("elf", 20);
 		costs.put("dwarf", 20);
 		costs.put("hobbit", 20);
