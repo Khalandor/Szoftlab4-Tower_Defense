@@ -49,8 +49,7 @@ public class EnemyGenerator {
 	 */
 	private Enemy createRandomEnemy()
 	{
-		Random randomGenerator = new Random();
-		int random = randomGenerator.nextInt(4);
+		int random = new Random().nextInt(4);
 		switch (random){
 			case 0:
 				return new Dwarf(this);

@@ -166,20 +166,19 @@ public class Updater {
                 }
             }
 
+        // ellenség-generálás
+        enemyGenerator.generateEnemies();
+
+        // 10%, hogy le/felszáll a köd
+        if (new Random().nextInt(100) < 10)
+            isFoggy = !isFoggy;
+
         // ha nincs több ellenség, akkor győzelem
         if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
             gameOver(true);
             log.add(new String("- Az utolsó ellenség is meghalt a [nr]. ciklusban, nyertél!"));
             return;
         }
-
-        // ellenség-generálás
-        enemyGenerator.generateEnemies();
-
-        // 10%, hogy le/felszáll a köd
-        int random = new Random().nextInt(100);
-        if (random < 10)
-            isFoggy = !isFoggy;
     }
 
     /**
