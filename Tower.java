@@ -65,7 +65,7 @@ public class Tower extends Construct {
 	 * @param rate ez a tuzgyorsasag uj erteke
 	 */
 	public void setFireRate(int rate) {
-		throw new UnsupportedOperationException();
+		fireRate = rate;
 	}
 
 	/**
