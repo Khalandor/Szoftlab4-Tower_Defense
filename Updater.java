@@ -146,8 +146,9 @@ public class Updater {
         // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
         for (Enemy e : enemies){
             Tile from = e.currentTile;
-            if (e.move()) {
-                log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
+            boolean lose = e.move();
+            log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
+            if (lose) {
                 gameOver(false);
                 log.add(new String("− A [nr]. ciklusban az " + e.getName() + " azonosítójú ellenség a végzet hegyére lépett, vesztettél!"));
             }
