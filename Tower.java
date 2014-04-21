@@ -8,6 +8,7 @@ public class Tower extends Construct {
 	public int range;
 	private FieldTile towerLocation;
 	public int shootParam = -1;
+	public int shootDelay;
 
 	/**
 	 * A Tower osztály konstruktora.
@@ -20,6 +21,7 @@ public class Tower extends Construct {
 		fireRate = 3;
 		rangeModifier = 1;
 		range = 3;
+		shootDelay = 3;
 	}
 	
 	
@@ -31,6 +33,12 @@ public class Tower extends Construct {
 	 * @return a meglőtt ellenség
 	 */
 	public Enemy shoot() {
+		if (shootParam == -1) {
+			shootDelay--;
+			if (shootDelay > 0) return null;
+			else shootDelay = fireRate;
+		}
+		
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
 		Random rand = new Random();
@@ -40,9 +48,9 @@ public class Tower extends Construct {
 			if (tilesInRange.get(i) != null) {
 				target = tilesInRange.get(i).getEnemy();
 			}
-			if (target == null && i == tilesInRange.size() - 1) {
-				return null;
-			}
+		}
+		if (target == null) {
+			return null;
 		}
 		int damageBonus=0;
 		if (gem!=null)

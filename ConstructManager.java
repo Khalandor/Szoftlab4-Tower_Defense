@@ -64,7 +64,7 @@ public class ConstructManager {
 					construct.setMagicGem(gem);
 				}
 				if(type.equals("firerate")) {
-					((Tower)construct).setFireRate(10);
+					((Tower)construct).setFireRate(2);
 					construct.setMagicGem(gem);
 				}
 				if(type.equals("elf") || type.equals("hobbit") || type.equals("dwarf") || type.equals("human")) {

@@ -182,9 +182,9 @@ public class Updater {
         // ellenség-generálás
         enemyGenerator.generateEnemies();
 
-        // 10%, hogy le/felszáll a köd
+        /*// 10%, hogy le/felszáll a köd
         if (new Random().nextInt(100) < 10)
-            isFoggy = !isFoggy;
+            isFoggy = !isFoggy;*/
 
         // ha nincs több ellenség, akkor győzelem
         if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
@@ -212,4 +212,5 @@ public class Updater {
                 aliveEnemies.add(e);
         }
         enemies = aliveEnemies;
+    }
 }

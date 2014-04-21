@@ -119,14 +119,20 @@ public class PrototypeController {
 	}
 
 	private static void simulate(String count) {
-		for (int i = 0; i < Integer.parseInt(count); i++) {
+		ArrayList<String> output = new ArrayList<String>();
+		int i;
+		for (i = 0; i < Integer.parseInt(count); i++) {
 			updater.update();
 			for (String message : updater.log) {
 				message = message.replace("[nr]", Integer.toString(i+1)); //behelyettesítjük az aktuális ciklusszámot
-				println(message);
+				output.add(message);
 			}
 			updater.log.clear();
 			if (updater.result.equals("win") || updater.result.equals("lose")) break; //kilépünk a ciklusból, ha a játék véget ért
+		}
+		println("A szimuláció véget ért. "+(i+1)+" ciklus futott le!");
+		for (String out : output) {
+			println(out);
 		}
 	}
 
@@ -174,7 +180,6 @@ public class PrototypeController {
 	}
 
 	private static void shoot(String towerID, String critical) {
-		//TODO egyáltalán nincs megvalósítva a Tower-ben a felező lövés
 		int shootParam = 0;
 		if (critical!=null) {
 			shootParam = Integer.parseInt(critical);
@@ -208,7 +213,6 @@ public class PrototypeController {
 				}
 
 				updater.removeDeadEnemies();
-				println();
 			} else {
 				println(towerID+" nem lőtt, mert nem talált ellenséget.");
 			}
@@ -293,8 +297,6 @@ public class PrototypeController {
 
 	private static void addNextTile(String srcID, String destID) {
 		println("Hozzáadtad a "+srcID+" azonosítójú útcsempéből elérhető útcsempékhez a "+destID+" csempét.");
-		//int src = Integer.parseInt(srcID.substring(1));
-		//int dest = Integer.parseInt(destID.substring(1));
 		PathTile srcTile = null;
 		for (Tile t : tilesOnMap) {
 			if (t.getName().equals(srcID)) {
@@ -305,7 +307,7 @@ public class PrototypeController {
 		Tile destTile = null;
 		for (Tile t : tilesOnMap) {
 			if (t.getName().equals(destID)) {
-				destTile = (PathTile) t;
+				destTile = (Tile) t;
 				break;
 			}
 		}
@@ -368,7 +370,7 @@ public class PrototypeController {
 				print("\tTüzelésiSebesség: "+tower.fireRate);
 				print("\tHatótáv: "+tower.range);
 				print("\tHatótávSzorzó: "+tower.rangeModifier);
-				println("\tKövetkezőLövés: ");
+				println("\tKövetkezőLövés: "+tower.shootDelay+" ciklus");
 			}
 		}
 		
@@ -454,7 +456,7 @@ public class PrototypeController {
 	}
 
 	private static void loadCommandFile(String fileName) throws Exception {
-		outToFile = false;
+		outToFile = true;
 		String temp[] = fileName.split(".txt"); 
 		writer = new PrintWriter(temp[0]+"_output.txt");
 		FileInputStream in = new FileInputStream(fileName);
