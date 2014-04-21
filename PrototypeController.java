@@ -119,7 +119,7 @@ public class PrototypeController {
 		} else println("Nincs ilyen típusú ellenség!");
 	}
 
-	private static void simulate(String count) { //idővel ez is el fog készülni
+	private static void simulate(String count) {
 		for (int i = 0; i < Integer.parseInt(count); i++) {
 			updater.update();
 			for (String message : updater.log) {
