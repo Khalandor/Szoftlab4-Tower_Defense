@@ -20,19 +20,19 @@ setMana <value>
 	Beállítja a mana mennyiségét a megadott értékre.
 	-value: a kínánt mana mennyiség
 
-Build <tileID> <type> <costsMana>
+build <tileID> <type> <costsMana>
 	Hozzáadja a megadott típusú épületet a megadott azonosítójú cellához. Megadja, hogy milyen sorszámmal érhető el ezután a torony.
 	-tileID: a csempe azonosítója, melyre építünk
 	-type: az épület típusa (tower vagy barricade)
 	-costsMana: kapcsoló, hogy az építés kerüljön-e varázserőbe. 1 esetén kerül	varázserőbe, 0 esetén nem
 
-Upgrade <constructID> <gemType> <costsMana>
+upgrade <constructID> <gemType> <costsMana>
 	Behelyezi a megadott típusú varázskövet a megadott azonosítójú épületbe.
 	-constructID: az épület azonosítója, melyet varázskővel látunk el
 	-gemType: a varázskő típusa
 	-costsMana: kapcsoló, hogy az építés kerüljön-e varázserőbe. 1 esetén kerül 				varázserőbe, 0 esetén nem
 
-Shoot  <tower> <critical>
+shoot  <tower> <critical>
 	A megnevezett torony lő. A critical paraméter dönti el, hogy a lövés felező lövés-e.
 	-tower: a torony azonosítója, melyet lövésre utasítunk
 	-critical: A lövés fajtáját adja meg. Ha ‘0’, akkor nem felező, ha ‘1’, akkor felező. Hiányzó vagy ettől eltérő érték esetén véletlenszerűen dől el.

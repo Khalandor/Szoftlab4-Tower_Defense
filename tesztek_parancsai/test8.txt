@@ -7,4 +7,4 @@ build T2 tower 0
 addEnemy T0 elf
 setRemainingEnemies 0
 setMana 0
-simulate 1
+simulate 3
