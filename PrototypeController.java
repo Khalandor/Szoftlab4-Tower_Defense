@@ -85,7 +85,6 @@ public class PrototypeController {
 
 
 	private static void println(String output) {
-		outToFile = false;
 		if (!outToFile)	System.out.println(output);
 		else {
 			writer.println(output);
@@ -93,7 +92,6 @@ public class PrototypeController {
 	}
 	
 	private static void print(String output) {
-		outToFile = false;
 		if (!outToFile)	System.out.print(output);
 		else {
 			writer.print(output);
@@ -101,7 +99,6 @@ public class PrototypeController {
 	}
 	
 	private static void println() {
-		outToFile = false;
 		if (!outToFile)	System.out.println();
 		else {
 			writer.println();
