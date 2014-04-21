@@ -6,7 +6,7 @@ public class Dwarf extends Enemy {
 	
 	public Dwarf(EnemyGenerator enemyGenerator) {
 		super(enemyGenerator);
-		this.type = "Dwarf";
+		this.type = "dwarf";
 		this.health = 80;
 		this.manaValue = 8;
 		this.speed = 6;

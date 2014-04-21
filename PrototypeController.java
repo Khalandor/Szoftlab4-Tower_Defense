@@ -69,7 +69,9 @@ public class PrototypeController {
 		} else if (parts[0].equals("upgrade")) {
 			upgrade(parts[1], parts[2], parts[3]);
 		} else if (parts[0].equals("shoot")) {
-			shoot(parts[1], parts[2]);
+			String param = null;
+			if (parts.length > 2) param = parts[2];
+			shoot(parts[1], param);
 		} else if (parts[0].equals("generatePaths")) {
 			generatePaths();
 		} else if (parts[0].equals("setRemainingEnemies")) {
@@ -173,8 +175,13 @@ public class PrototypeController {
 
 	private static void shoot(String towerID, String critical) {
 		//TODO egyáltalán nincs megvalósítva a Tower-ben a felező lövés
-		int shootParam = Integer.parseInt(critical);
-		if (shootParam!=0 && shootParam!=1) {
+		int shootParam = 0;
+		if (critical!=null) {
+			shootParam = Integer.parseInt(critical);
+			if (shootParam!=0 && shootParam!=1) {
+				shootParam = (int) ((Math.random() % 2) - 1);
+			}
+		} else {
 			shootParam = (int) ((Math.random() % 2) - 1);
 		}
 		int target = Integer.parseInt(towerID.substring(1));
@@ -183,22 +190,21 @@ public class PrototypeController {
 			println("A megadott torony nem létezik.");
 		} else {
 			Tower tower = (Tower) updater.constructs.get(target);
+			tower.shootParam = shootParam; //lövés paraméterezése
 			Enemy targetEnemy = tower.shoot();
 			
 			if (targetEnemy!=null) {
 				String enemyID = targetEnemy.getName();
-				int demage = tower.damage;	//a torony sebzése
-				if (tower.gem!=null) demage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
-
-				tower.shootParam = shootParam;
-				tower.shoot();
-				
+				int damage = tower.damage;	//a torony sebzése
+				if (tower.gem!=null) damage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
 				print(towerID+" lőtt, "+enemyID+" azonosítójú ellenségre, ");
-				if (shootParam == 1) print("felező lövéssel, ");	//ha felező lövést adtunk le
-				print("levéve tőle "+demage+" életerőt.");
+				
 				if (shootParam == 1) {
 					Enemy newEnemy = updater.enemies.get(updater.enemies.size()-1);
+					print("felező lövéssel, levéve tőle "+targetEnemy.getHealth()+" életerőt. ");
 					print("Létrejött "+newEnemy.getName()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
+				} else {
+					print("levéve tőle "+damage+" életerőt.");
 				}
 
 				updater.removeDeadEnemies();

@@ -5,7 +5,7 @@ public class Human extends Enemy {
 	 */
 	public Human(EnemyGenerator enemyGenerator) {
 		super(enemyGenerator);
-		this.type = "Human";
+		this.type = "human";
 		this.health = 50;
 		this.manaValue = 7;
 		this.speed = 3;

@@ -44,27 +44,27 @@ public class Tower extends Construct {
 				return null;
 			}
 		}
-		
+		int damageBonus=0;
 		if (gem!=null)
 		{
 			String type = target.getType();
-			gem.getDamageBonus(type);
+			damageBonus = gem.getDamageBonus(type);
 		};
 		
 		
 		switch (shootParam)
 		{
-		case 1  : target.damage(damage);
-				  target.damageHalf();
+		case 1  : target.damageHalf();
 				  break;				 		
 		
-		case 0  : target.damage(damage);
+		case 0  : target.damage(damage+damageBonus);
 				  break;
 		
-		case -1 : if (rand.nextInt(10) < 5)
-				  {target.damage(damage); target.damageHalf();}
-				  else
-				  {target.damage(damage);}
+		case -1 : if (rand.nextInt(10) < 5)	  {
+						target.damageHalf();
+						} else {
+						target.damage(damage+damageBonus);
+					}
 				  break;
 		}
 		
