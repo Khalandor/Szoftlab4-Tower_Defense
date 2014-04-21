@@ -199,14 +199,17 @@ public class Updater {
      */
     public void removeDeadEnemies()
     {
+        ArrayList<Enemy> aliveEnemies = new ArrayList<Enemy>();
+
         for (Enemy e : enemies)
         {
             if (e.getHealth() <= 0)
             {
                 mana.increase(e.getManaValue());
                 ((PathTile)e.getTile()).removeEnemy(e);
-                enemies.remove(e);
             }
+            else
+                aliveEnemies.add(e);
         }
-    }
+        enemies = aliveEnemies;
 }
