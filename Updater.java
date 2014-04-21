@@ -151,23 +151,33 @@ public class Updater {
         }
 
         // minden torony lő, a halott ellenséget törli
-        for (Construct c : constructs)
-            if (c.getType().equals("Tower"))
-            {
+        for (Construct c : constructs) {
+            if (c.getType().equals("Tower")) {
+                ArrayList<Enemy> enemiesBeforeShoot = enemies;
                 Enemy shotEnemy = ((Tower) c).shoot();
-                if (shotEnemy != null)
-                {
-                    if (shotEnemy.getHealth() <= 0)
-                    {
+
+                // ha a torony eltalál valakit
+                if (shotEnemy != null) {
+                    // ha az ellenség belehal a lövésbe, megkapjuk a manat, töröljük a listából és a celláról, logoljuk.
+                    if (shotEnemy.getHealth() <= 0) {
                         log.add(new String("- A(z) [nr]. ciklusban lőtt a C" + getConstructNr(c) + " azonosítójú torony az " +
                                 shotEnemy.getName() + " ellenségre, mely meghalt, így a varázserőd " +
                                 shotEnemy.getManaValue() + "-al nőtt."));
                         mana.increase(shotEnemy.getManaValue());
-                        ((PathTile)shotEnemy.getTile()).removeEnemy(shotEnemy);
+                        ((PathTile) shotEnemy.getTile()).removeEnemy(shotEnemy);
                         enemies.remove(shotEnemy);
                     }
                 }
+
+                // ellenőrzi, hogy felező lövés volt-e (született-e új ellenség hoz létre)
+                if (enemies.size() > enemiesBeforeShoot.size()){
+                    log.add(new String("C" + getConstructNr(c) +" lőtt, " +
+                            shotEnemy.getName() + " azonosítójú ellenségre, felező lövéssel, levéve tőle " +
+                            shotEnemy.getHealth() + " életerőt."));
+                    log.add(new String("Létrejött " + enemies.get(enemies.size()-1).getName() + " ellenség."));
+                }
             }
+        }
 
         // ellenség-generálás
         enemyGenerator.generateEnemies();
