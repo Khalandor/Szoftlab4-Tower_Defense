@@ -204,7 +204,7 @@ public class PrototypeController {
 					print("felező lövéssel, levéve tőle "+targetEnemy.getHealth()+" életerőt. ");
 					print("Létrejött "+newEnemy.getName()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
 				} else {
-					print("levéve tőle "+damage+" életerőt.");
+					println("levéve tőle "+damage+" életerőt.");
 				}
 
 				updater.removeDeadEnemies();
@@ -230,7 +230,8 @@ public class PrototypeController {
 			if (costsMana.equals("0")) updater.mana.increase(constructManager.costs.get(gemType)); //nem nem akarunk fizetni érte, akkor itt pont az árnak megfelelő értékkel növeli a varázserőt, amit rögtön utána csökkent is
 			constructManager.upgrade(gemType, targetConstruct);
 			print(constructID+" épületbe "+gemType+" varázskövet tettél. ");
-			if (costsMana.equals("1")) println(constructManager.costs.get(gemType) + " varázserőbe került.");
+			if (costsMana.equals("1")) print(constructManager.costs.get(gemType) + " varázserőbe került.");
+			println();
 		}
 	}
 
