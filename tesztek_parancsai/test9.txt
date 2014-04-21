@@ -3,6 +3,6 @@ addPathTile 1 0
 addPathTile 1 1
 addNextTile T0 T1
 addFieldTile 0 1
-build T0 tower 0
+build T2 tower 0
 addEnemy T1 dwarf
-Shoot C1 1
+shoot C0 1

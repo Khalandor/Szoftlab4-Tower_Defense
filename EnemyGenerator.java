@@ -96,7 +96,7 @@ public class EnemyGenerator {
 	 * Lemásolja a paraméterül kapott ellenséget a paraméterül kapott csempére
 	 */
 	public void duplicateEnemy(Enemy enemy, PathTile pathTile) {
-        Enemy clonedEnemy = addEnemy(pathTile, enemy.getType()); // ugyanolyan típusú ellenség létrehozása
+        Enemy clonedEnemy = addEnemy(pathTile, enemy.getType().toLowerCase()); // ugyanolyan típusú ellenség létrehozása
 		clonedEnemy.setHealth(enemy.getHealth());	//azonos Health
 	}
 
