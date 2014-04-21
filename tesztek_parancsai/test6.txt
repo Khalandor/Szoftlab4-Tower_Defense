@@ -9,4 +9,3 @@ build T1 barricade 0
 move E0
 move E0
 move E0
-move E0

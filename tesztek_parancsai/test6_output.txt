@@ -1,0 +1,11 @@
+Sikeresen létrejött az 3, 3 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú út csempét az 1, 0 helyre.
+Sikeresen hozzáadtad a T1 azonosítójú út csempét az 1, 1 helyre.
+Sikeresen hozzáadtad a T2 azonosítójú út csempét az 1, 2 helyre.
+Hozzáadtad a T0 azonosítójú útcsempéből elérhető útcsempékhez a T1 csempét.
+Hozzáadtad a T1 azonosítójú útcsempéből elérhető útcsempékhez a T2 csempét.
+Sikeresen létrehoztad az E0 azonosítójú "elf" típusú ellenséget a T0 csempén.
+T1 csempére barricade épült. 
+E0 lépett T0-ről T1-re. T1-n akadály van, lelassult. Legközelebb 2 szimulációs ciklus után lépne.
+E0 moveDelay értéke egyel csökkent.
+E0 lépett T1-ről T2-re. Legközelebb 1 szimulációs ciklus után lépne.

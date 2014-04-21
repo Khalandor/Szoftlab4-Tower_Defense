@@ -1,0 +1,8 @@
+Sikeresen létrejött az 2, 2 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú út csempét az 1, 0 helyre.
+Sikeresen hozzáadtad a T1 azonosítójú út csempét az 1, 1 helyre.
+Hozzáadtad a T0 azonosítójú útcsempéből elérhető útcsempékhez a T1 csempét.
+Sikeresen hozzáadtad a T2 azonosítójú terep csempét az 0, 1 helyre.
+T2 csempére tower épült. 
+Sikeresen létrehoztad az E0 azonosítójú "dwarf" típusú ellenséget a T1 csempén.
+C0 lőtt, E0 azonosítójú ellenségre, felező lövéssel, levéve tőle 40 életerőt. Létrejött E1 ellenség.

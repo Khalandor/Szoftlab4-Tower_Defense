@@ -1,0 +1,36 @@
+Sikeresen létrejött az 2, 2 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú terep csempét az 0, 0 helyre.
+Sikeresen hozzáadtad a T1 azonosítójú terep csempét az 0, 1 helyre.
+T0 csempére tower épült. 
+Pálya: 2x2
+Csempék:
+	T0 FieldTile	x: 0 y: 0
+	T1 FieldTile	x: 0 y: 1
+Épületek:
+	C0 Tower	Hely: T0	Kő: 	Sebzés: 20	TüzelésiSebesség: 3	Hatótáv: 3	HatótávSzorzó: 1.0	KövetkezőLövés: 3 ciklus
+Ellenségek:
+Varázserő: 0	LegenerálhatóEllenségek: 30	LegközelebbiGenerálás: 999
+Köd: nem
+
+Köd bekapcsolva. Az összes torony hatótávja 0.7-szeresére csökkent.
+Pálya: 2x2
+Csempék:
+	T0 FieldTile	x: 0 y: 0
+	T1 FieldTile	x: 0 y: 1
+Épületek:
+	C0 Tower	Hely: T0	Kő: 	Sebzés: 20	TüzelésiSebesség: 3	Hatótáv: 3	HatótávSzorzó: 0.7	KövetkezőLövés: 3 ciklus
+Ellenségek:
+Varázserő: 0	LegenerálhatóEllenségek: 30	LegközelebbiGenerálás: 999
+Köd: igen
+
+Köd kikapcsolva. Az összes torony hatótávja eredeti értékre állt vissza.
+Pálya: 2x2
+Csempék:
+	T0 FieldTile	x: 0 y: 0
+	T1 FieldTile	x: 0 y: 1
+Épületek:
+	C0 Tower	Hely: T0	Kő: 	Sebzés: 20	TüzelésiSebesség: 3	Hatótáv: 3	HatótávSzorzó: 1.0	KövetkezőLövés: 3 ciklus
+Ellenségek:
+Varázserő: 0	LegenerálhatóEllenségek: 30	LegközelebbiGenerálás: 999
+Köd: nem
+

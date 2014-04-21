@@ -1,0 +1,13 @@
+Sikeresen létrejött az 2, 2 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú út csempét az 1, 1 helyre.
+A varázserő sikeresen beállítva 50 értékre!
+T0 csempére barricade épült. 30 varázserőbe került.
+Pálya: 2x2
+Csempék:
+	T0 PathTile	x: 1 y: 1	Szomszéd Csempék:	Start: false
+Épületek:
+	C0 Barricade	Hely: T0	Kő: 	LassításMértéke: 1
+Ellenségek:
+Varázserő: 20	LegenerálhatóEllenségek: 30	LegközelebbiGenerálás: 999
+Köd: nem
+

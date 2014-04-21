@@ -1,0 +1,22 @@
+Sikeresen létrejött az 4, 4 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú terep csempét az 0, 0 helyre.
+Sikeresen hozzáadtad a T1 azonosítójú végzet hegye csempét az 0, 1 helyre.
+Sikeresen hozzáadtad a T2 azonosítójú terep csempét az 0, 2 helyre.
+Sikeresen hozzáadtad a T3 azonosítójú terep csempét az 0, 3 helyre.
+Sikeresen hozzáadtad a T4 azonosítójú terep csempét az 1, 0 helyre.
+Sikeresen hozzáadtad a T5 azonosítójú út csempét az 1, 1 helyre.
+Sikeresen hozzáadtad a T6 azonosítójú terep csempét az 1, 2 helyre.
+Sikeresen hozzáadtad a T7 azonosítójú terep csempét az 1, 3 helyre.
+Sikeresen hozzáadtad a T8 azonosítójú terep csempét az 2, 0 helyre.
+Sikeresen hozzáadtad a T9 azonosítójú út csempét az 2, 1 helyre.
+Sikeresen hozzáadtad a T10 azonosítójú út csempét az 2, 2 helyre.
+Sikeresen hozzáadtad a T11 azonosítójú terep csempét az 2, 3 helyre.
+Sikeresen hozzáadtad a T12 azonosítójú terep csempét az 3, 0 helyre.
+Sikeresen hozzáadtad a T13 azonosítójú terep csempét az 3, 1 helyre.
+Sikeresen hozzáadtad a T14 azonosítójú út csempét az 3, 2 helyre.
+Sikeresen hozzáadtad a T15 azonosítójú terep csempét az 3, 3 helyre.
+Sikeresen beállítottad a T14 azonosítójú útcsempét kezdőcsempének.
+Hozzáadtad a T14 azonosítójú útcsempéből elérhető útcsempékhez a T10 csempét.
+Hozzáadtad a T10 azonosítójú útcsempéből elérhető útcsempékhez a T9 csempét.
+Hozzáadtad a T9 azonosítójú útcsempéből elérhető útcsempékhez a T5 csempét.
+Hozzáadtad a T5 azonosítójú útcsempéből elérhető útcsempékhez a T1 csempét.

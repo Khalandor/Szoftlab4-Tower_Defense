@@ -1,0 +1,14 @@
+Sikeresen létrejött az 2, 2 méretű pálya!
+Sikeresen hozzáadtad a T0 azonosítójú terep csempét az 1, 1 helyre.
+A varázserő sikeresen beállítva 50 értékre!
+T0 csempére tower épült. 
+C0 épületbe range varázskövet tettél. 20 varázserőbe került.
+Pálya: 2x2
+Csempék:
+	T0 FieldTile	x: 1 y: 1
+Épületek:
+	C0 Tower	Hely: T0	Kő: range	Sebzés: 20	TüzelésiSebesség: 3	Hatótáv: 20	HatótávSzorzó: 1.0	KövetkezőLövés: 3 ciklus
+Ellenségek:
+Varázserő: 30	LegenerálhatóEllenségek: 30	LegközelebbiGenerálás: 999
+Köd: nem
+
