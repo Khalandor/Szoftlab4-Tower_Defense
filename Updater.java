@@ -146,7 +146,8 @@ public class Updater {
             if (from != e.currentTile)
                 log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
             else
-                log.add("- A(z) [nr]. ciklusban nem tudott lépni az " + e.getName() + "azonosítójú ellenség a " + from.getName() + " celláról.");
+                log.add("- A(z) [nr]. ciklusban nem tudott lépni az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról.");
+
             if (lose) {
                 gameOver(false);
                 log.add(new String("− A [nr]. ciklusban az " + e.getName() + " azonosítójú ellenség a végzet hegyére lépett, vesztettél!"));
