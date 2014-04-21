@@ -82,6 +82,8 @@ public class PrototypeController {
 			simulate(parts[1]);
 		} else if (parts[0].equals("addEnemy")) {
 			addEnemy(parts[1], parts[2]);
+		} else {
+			System.out.println("Nincs ilyen parancs!");
 		}
 	}
 
@@ -168,7 +170,7 @@ public class PrototypeController {
 		println(value+" számú ellenség vár még a legenerálásra!");
 	}
 
-	private static void generatePaths() { //ez sincs kész, kellenek még metódusok a pathGenerator osztályba
+	private static void generatePaths() { //a pathGenerator nincs megvalósítva, ezért ez a parancs nem működik
 		boolean sikeres = false;
 		if (sikeres) {
 			print("Az útvonalak létrehozása sikeres. Kezdőcsempeként használható útcsempék a");
@@ -224,8 +226,9 @@ public class PrototypeController {
 		if (target >= updater.constructs.size() || target < 0) {
 			println("A megadott épület nem létezik.");
 			return;
-		} else if (updater.constructs.get(target).type.equals("Barricade") && !gemType.equals("slow")) { //lehet ilyen épületbe ilyen követ tenni?
-			//TODO itt elég ha csak azt szűröm, hogy barricade-be akarunk-e pakolni és ha igen, de az nem slow, akkor garantált rossz?
+		} else if (updater.constructs.get(target).type.equals("Barricade") && !gemType.equals("slow")) {
+			println("A "+gemType+" varázskő nem helyezhető a "+constructID+" azonosítójú épületbe.");
+		} else if (updater.constructs.get(target).type.equals("Tower") && gemType.equals("slow")) {
 			println("A "+gemType+" varázskő nem helyezhető a "+constructID+" azonosítójú épületbe.");
 		} else if (costsMana.equals("1") && !updater.mana.hasEnough(constructManager.costs.get(gemType))) {
 			println("Nincs elég varázserőd "+gemType+" vásárlására!");
@@ -242,10 +245,13 @@ public class PrototypeController {
 	private static void build(String tileID, String type, String costsMana) { 
 		int target = Integer.parseInt(tileID.substring(1));
 		type = type.toLowerCase();
+		if (target >= tilesOnMap.size()) {
+			println("A megadott csempére nem helyezhető el az épület.");
+			return;
+		}
 		if (!(tilesOnMap.get(target).getType().equals("FieldTile") && type.equals("tower")) && 
 				!(tilesOnMap.get(target).getType().equals("PathTile") && type.equals("barricade"))) {
 			println("A megadott csempére nem helyezhető el az épület.");
-			//TODO lehet ide be lehetne venni azt az esetet is, amikor nem létező csempét jelölünk ki
 		} else {
 			if ((costsMana.equals("1") && updater.mana.hasEnough(constructManager.costs.get(type))) || costsMana.equals("0")) {
 				if (type.equals("tower")) {
