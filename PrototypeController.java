@@ -13,7 +13,7 @@ public class PrototypeController {
 	private static int mapSizeY;
 	private static boolean endTile;
 	private static ArrayList<Tile> tilesOnMap = new ArrayList<Tile>();
-	private static ArrayList<Construct> constructsOnMap = new ArrayList<Construct>();
+	//private static ArrayList<Construct> constructsOnMap = new ArrayList<Construct>();
 	private static boolean outToFile = false;
 	private static PrintWriter writer = null;
 	
@@ -120,40 +120,15 @@ public class PrototypeController {
 	}
 
 	private static void simulate(String count) { //idővel ez is el fog készülni
-		int i;
-		for (i = 0; i < Integer.parseInt(count); i++) {
+		for (int i = 0; i < Integer.parseInt(count); i++) {
 			updater.update();
 			for (String message : updater.log) {
-				message = message.replace("[nr]",i+". ");
+				message = message.replace("[nr]", Integer.toString(i+1)); //behelyettesítjük az aktuális ciklusszámot
 				println(message);
 			}
 			updater.log.clear();
+			if (updater.result.equals("win") || updater.result.equals("lose")) break; //kilépünk a ciklusból, ha a játék véget ért
 		}
-		println("A szimuláció véget ért. "+ count +" ciklus futott le!");
-		//ide sön a shitstorm
-		
-		if (updater.result.equals("win")){
-            println("Az utolsó ellenség is meghalt a " + i + ". ciklusban, nyertél!");
-        }
-        else if (updater.result.equals("lose")){
-           println("Egy ellenség elérte a Végzet Hegyét a " + i + ". ciklusban, vesztettél!");
-        }
-		/*
-		1.	A szimuláció véget ért. <count> ciklus futott le!
-		2.	A szimuláció véget ért. <count> ciklus futott le!
-		−	A(z) 1. ciklusban generálódott az E1 azonosítójú ellenség. 
-		−	A(z) 5. ciklusban generálódott az E2 azonosítójú ellenség.
-		
-		3.	A szimuláció véget ért. <count> ciklus futott le!
-		−	A(z) 3. ciklusban lépett az E5 azonosítójú ellenség a T1 celláról a T2-re. 
-		−	A 3. ciklusban az E5 azonosítójú ellenség a végzet hegyére lépett, vesztettél!
-		
-		4.	A szimuláció véget ért. <count> ciklus futott le!
-		−	A(z) 1. ciklusben generálódott az E4 azonosítójú ellenség.
-		−	A(z) 3. ciklusban lőtt a T1 azonosítójú torony az E4 ellenségre, levéve tőle 15 életerőt.
-		−	A(z) 3. ciklusban lőtt a T2 azonosítójú torony az E4 ellenségre, mely meghalt, így a varázserőd 6-tal nőtt.
-		−	Az utolsó ellenség is meghalt a 2. ciklusban, nyertél!
-		 */
 	}
 
 	private static void move(String enemyID) {
@@ -202,10 +177,10 @@ public class PrototypeController {
 	private static void shoot(String towerID, String critical) {
 		//TODO egyáltalán nincs megvalósítva a Tower-ben a felező lövés
 		int target = Integer.parseInt(towerID.substring(1));
-		if (target >= constructsOnMap.size() || target < 0 || !constructsOnMap.get(target).getType().equals("Tower")) {
+		if (target >= updater.constructs.size() || target < 0 || !updater.constructs.get(target).getType().equals("Tower")) {
 			println("A megadott torony nem létezik.");
 		} else {
-			Tower tower = (Tower) constructsOnMap.get(target);
+			Tower tower = (Tower) updater.constructs.get(target);
 			Enemy targetEnemy = tower.shoot();
 			if (targetEnemy!=null) {
 				String enemyID = targetEnemy.getName();
@@ -228,16 +203,16 @@ public class PrototypeController {
 
 	private static void upgrade(String constructID, String gemType, String costsMana) { //ki tudja, hogy melyik kő mibe mehet?
 		int target = Integer.parseInt(constructID.substring(1));
-		if (target >= constructsOnMap.size() || target < 0) {
+		if (target >= updater.constructs.size() || target < 0) {
 			println("A megadott épület nem létezik.");
 			return;
-		} else if (constructsOnMap.get(target).type.equals("Barricade") && !gemType.equals("slow")) { //lehet ilyen épületbe ilyen követ tenni?
+		} else if (updater.constructs.get(target).type.equals("Barricade") && !gemType.equals("slow")) { //lehet ilyen épületbe ilyen követ tenni?
 			//TODO itt elég ha csak azt szűröm, hogy barricade-be akarunk-e pakolni és ha igen, de az nem slow, akkor garantált rossz?
 			println("A "+gemType+" varázskő nem helyezhető a "+constructID+" azonosítójú épületbe.");
 		} else if (costsMana.equals("1") && !updater.mana.hasEnough(constructManager.costs.get(gemType))) {
 			println("Nincs elég varázserőd "+gemType+" vásárlására!");
 		} else {
-			Construct targetConstruct = constructsOnMap.get(target);
+			Construct targetConstruct = updater.constructs.get(target);
 			if (costsMana.equals("0")) updater.mana.increase(constructManager.costs.get(gemType)); //nem nem akarunk fizetni érte, akkor itt pont az árnak megfelelő értékkel növeli a varázserőt, amit rögtön utána csökkent is
 			constructManager.upgrade(gemType, targetConstruct);
 			print(constructID+" épületbe "+gemType+" varázskövet tettél. ");
@@ -257,13 +232,13 @@ public class PrototypeController {
 				if (type.equals("tower")) {
 					Tower tower = new Tower((FieldTile) tilesOnMap.get(target));
 					tilesOnMap.get(target).addConstruct(tower);
-					constructsOnMap.add(tower);
+					updater.constructs.add(tower);
 				} else if (type.equals("barricade")) {
 					Barricade barricade = new Barricade();
 					tilesOnMap.get(target).addConstruct(barricade);
-					constructsOnMap.add(barricade);
+					updater.constructs.add(barricade);
 				}
-				updater.constructs = constructsOnMap;
+				updater.constructs = updater.constructs;
 				print(tileID+" csempére "+type+" épült. ");
 				if (costsMana.equals("1")) {
 					println(constructManager.costs.get(type)+" varázserőbe került.");
@@ -359,21 +334,21 @@ public class PrototypeController {
 		}
 		
 		println("Épületek:"); //épületek listázása
-		for (int i = 0; i < constructsOnMap.size(); i++) {
-			print("\tC" + i + " " + constructsOnMap.get(i).getType()); //név és típus kiírása
+		for (int i = 0; i < updater.constructs.size(); i++) {
+			print("\tC" + i + " " + updater.constructs.get(i).getType()); //név és típus kiírása
 			
 			int where=0;
-			while (tilesOnMap.get(where).getConstruct()!=constructsOnMap.get(i)) { //megkeressük, hogy az épüle melyik csempén van
+			while (tilesOnMap.get(where).getConstruct()!=updater.constructs.get(i)) { //megkeressük, hogy az épüle melyik csempén van
 				where++;
 			}
 			print("\tHely: T"+where); //hely kiírása
 			print("\tKő: ");
-			if (constructsOnMap.get(i).gem != null) print(constructsOnMap.get(i).gem.type); //ha van benne kő, akkor kiírjuk, hogy milyen
+			if (updater.constructs.get(i).gem != null) print(updater.constructs.get(i).gem.type); //ha van benne kő, akkor kiírjuk, hogy milyen
 			
-			if (constructsOnMap.get(i).getType().equals("Barricade")) { //ha akadály
-				println("\tLassításMértéke: "+((Barricade) constructsOnMap.get(i)).getSpeedModifier());
-			} else if (constructsOnMap.get(i).getType().equals("Tower")) { //ha torony
-				Tower tower = (Tower) constructsOnMap.get(i);
+			if (updater.constructs.get(i).getType().equals("Barricade")) { //ha akadály
+				println("\tLassításMértéke: "+((Barricade) updater.constructs.get(i)).getSpeedModifier());
+			} else if (updater.constructs.get(i).getType().equals("Tower")) { //ha torony
+				Tower tower = (Tower) updater.constructs.get(i);
 				print("\tSebzés: "+tower.damage);
 				print("\tTüzelésiSebesség: "+tower.fireRate);
 				print("\tHatótáv: "+tower.range);
