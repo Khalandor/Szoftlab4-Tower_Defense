@@ -136,13 +136,6 @@ public class Updater {
      * Ellenségek / tereptárgyak aktiválása
      */
     public void update(){
-
-        // ha nincs több ellenség, akkor győzelem
-        if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
-            gameOver(true);
-            log.add(new String("- Az utolsó ellenség is meghalt a [nr]. ciklusban, nyertél!"));
-        }
-
         // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
         for (Enemy e : enemies){
             Tile from = e.currentTile;
@@ -172,6 +165,13 @@ public class Updater {
                     }
                 }
             }
+
+        // ha nincs több ellenség, akkor győzelem
+        if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
+            gameOver(true);
+            log.add(new String("- Az utolsó ellenség is meghalt a [nr]. ciklusban, nyertél!"));
+            return;
+        }
 
         // ellenség-generálás
         enemyGenerator.generateEnemies();
