@@ -173,23 +173,34 @@ public class PrototypeController {
 
 	private static void shoot(String towerID, String critical) {
 		//TODO egyáltalán nincs megvalósítva a Tower-ben a felező lövés
+		int shootParam = Integer.parseInt(critical);
+		if (shootParam!=0 && shootParam!=1) {
+			shootParam = (int) ((Math.random() % 2) - 1);
+		}
 		int target = Integer.parseInt(towerID.substring(1));
+		
 		if (target >= updater.constructs.size() || target < 0 || !updater.constructs.get(target).getType().equals("Tower")) {
 			println("A megadott torony nem létezik.");
 		} else {
 			Tower tower = (Tower) updater.constructs.get(target);
 			Enemy targetEnemy = tower.shoot();
+			
 			if (targetEnemy!=null) {
 				String enemyID = targetEnemy.getName();
 				int demage = tower.damage;	//a torony sebzése
 				if (tower.gem!=null) demage += tower.gem.getDamageBonus(targetEnemy.getType()); //amennyiben van a toronyban varázskő, akkor módosítjuk a sebzést ennek megfelelően
+
+				tower.shootParam = shootParam;
+				tower.shoot();
+				
 				print(towerID+" lőtt, "+enemyID+" azonosítójú ellenségre, ");
-				if (critical.equals("1")) print("felező lövéssel, ");	//ha felező lövést adtunk le
+				if (shootParam == 1) print("felező lövéssel, ");	//ha felező lövést adtunk le
 				print("levéve tőle "+demage+" életerőt.");
-				if (critical.equals("1")) {	//ha felező lövést adtunk le
+				if (shootParam == 1) {
 					Enemy newEnemy = updater.enemies.get(updater.enemies.size()-1);
 					print("Létrejött "+newEnemy.getName()+" ellenség."); //visszaadjuk a listában a legutolsó ellenség IDjét, ez jött most létre
 				}
+
 				updater.removeDeadEnemies();
 				println();
 			} else {
@@ -436,7 +447,7 @@ public class PrototypeController {
 	}
 
 	private static void loadCommandFile(String fileName) throws Exception {
-		outToFile = true;
+		outToFile = false;
 		String temp[] = fileName.split(".txt"); 
 		writer = new PrintWriter(temp[0]+"_output.txt");
 		FileInputStream in = new FileInputStream(fileName);

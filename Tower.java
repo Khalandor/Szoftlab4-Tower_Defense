@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Tower extends Construct {
 	public int damage;
@@ -6,6 +7,7 @@ public class Tower extends Construct {
 	public double rangeModifier;
 	public int range;
 	private FieldTile towerLocation;
+	public int shootParam = -1;
 
 	/**
 	 * A Tower osztály konstruktora.
@@ -31,6 +33,7 @@ public class Tower extends Construct {
 	public Enemy shoot() {
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
+		Random rand = new Random();
 		
 		Enemy target = null;
 		for (int i = 0; i < tilesInRange.size() && target == null; i++) {
@@ -41,14 +44,31 @@ public class Tower extends Construct {
 				return null;
 			}
 		}
-				
+		
 		if (gem!=null)
 		{
 			String type = target.getType();
 			gem.getDamageBonus(type);
 		};
 		
-		target.damage(damage);
+		
+		switch (shootParam)
+		{
+		case 1  : target.damage(damage);
+				  target.damageHalf();
+				  break;				 		
+		
+		case 0  : target.damage(damage);
+				  break;
+		
+		case -1 : if (rand.nextInt(10) < 5)
+				  {target.damage(damage); target.damageHalf();}
+				  else
+				  {target.damage(damage);}
+				  break;
+		}
+		
+		shootParam = -1;
 		return target;
 	}
 
