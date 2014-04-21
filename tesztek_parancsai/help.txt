@@ -1,0 +1,92 @@
+loadCommandFile <filename>
+	Végrehajtja a paraméterben kapott fáljban (txt) kapott utasításokat.
+	-filename: a bemeneti fájl elérési útvonala és neve.
+
+beginWriteCommands <filename>
+	Fájlba menti az ez után kiadott parancsokat, egészen az endWriteCommands kulcsszóig.
+	-filename: a bemeneti fájl elérési útvonala és neve.
+
+help
+	Kiírja az összes parancsot.
+
+exit
+	Kilép a prototípusból.
+
+simulate <count>
+	Lefuttat count számú játékciklust.
+	-count: a futtatandó ciklusok száma
+
+setMana <value>
+	Beállítja a mana mennyiségét a megadott értékre.
+	-value: a kínánt mana mennyiség
+
+Build <tileID> <type> <costsMana>
+	Hozzáadja a megadott típusú épületet a megadott azonosítójú cellához. Megadja, hogy milyen sorszámmal érhető el ezután a torony.
+	-tileID: a csempe azonosítója, melyre építünk
+	-type: az épület típusa (tower vagy barricade)
+	-costsMana: kapcsoló, hogy az építés kerüljön-e varázserőbe. 1 esetén kerül	varázserőbe, 0 esetén nem
+
+Upgrade <constructID> <gemType> <costsMana>
+	Behelyezi a megadott típusú varázskövet a megadott azonosítójú épületbe.
+	-constructID: az épület azonosítója, melyet varázskővel látunk el
+	-gemType: a varázskő típusa
+	-costsMana: kapcsoló, hogy az építés kerüljön-e varázserőbe. 1 esetén kerül 				varázserőbe, 0 esetén nem
+
+Shoot  <tower> <critical>
+	A megnevezett torony lő. A critical paraméter dönti el, hogy a lövés felező lövés-e.
+	-tower: a torony azonosítója, melyet lövésre utasítunk
+	-critical: A lövés fajtáját adja meg. Ha ‘0’, akkor nem felező, ha ‘1’, akkor felező. Hiányzó vagy ettől eltérő érték esetén véletlenszerűen dől el.
+
+setFog <state>
+	Be- vagy kikapcsolja a ködöt.
+	-state: a köd állapota, 0: ki, 1:be
+
+createMap <x> <y>
+	Létrehoz egy (csempékben) megadott méretű, üres, téglalap alapú pályát. x*y 	csempe fér el egy pályán.
+	-x: a pálya vízszintes mérete
+	-y: a pálya függőleges mérete
+
+addFieldTile <x> <y>
+	Lehelyez egy “fieldTile” típusú cellát a pálya megadott helyére.
+	-x: a pálya vízszintes koordinátája
+	-y: a pálya függőleges koordinátája
+
+addPathTile <x> <y>
+	Lehelyez egy “pathTile” típusú cellát a pálya megadott helyére.
+	-x: a pálya vízszintes koordinátája
+	-y: a pálya függőleges koordinátája
+
+
+addEndTile <x> <y>
+	Lehelyez egy “endTile” típusú cellát a pálya megadott helyére.
+	-x: a pálya vízszintes koordinátája
+	-y: a pálya függőleges koordinátája
+
+
+addNextTile <sourceTileID> <destTileID>
+	Beállítja a megadott azonosítójú útvonal csempe után következő csempét. Többszöri hívás ugyanarra a csempére egy elágazást eredményez.
+	-sourceTileID: A kiinduló csempe azonosítója
+	-destTileID: A cél csempe azonosítója
+
+setStartTile <tileID>
+	Beállítja a megadott azonosítójú csempét kezdőcsempének, azaz a generateEnemies parancs erre a csempére le fogja tudni tenni az ellenséget.
+	-tileID: A csempe azonosítója, melyre a generateEnemies ellenséget tehet le
+
+getStatus
+	Kilistázza a játék összes objektumának állapotát. Ez egy teljes képet ad a program jelenlegi állásáról.
+	
+addEnemy <tileID> <type>
+	Hozzáad a játékhoz egy adott csempére egy adott fajtájú ellenséget.
+	-tileID: A csempe azonosítója, melyre az ellenséget tesszük le
+	-type: Létrehozott ellenség típusa
+
+setRemainingEnemies <value>
+	Beállítja a még játék végéig legenerálandó ellenségek számát.
+	-value: a hátralévő ellensége száma
+
+move <enemyID>
+	Meghívja az adott ellenségen a mozgás függvényét.
+	-enemyID: a mozgó ellenség azonosítója
+	
+generatePaths
+	Beállítja a pályán az útvonalakat.

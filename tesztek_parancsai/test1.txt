@@ -1,0 +1,1 @@
+loadCommandFile loadmap.txt

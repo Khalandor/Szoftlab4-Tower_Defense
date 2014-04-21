@@ -1,0 +1,5 @@
+createMap 2 2
+addFieldTile 1 1
+setMana 50
+build T0 tower 1
+getStatus
