@@ -132,6 +132,9 @@ public class Updater {
         return 9999;
     }
 
+    private int getConstructNr(Construct c){
+        return constructs.indexOf(c);
+    }
     /**
      * Ellenségek / tereptárgyak aktiválása
      */
@@ -156,7 +159,7 @@ public class Updater {
                 {
                     if (shotEnemy.getHealth() <= 0)
                     {
-                        log.add(new String("- A(z) [nr]. ciklusban lőtt a T" + getTowerNr((Tower)c) + " azonosítójú torony az " +
+                        log.add(new String("- A(z) [nr]. ciklusban lőtt a C" + getConstructNr(c) + " azonosítójú torony az " +
                                 shotEnemy.getName() + " ellenségre, mely meghalt, így a varázserőd " +
                                 shotEnemy.getManaValue() + "-al nőtt."));
                         mana.increase(shotEnemy.getManaValue());
