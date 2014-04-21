@@ -1,0 +1,8 @@
+createMap 2 2
+addFieldTile 0 0
+addPathTile 1 1
+build T0 tower 0
+upgrade C0 human 0
+addEnemy T1 human
+shoot C0 0
+shoot C0 0
