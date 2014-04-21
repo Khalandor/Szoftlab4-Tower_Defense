@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Updater {
@@ -143,7 +142,11 @@ public class Updater {
         for (Enemy e : enemies){
             Tile from = e.currentTile;
             boolean lose = e.move();
-            log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
+            // Vizsgálja a loghoz, hogy lépett-e az ellenség, és logolja.
+            if (from != e.currentTile)
+                log.add("- A(z) [nr]. ciklusban lépett az " + e.getName() + " azonosítójú ellenség a " + from.getName() + " celláról " + e.getTile().getName() + "-re.");
+            else
+                log.add("- A(z) [nr]. ciklusban nem tudott lépni az " + e.getName() + "azonosítójú ellenség a " + from.getName() + " celláról.");
             if (lose) {
                 gameOver(false);
                 log.add(new String("− A [nr]. ciklusban az " + e.getName() + " azonosítójú ellenség a végzet hegyére lépett, vesztettél!"));
@@ -197,18 +200,14 @@ public class Updater {
     /**
      * Végignézi, hogy van-e halott ellenség a listában, törli, ha van.
      */
-    public void removeDeadEnemies()
-    {
+    public void removeDeadEnemies() {
         ArrayList<Enemy> aliveEnemies = new ArrayList<Enemy>();
 
-        for (Enemy e : enemies)
-        {
-            if (e.getHealth() <= 0)
-            {
+        for (Enemy e : enemies) {
+            if (e.getHealth() <= 0) {
                 mana.increase(e.getManaValue());
-                ((PathTile)e.getTile()).removeEnemy(e);
-            }
-            else
+                ((PathTile) e.getTile()).removeEnemy(e);
+            } else
                 aliveEnemies.add(e);
         }
         enemies = aliveEnemies;
