@@ -1,101 +1,89 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 
 public class PathGenerator {
-	private ArrayList<PathTile> pathStarts = new ArrayList<PathTile>();
+    private ArrayList<PathTile> pathStarts = new ArrayList<PathTile>();
     private Tile[][] allTiles;
-    private HashSet<Tile> unreachedNodes;
+    private HashSet<Tile[]> edges;
 
-	/**
-	 * A PathGenerator osztály konstruktora.
-	 * Létrehozza a kapott geometry segitségével az útvonalakat, melyeken ellensegeket indíthat el.
-	 */
-	public PathGenerator (Geometry geometry){
+    /**
+     * A PathGenerator osztály konstruktora.
+     * Létrehozza a kapott geometry segitségével az útvonalakat, melyeken ellensegeket indíthat el.
+     */
+    public PathGenerator (Geometry geometry){
         allTiles = geometry.getTiles();	//Elkérjük az összes csempét
+        buildUnorientedGraph();
 
-        EndTile treeRoot = getEndTile();
-        Collections.addAll(unreachedNodes,(Tile[])getAllPathTiles() );
-        unreachedNodes.add(treeRoot);
 
-        // létrehoz egy fát, aminek a gyökere az EndTile, és minden elemének a NextTile változója az őseire mutat (a szülőre lépni a gyerekről)
-        findChildren(treeRoot);
-        // TODO levél, pálya szélén van => pathStart
-
-        // TODO levél, nincs a szélén, és 2 őse van => unreachable tile, egyirányusítani kell
-        /*
-        while (van még unreachable)
-            megfordítjuk azt az élét, amelyiket megfordítva kevesebb unreachable lesz a pályán
-         */
-
-        // levél, nincs a szélen, és 1 őse van => Zsákutca, nem kell vele csinálni semmit
-        // levél, nincs a szélen, és 2,3,4 őse van => ??? szerintem nem lehet ilyen
-	}
-
-    private void findChildren(Tile node){
-        // törli tile-t a listából
-        // ha nincs több szomszédja a listában lévők között, akkor visszatér
-        // ha van, akkor azok leszármazottai, mindegyiken beállítja, hogy ő az őse (NextTile-ja), majd az ő leszármazottaikat is beállítja
-        unreachedNodes.remove(node);
-        HashSet<Tile> neighbours = getNeighbours(node);
-        // ez lehet nem kell:
-        // Collections.disjoint(A,B) returns true if the two specified collections have no elements in common.
-        if (Collections.disjoint(unreachedNodes, neighbours))
-            return;
-        for (Tile n : neighbours)
-            ((PathTile)n).setNextTile(node);
-        for (Tile n : neighbours)
-            findChildren(n);
-    }
-
-    private EndTile getEndTile(){
-        //TODO
-        return null;
-    }
-
-    private PathTile[] getAllPathTiles(){
-        //TODO
-        return null;
-    }
-
-	private HashSet<Tile> getNeighbours(Tile t){
-        // TODO
-        return null;
     }
 
     /**
-     * Azokkal a Tile-okkal tér vissza, amiknek t a nextTile-ja.
+     * Új, irányítatlan gráfot hoz létre a térkép alapján
+     * Gráf csúcsa = PathTile-ok és EndTile
+     * Gráf élei = pályán szomszédos mezők. Minden él felvéve oda és vissza is.
      */
-    private HashSet<Tile> getChildren(Tile t){
-        // TODO
-        return null;
+    private void buildUnorientedGraph(){
+        for (Tile[] row: allTiles)
+            for (Tile t: row)
+                if (t.getType().equals("PathTile") || t.getType().equals("EndTile")){
+                    HashSet<Tile> tNeighbours = getNeighbours(t);
+                    for (Tile neighbour : tNeighbours)
+                        edges.add(new Tile[]{t, neighbour});
+                }
     }
 
-    private boolean isOnEdge(Tile t){
-        //TODO
-        return false;
+    /**
+     * Visszaadja egy Csempével szomszédos PathTile és EndTile mezőket.
+     * @param t a csempe
+     * @return  a csempével szomszédos PathTile-ok és EndTile-ok.
+     */
+    private HashSet<Tile> getNeighbours(Tile t){
+        int x, y = -1;
+        for (x = 0; x < allTiles.length; x++)
+            for (y = 0; y < allTiles[x].length; y++)
+                if (allTiles[x][y] == t)
+                    break;
+
+        HashSet<Tile> neighbours = new HashSet<Tile>();
+        if (x > 0)
+            if (allTiles[x-1][y].getType().equals("PathTile") ||
+                    allTiles[x-1][y].getType().equals("EndTile"))
+                neighbours.add(allTiles[x-1][y]);
+        if (y > 0)
+            if (allTiles[x][y-1].getType().equals("PathTile") ||
+                    allTiles[x][y-1].getType().equals("EndTile"))
+                neighbours.add(allTiles[x][y-1]);
+        if (x < allTiles.length -1)
+            if (allTiles[x+1][y].getType().equals("PathTile") ||
+                    allTiles[x+1][y].getType().equals("EndTile"))
+                neighbours.add(allTiles[x+1][y]);
+        if (y < allTiles[x].length -1)
+            if (allTiles[x][y+1].getType().equals("PathTile") ||
+                    allTiles[x][y+1].getType().equals("EndTile"))
+                neighbours.add(allTiles[x][y+1]);
+        return neighbours;
     }
-	
-	/**
-	 * A paraméterként kapott ellenséget rárakja valamelyik kezdő csempére
-	 * @param enemy ezt a példányt rakja rá a csempe-példányra
-	 */
-	public void start(Enemy enemy) {
+
+    /**
+     * A paraméterként kapott ellenséget rárakja valamelyik kezdő csempére
+     * @param enemy ezt a példányt rakja rá a csempe-példányra
+     */
+    public void start(Enemy enemy) {
         int randomStart = new Random().nextInt(pathStarts.size());
-		pathStarts.get(randomStart).addEnemy(enemy);
-	}
-	
-	
-	/**
-	 * A kezdő csempék PathGenerator-ba regisztrálását végzi
-	 * @param pathTile ez a csempe  amelyet beregisztrál
-	 */
+        pathStarts.get(randomStart).addEnemy(enemy);
+    }
+
+
+    /**
+     * A kezdő csempék PathGenerator-ba regisztrálását végzi
+     * @param pathTile ez a csempe  amelyet beregisztrál
+     */
     // ez nem kell már, megtalálja magának
     @Deprecated
-	public void add(PathTile pathTile) {
-		pathStarts.add(pathTile);
-	}
+    public void add(PathTile pathTile) {
+        pathStarts.add(pathTile);
+    }
 }
