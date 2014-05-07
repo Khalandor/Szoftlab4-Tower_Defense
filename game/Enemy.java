@@ -2,7 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
-public class Enemy {
+public abstract class Enemy {
 	protected int health;
 	protected int speed;
 	protected int manaValue;

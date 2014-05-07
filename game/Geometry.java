@@ -12,20 +12,28 @@ public class Geometry {
 	 * Létrehozza a csempéket.
 	 */
 	public Geometry() {
+		tiles = new Tile[10][10];
+		for (int x = 0; x < 10; x++) {
+			for (int y = 0; y < 10; y++) {
+				tiles[x][y] = new FieldTile(this);
+			}
+		}
+
+		for (int y = 1; y < 10; y++) {
+			tiles[4][y] = new PathTile(this);
+		}
+		
+		for (int y = 9; y > 1; y--) {
+			((PathTile) tiles[4][y]).setNextTile(tiles[4][y-1]);
+		}
+		
+		tiles[4][0] = new EndTile(this);
 	}
 	
 	/*public Geometry(int size) {
 		tiles = new Tile[size];
 	}*/
 	
-	/**
-	 * Létrehozza egy általunk kért nagyságú két dimmenziós térképet
-	 */
-	public void setMapSize(int sizex , int sizey) {
-		size_x=sizex;
-		size_y=sizey;
-		tiles = new Tile[sizex][sizey];
-	}
 	
 	/**
 	 * Egy csempe adott sugarú körén belüli csempéit adja vissza
@@ -101,10 +109,6 @@ public class Geometry {
 	 */
 	public Tile[][] getTiles() { 
 		return tiles;							//Visszaadja az összes csempét
-	}
-	
-	public void addTile(Tile tile, int index_x , int index_y) {
-		tiles[index_x][index_y]=tile;
 	}
 }
 

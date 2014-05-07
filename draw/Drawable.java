@@ -2,8 +2,6 @@ package draw;
 
 import java.awt.Graphics;
 
-public class Drawable {
-	public void draw(Graphics g) {
-		
-	}
+public abstract class Drawable {
+	public abstract void draw(Graphics g);
 }

@@ -1,6 +1,6 @@
 package game;
 
-public class Tile {
+public abstract class Tile {
 	protected String type;
 	protected Geometry geometry;
 	protected Construct constructOnTile;

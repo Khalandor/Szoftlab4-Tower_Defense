@@ -12,6 +12,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -21,15 +25,26 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View extends JPanel {
-	private Map<Object, Drawable> drawables;
+	private Map<Object, Drawable> drawables = new HashMap<Object, Drawable>();
 	private Updater updater;
 	private Geometry geometry;
 	private JPanel menu;
 	private JFrame frame;
 	private String manaValue= "0";
 	private JComboBox comboBoxTypes;
+	private BufferedImage image;
+	private Tile highlitedTile;
+	private int selectedX;
+	private int selectedY;
 	
-	public View() {
+	public View(Updater updater) {
+		this.updater = updater;
+		geometry = updater.getGeometry();
+		highlitedTile = (geometry.getTiles())[0][0];
+		selectedX = selectedY = -1;
+		
+		image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
+		
 		frame = new JFrame("Game");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
@@ -37,6 +52,7 @@ public class View extends JPanel {
 		frame.setLayout(new FlowLayout());
 		
 		this.setPreferredSize(new Dimension(600, 600));
+		this.addMouseListener(new GameMouseListener());
 		frame.add(this);
 		
 		menu = new JPanel();
@@ -53,10 +69,11 @@ public class View extends JPanel {
 	}
 	
 	public void drawAll() {
+		Graphics g = image.getGraphics();
 	}
 	
 	public void addView(Drawable drawable) {
-		
+		drawables.put(null, drawable);
 	}
 	
 	public void removeView (Drawable drawable) {
@@ -105,16 +122,21 @@ public class View extends JPanel {
 		menu.add(manaLabel, gbc_manaLabel);
 	}
 	
-	public void paint(Graphics g) {
-		super.paint(g);
-		this.setBackground(Color.GRAY);
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		this.setBackground(Color.GREEN);
+		g.drawImage(image, 0, 0, null);
+		if (selectedX >= 0 && selectedY >= 0) {
+			g.setColor(Color.YELLOW);
+			g.drawRect(selectedX * 60, selectedY * 60, 60, 60);
+		}
 	}
 	
 	private class buildTowerActionListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.buildTower(null);
+			Controller.buildTower(highlitedTile);
 		}
 	}
 	
@@ -122,7 +144,7 @@ public class View extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.buildBarricade(null);
+			Controller.buildBarricade(highlitedTile);
 		}
 	}
 	
@@ -130,7 +152,53 @@ public class View extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.upgrade(null, comboBoxTypes.getSelectedItem().toString());
+			Controller.upgrade(highlitedTile, comboBoxTypes.getSelectedItem().toString());
 		}
+	}
+	
+	private class GameMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			int mouseX = arg0.getX();
+			int mouseY = arg0.getY();
+			if (arg0.getButton() == MouseEvent.BUTTON1) {
+				int lenY = (geometry.getTiles())[0].length;
+				int lenX = geometry.getTiles().length;
+				
+				selectedX = mouseX / (600 / lenX);
+				selectedY = mouseY / (600 / lenY);
+				
+				highlitedTile = (geometry.getTiles())[selectedX][selectedY];
+				repaint();
+			}
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
