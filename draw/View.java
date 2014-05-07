@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class View extends JPanel {
+public class View extends JPanel { //az osztály maga a játékállást megjelenítő nézet
 	private Map<Object, Drawable> drawables = new HashMap<Object, Drawable>();
 	private Updater updater;
 	private Geometry geometry;
@@ -34,37 +34,41 @@ public class View extends JPanel {
 	private JComboBox comboBoxTypes;
 	private BufferedImage image;
 	private Tile highlitedTile;
-	private int selectedX;
-	private int selectedY;
+	private int selectedX = -1;
+	private int selectedY = -1;
 	
 	public View(Updater updater) {
+		//attribútumok beállítása
 		this.updater = updater;
 		geometry = updater.getGeometry();
-		highlitedTile = (geometry.getTiles())[0][0];
-		selectedX = selectedY = -1;
+		selectedX = selectedY = -1; //a kiválasztott 
 		
-		image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB);
+		image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB); //létrehozzuk a képet, amibe a játékteret rajzolni fogjuk
 		
+		//létrehozzuk a fő ablakot
 		frame = new JFrame("Game");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(800, 600);
 		frame.setResizable(false);
 		frame.setLayout(new FlowLayout());
 		
+		//beállítjuk és hozzáadjuk az ablakhoz a játékteret tartalmazó nézetet
 		this.setPreferredSize(new Dimension(600, 600));
-		this.addMouseListener(new GameMouseListener());
+		this.addMouseListener(new GameMouseListener()); //az egeret figyelő listener beállítása
 		frame.add(this);
 		
+		
+		//a gombokat tartalmazó panel
 		menu = new JPanel();
 		menu.setPreferredSize(new Dimension(200, 600));
-		buildMenu();
+		buildMenu(); //a panel tartalmát hozza létre
 		frame.add(menu);
 		
 		frame.pack();
 		frame.setVisible(true);
 	}
 	
-	public int[] getTilePosition(Tile tile) {
+	public int[] getTilePosition(Tile tile) { //visszaadja a paraméterként kapott csempe helyét a képernyőn pixelben.
 		return null;
 	}
 	
@@ -72,15 +76,15 @@ public class View extends JPanel {
 		Graphics g = image.getGraphics();
 	}
 	
-	public void addView(Drawable drawable) {
+	/*public void addView(Drawable drawable) {
 		drawables.put(null, drawable);
 	}
 	
 	public void removeView (Drawable drawable) {
 		
-	}
+	}*/
 	
-	private void buildMenu() {		
+	private void buildMenu() {	// a menüsor elemeit helyezi el
 		menu.setSize(200, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[]{50, 50, 50, 30};
@@ -126,25 +130,29 @@ public class View extends JPanel {
 		super.paintComponent(g);
 		this.setBackground(Color.GREEN);
 		g.drawImage(image, 0, 0, null);
-		if (selectedX >= 0 && selectedY >= 0) {
+		if (selectedX >= 0 && selectedY >= 0) { //amennyiben van érvényes kijelölt csempe, jelöljük azt
 			g.setColor(Color.YELLOW);
 			g.drawRect(selectedX * 60, selectedY * 60, 60, 60);
 		}
 	}
 	
-	private class buildTowerActionListener implements ActionListener {
+	private class buildTowerActionListener implements ActionListener { //a torony építő gomhoz tartozó listener
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.buildTower(highlitedTile);
+			//ha van kijelölt és érnéyes csempe, meghívjuk a Controller megfelelő függvényét
+			if (highlitedTile != null && highlitedTile.getType().equals("FieldTile"))
+				Controller.buildTower(highlitedTile);
 		}
 	}
 	
-	private class buildBarricadeActionListener implements ActionListener {
+	private class buildBarricadeActionListener implements ActionListener { //az akadály építő gomhoz tartozó listener
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.buildBarricade(highlitedTile);
+			//ha van kijelölt és érnéyes csempe, meghívjuk a Controller megfelelő függvényét
+			if (highlitedTile != null && highlitedTile.getType().equals("PathTile"))
+				Controller.buildBarricade(highlitedTile);
 		}
 	}
 	
@@ -152,7 +160,8 @@ public class View extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			Controller.upgrade(highlitedTile, comboBoxTypes.getSelectedItem().toString());
+			if (highlitedTile != null && highlitedTile.getConstruct()!= null)
+				Controller.upgrade(highlitedTile, comboBoxTypes.getSelectedItem().toString());
 		}
 	}
 	
