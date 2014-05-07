@@ -1,5 +1,6 @@
 package draw;
 
+import game.Construct;
 import game.Geometry;
 import game.Tile;
 import game.Updater;
@@ -15,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +44,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		this.updater = updater;
 		geometry = updater.getGeometry();
 		selectedX = selectedY = -1; //a kiválasztott 
-		
+		initTileList(); //a csempéket és nézeteiket hozzáadjuk a drawables Map-hez
 		image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_ARGB); //létrehozzuk a képet, amibe a játékteret rajzolni fogjuk
 		
 		//létrehozzuk a fő ablakot
@@ -73,16 +75,57 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 	}
 	
 	public void drawAll() {
-		Graphics g = image.getGraphics();
+		Graphics g = image.getGraphics(); //a kirajzolandó képhez tartozó Graphics
+		
+		//csempék rajzolása
+		int num = 0;
+		for (Object obj : drawables.keySet()) { //végigiterálunk a drawables Map-en
+			//ha csempét találunk a listában, akkor azonosítjuk, hogy milyen típusú és kirajzoljuk
+			if (obj.getClass().toString().equals("class game.FieldTile")) {
+				//((FieldTileView) obj).draw(g);
+				System.out.println(num+". :"+obj.getClass().toString());
+				num++;
+			} else if (obj.getClass().toString().equals("class game.EndTile")) {
+				//((EndTileView) obj).draw(g);
+				System.out.println(num+". :"+obj.getClass().toString());
+				num++;
+			} else if (obj.getClass().toString().equals("class game.PathTile")) {
+				//((PathTileView) obj).draw(g);
+				System.out.println(num+". :"+obj.getClass().toString());
+				num++;
+			}
+		}
+		
+		//épületek rajzolása
+		ArrayList<Construct> constructs = updater.getConstructs();
 	}
 	
-	/*public void addView(Drawable drawable) {
+	public void addView(Drawable drawable) {
 		drawables.put(null, drawable);
 	}
 	
-	public void removeView (Drawable drawable) {
+	/*public void removeView (Drawable drawable) {
 		
 	}*/
+	
+	private void initTileList() { //létrehozza a csempékhez a hozzájuk tartozó nézeteket, majd páronként beteszi őket a drawables Map-be.
+		Tile[][] tiles = geometry.getTiles();
+			
+		for (int x = 0; x < tiles.length; x++) {
+			for (int y = 0; y < tiles[0].length; y++) {
+				if (tiles[x][y].getType().equals("FieldTile")) {
+					FieldTileView view = null;
+					drawables.put(tiles[x][y], view);
+				} else if (tiles[x][y].getType().equals("PathTile")) {
+					PathTileView view = null;
+					drawables.put(tiles[x][y], view);
+				} else if (tiles[x][y].getType().equals("EndTile")) {
+					EndTileView view = null;
+					drawables.put(tiles[x][y], view);
+				}
+			}
+		}
+	}
 	
 	private void buildMenu() {	// a menüsor elemeit helyezi el
 		menu.setSize(200, 600);
@@ -131,6 +174,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		this.setBackground(Color.GREEN);
 		g.drawImage(image, 0, 0, null);
 		if (selectedX >= 0 && selectedY >= 0) { //amennyiben van érvényes kijelölt csempe, jelöljük azt
+			//egy sága négyzetet rajzolunk a kijelölt csempe köré
 			g.setColor(Color.YELLOW);
 			g.drawRect(selectedX * 60, selectedY * 60, 60, 60);
 		}
@@ -169,18 +213,26 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+			//ha kattintunk az egérrel, akkor megnézzük, hogy épp milyen cellán van és ez lesz a kijelölés értéke
+			
+			//a kurzor X és Y koordinátája
 			int mouseX = arg0.getX();
 			int mouseY = arg0.getY();
-			if (arg0.getButton() == MouseEvent.BUTTON1) {
+			
+			
+			if (arg0.getButton() == MouseEvent.BUTTON1) { //ha a bal gombbal kattintottunk
+				
+				//megnézzük a pálya méretét
 				int lenY = (geometry.getTiles())[0].length;
 				int lenX = geometry.getTiles().length;
 				
+				//a pálya mérete, a kurzor helye és a rajzolt nézet mérete alapján kiszámoljuk, hogy hányadik csempére kattintottunk
 				selectedX = mouseX / (600 / lenX);
 				selectedY = mouseY / (600 / lenY);
 				
+				//a kiválasztott csempe
 				highlitedTile = (geometry.getTiles())[selectedX][selectedY];
-				repaint();
+				repaint(); //a kijelölés miatt újrarajzoljuk a képet
 			}
 			
 		}

@@ -18,10 +18,10 @@ public class Controller {
 		*és adnánk hozzá az Updaterhez*/
 		constructManager = updater.getConstructManager(); 	
 		
-		Drawable test = new HobbitView();
+		/*Drawable test = new HobbitView();
 		Drawable test2 = new HumanView();
 		view.addView(test);
-		view.addView(test2);
+		view.addView(test2);*/
 		view.drawAll();
 	}
 	
