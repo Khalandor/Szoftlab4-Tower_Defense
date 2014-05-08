@@ -179,6 +179,7 @@ public class PathGenerator {
     public void start(Enemy enemy) {
         int randomStart = new Random().nextInt(pathStarts.size());
         pathStarts.get(randomStart).addEnemy(enemy);
+        enemy.setTile( pathStarts.get(randomStart));
     }
 
 
