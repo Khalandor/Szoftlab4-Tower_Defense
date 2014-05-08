@@ -33,7 +33,7 @@ public class ConstructManager {
 	 * @param location - egy csempe, ahova az adott épülettípust elhelyezzük
 	 */
 	public void build(String type, Tile location) {
-		if (mana.hasEnough(costs.get(type))) {
+		if (mana.hasEnough(costs.get(type)) && location.getConstruct()==null) {
 			Construct construct = null;
 			
 			if(type.equals("tower") && location.getType().equals("FieldTile")) {
@@ -64,13 +64,16 @@ public class ConstructManager {
 				if(type.equals("range")) {
 					((Tower)construct).setRange(20);
 					construct.setMagicGem(gem);
+					mana.decrease(costs.get(type));
 				}
 				if(type.equals("firerate")) {
 					((Tower)construct).setFireRate(2);
 					construct.setMagicGem(gem);
+					mana.decrease(costs.get(type));
 				}
 				if(type.equals("elf") || type.equals("hobbit") || type.equals("dwarf") || type.equals("human")) {
 					construct.setMagicGem(gem);
+					mana.decrease(costs.get(type));
 				}
 			}
 			
@@ -79,9 +82,9 @@ public class ConstructManager {
 				if(type.equals("slow")) {
 					((Barricade)construct).setSpeedModifier(2);
 					construct.setMagicGem(gem);
+					mana.decrease(costs.get(type));
 				}
 			}
-			mana.decrease(costs.get(type));
 		}
 	}
 }
