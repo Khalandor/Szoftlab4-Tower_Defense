@@ -5,9 +5,9 @@ import java.util.*;
 public class PathGenerator {
     private ArrayList<PathTile> pathStarts = new ArrayList<PathTile>();
     private Tile[][] map;
-    private HashSet<Tile[]> edges = new HashSet<Tile[]>();
-    private HashSet<PathTile> pathTiles = new HashSet<PathTile>();
+    private HashMap<Tile, HashSet<Tile>> edges = new HashMap<Tile, HashSet<Tile>>();
     private EndTile endTile;
+    HashSet<ArrayList<Tile>> segments = new HashSet<ArrayList<Tile>>();
 
     /**
      * A PathGenerator osztály konstruktora.
@@ -16,8 +16,9 @@ public class PathGenerator {
     public PathGenerator (Geometry geometry){
         map = geometry.getTiles();	//Elkérjük az összes csempét
         buildUnorientedGraph();     // létrehoz egy irányítatlan gráfot
-        orientGraph();              // irányítottá teszi a gráfot
-        exportGraph();              // beállítja a pathStarts és PathTile.nextTile referenciákat az irányított gráf alapján
+        createPathSegments();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
+        setNextTiles();             // Beállítja az útvonalszegmensek alapján a PathTile-ok nextTile értékét
+        setPathStarts();            // Beállítja az útvonalak kezdőpontját
     }
 
     /**
@@ -26,19 +27,33 @@ public class PathGenerator {
      * Gráf élei = pályán szomszédos mezők. Minden él felvéve oda és vissza is.
      */
     private void buildUnorientedGraph(){
+        // a térkép minden PathTile-jának és EndTile-jának megkeressük a szomszédait
         for (Tile[] row: map)
             for (Tile t: row) {
                 if (t.getType().equals("PathTile")) {
-                    pathTiles.add((PathTile) t);
+                    // t szomszédai a t melletti PathTile-ok/EndTile
                     HashSet<Tile> tNeighbours = getNeighbours(t);
-                    for (Tile neighbour : tNeighbours)
-                        edges.add(new Tile[]{t, neighbour});
+                    for (Tile neighbour : tNeighbours){
+                        // lekérjük az eddig elmentett szomszédokat, és hozzáírjuk az újat. Ha még nincs elmentett szomszéd, most elmentjük.
+                        HashSet<Tile>  savedNeighbours = edges.get(t);
+                        if (null == savedNeighbours){
+                            savedNeighbours = new HashSet<Tile>();
+                            edges.put(t, savedNeighbours);
+                        }
+                        savedNeighbours.add(neighbour);
+                    }
                 }
                 else if (t.getType().equals("EndTile")) {
                     endTile = (EndTile) t;
                     HashSet<Tile> tNeighbours = getNeighbours(t);
-                    for (Tile neighbour : tNeighbours)
-                        edges.add(new Tile[]{t, neighbour});
+                    for (Tile neighbour : tNeighbours){
+                        HashSet<Tile>  savedNeighbours = edges.get(t);
+                        if (null == savedNeighbours) {
+                            savedNeighbours = new HashSet<Tile>();
+                            edges.put(t, savedNeighbours);
+                        }
+                        savedNeighbours.add(neighbour);
+                    }
                 }
             }
     }
@@ -49,11 +64,14 @@ public class PathGenerator {
      * @return  a csempével szomszédos PathTile-ok és EndTile-ok.
      */
     private HashSet<Tile> getNeighbours(Tile t){
-        int x, y = -1;
+        int x = -1;
+        int y = -1;
+
+        findCoordinates:
         for (x = 0; x < map.length; x++)
             for (y = 0; y < map[x].length; y++)
                 if (map[x][y] == t)
-                    break;
+                    break findCoordinates;
 
         HashSet<Tile> neighbours = new HashSet<Tile>();
         if (x > 0)
@@ -76,33 +94,82 @@ public class PathGenerator {
     }
 
     /**
-     * Törli az összes oda-vissza élpár közül az egyiket.-> Irányított lesz a gráf minden éle
-     * Az él arra mutat, amerre lépni lehet.
+     * Útszegmenseket hoz létre a pályán.
+     * Minden szegmens eleje egy elágazás, a vége egy másik elágazás vagy az EndTile
+     * Köztük a kettő közti utak vannak SORRENDBEN
      */
-    private void orientGraph(){
-        // Elágazás-sor: olyan út-cellák sora, amik 2-nél több útcellával szomszédosak, már elérte őket az algoritmus, de még nem végzett velük.
-        Queue<Tile> intersectionQue = new ArrayDeque<Tile>();
-        /*
-        Az EndTile-tól visszafele indulva az utak elejéig (az EndTile a sor első eleme):
-        Az elágazás minden élén keresztül, ami még kétirányú, eljutunk a következő elágazásig.
-        Ha az elágazásnak nincs több kétirányú éle, akkor töröljük a sorból.
-        Minden lépésnél, amit a következő elágazás felé megteszünk, töröljük az élet, amin megtettük.
-        Ha elérünk egy csomópontot, ami még nincs benne a sorban, a sor végére helyezzük.
-         */
-        intersectionQue.add(endTile);
-        // TODO
+    private void createPathSegments(){
+        HashSet<Tile> seen = new HashSet<Tile>();
+        // a megtalált, de még nem bejárt szegmensek eleje van benne ebben a formában: [elágazás, szegmens első eleme]
+        Queue<Tile[]> segmentStarts = new ArrayDeque<Tile[]>();
+        segmentStarts.add( new Tile[]{null,endTile});
+
+        while (!segmentStarts.isEmpty()){
+            Tile[] segmentsStart = segmentStarts.poll();
+            Tile intersection = segmentsStart[0];
+            Tile current = segmentsStart[1];
+
+            // lehetséges, hogy már bejártuk a másik oldalról a szegmens elejét, akkor nem vesszük figyelembe
+            if (!seen.contains(current)){
+                // a szegmens elején új szegmenst hozunk létre, aminek első eleme az elágazás
+                ArrayList<Tile> actualSegment = new ArrayList<Tile>();
+                segments.add(actualSegment);
+                // az EndTile is egy szegmens eleje, de azt nem előzi meg elágazás
+                if (current != endTile)
+                    actualSegment.add(intersection);
+
+                // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
+                HashSet<Tile> edgesFromCurrent = new HashSet<Tile>();
+                edgesFromCurrent = edges.get(current);
+                edgesFromCurrent.removeAll(seen);
+
+                while (edgesFromCurrent.size() == 1){
+                    // Felvesszük az aktuális szegmensbe a csúcsot, és jelöljük, hogy bejártuk
+                    actualSegment.add(current);
+                    seen.add(current);
+                    // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
+                    current = edgesFromCurrent.iterator().next();
+                    edgesFromCurrent = edges.get(current);
+                    edgesFromCurrent.removeAll(seen);
+
+                    // Ha a soron következő csúcs elágazás, akkor minden róla induló útnak létre kell hozni egy új szegmenst, és felvenni őket a sorba
+                    if(edgesFromCurrent.size() >= 2) {
+                        for (Tile startTile : edgesFromCurrent)
+                            segmentStarts.add(new Tile[]{current, startTile});
+                        seen.add(current);
+                    }
+                }
+            }
+        }
+        // Létrejöttek a szegmensek, de fordítva vannak, az EndTile-tól az utak kezdete felé sorrendben vannak, megfordítjuk őket.
+        for (ArrayList<Tile> segment : segments)
+            Collections.reverse(segment);
     }
 
     /**
-     * Az irányított élek alapján beállítja a pathStarts és PathTile.nextTile referenciákat.
+     * Beállítja az útszegmensek alapján a nextTile értékeket
      */
-    private void exportGraph(){
-        HashSet<PathTile> possiblePathStarts = pathTiles;
-        for (Tile[] edge : edges) {
-            ((PathTile) edge[0]).setNextTile(edge[1]);
-            possiblePathStarts.remove(edge[0]);
+    private void setNextTiles(){
+        // mindig az útszegmensben következő csempe lesz a nextTile értéke (hozzáadja)
+        for (ArrayList<Tile> segment : segments)
+            for (int i=0; i < segment.size() - 1; i++)
+                ((PathTile) segment.get(i)).setNextTile(segment.get(i+1));
+    }
+
+    /**
+     * Beállítja az útszegmensek alapján az utak kezdetét.
+     * Összevonható gyorsításként a setNextTiles-al
+     */
+    private void setPathStarts(){
+        // az utak kezdetei az olyan Tile-ok, amik útszegmensek kezdőpontjai, de nem végpontjai.
+        HashSet<PathTile> startPoints = new HashSet<PathTile>();
+        HashSet<Tile> endPoints = new HashSet<Tile>();
+        for (ArrayList<Tile> segment : segments){
+            startPoints.add((PathTile)segment.get(0));
+            endPoints.add(segment.get(segment.size() - 1));
         }
-        pathStarts = new ArrayList<PathTile>(possiblePathStarts);
+        startPoints.removeAll(endPoints);
+        pathStarts = new ArrayList<PathTile>(startPoints);
     }
 
     /**

@@ -18,7 +18,7 @@ public class Updater {
         isFoggy = false;
         result = "running";
         geometry = new Geometry();
-        //PathGenerator pathGenerator = new PathGenerator(geometry);
+        PathGenerator pathGenerator = new PathGenerator(geometry);
         //enemyGenerator = new EnemyGenerator(pathGenerator, this);
         constructManager = new ConstructManager(this, mana);
         mana.setMana(200);
