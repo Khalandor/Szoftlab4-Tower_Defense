@@ -21,6 +21,7 @@ public class Updater {
         //PathGenerator pathGenerator = new PathGenerator(geometry);
         //enemyGenerator = new EnemyGenerator(pathGenerator, this);
         constructManager = new ConstructManager(this, mana);
+        mana.setMana(200);
     }
 	/**
 	 * Visszadja az összes ellenség listáját
@@ -126,5 +127,9 @@ public class Updater {
     
 	public ConstructManager getConstructManager() { //TODO Controller miatt kell
 		return constructManager;
+	}
+	
+	public int getMana() {
+		return mana.getMana();
 	}
 }

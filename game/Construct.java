@@ -19,4 +19,8 @@ public class Construct {
 	public void setMagicGem(MagicGem gem) {
 		this.gem = gem;//
 	}
+	
+	public MagicGem getMagicGem(){
+		return gem;
+	}
 }

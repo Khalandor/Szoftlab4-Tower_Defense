@@ -24,4 +24,8 @@ public class MagicGem {
 		if (this.type.equals(type)) return 10;
 		else return 0;
 	}
+
+	public String getType() {
+		return type;
+	}
 }

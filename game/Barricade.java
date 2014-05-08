@@ -2,7 +2,8 @@ package game;
 
 public class Barricade extends Construct {
 	private int speedModifier;
-
+	private PathTile barricadeLocation;
+	
 	/**
 	 * visszater a a lassitas mertekevel
 	 * @return speedModifier  
@@ -13,11 +14,13 @@ public class Barricade extends Construct {
 	
 	/**
 	 * A Barricade konstruktora
+	 * @param location 
 	 */
-	public Barricade()
+	public Barricade(PathTile location)
 	{
 		type = "Barricade";										//Beállítjuk a saját típusát
 		speedModifier = 2 ;
+		barricadeLocation = location;
 	}
 	
 	/**
@@ -27,5 +30,9 @@ public class Barricade extends Construct {
 	public void setSpeedModifier(int speedModifier) //TODO  nincs rajta a class diagramokon
 	{	
 		this.speedModifier = speedModifier;
+	}
+
+	public PathTile getBarricadeLocation(){
+		return barricadeLocation;
 	}
 }

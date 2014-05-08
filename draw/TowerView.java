@@ -31,17 +31,16 @@ public class TowerView extends Drawable {
 	 * vegen kirajzolja a parameterben kapott graphicsra
 	 */
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		View view = this.getView();
 		int point[] = view.getTilePosition(tower.getTile());
 		MagicGem gem = tower.getMagicGem();
 		if (gem!=null)
 		{
-		if (gem.getType() == "Hobbit") this.setImage("constructs/tower/tower_hobbit.png");
-			else if (gem.getType() == "Human") this.setImage("constructs/tower/tower_human.png");
-				 else if (gem.getType() == "Elf") this.setImage("constructs/tower/tower_elf.png");
-				      else if (gem.getType() == "Dwarf") this.setImage("constructs/tower/tower_dwarf.png");
-				           else if (gem.getType() == "Range") this.setImage("constructs/tower/tower_range.png");
+		if (gem.getType().equals("hobbit")) this.setImage("constructs/tower/tower_hobbit.png");
+			else if (gem.getType().equals("human")) this.setImage("constructs/tower/tower_human.png");
+				 else if (gem.getType().equals("elf")) this.setImage("constructs/tower/tower_elf.png");
+				      else if (gem.getType().equals("dwarf")) this.setImage("constructs/tower/tower_dwarf.png");
+				           else if (gem.getType().equals("range")) this.setImage("constructs/tower/tower_range.png");
 		
 		}
 		g.drawImage(getImage(), point[0], point[1], null);		

@@ -1,8 +1,18 @@
 package draw;
 
+import game.Barricade;
 import game.Construct;
+import game.Dwarf;
+import game.Elf;
+import game.EndTile;
+import game.Enemy;
+import game.FieldTile;
 import game.Geometry;
+import game.Hobbit;
+import game.Human;
+import game.PathTile;
 import game.Tile;
+import game.Tower;
 import game.Updater;
 
 import java.awt.Color;
@@ -25,6 +35,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class View extends JPanel { //az osztály maga a játékállást megjelenítő nézet
 	private Map<Object, Drawable> drawables = new HashMap<Object, Drawable>();
@@ -32,7 +43,8 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 	private Geometry geometry;
 	private JPanel menu;
 	private JFrame frame;
-	private String manaValue= "0";
+	//private String manaValue= "0";
+	private JLabel manaLabel;
 	private JComboBox comboBoxTypes;
 	private BufferedImage image;
 	private Tile highlitedTile;
@@ -63,14 +75,25 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		//a gombokat tartalmazó panel
 		menu = new JPanel();
 		menu.setPreferredSize(new Dimension(200, 600));
-		buildMenu(); //a panel tartalmát hozza létre
+		initMenu(); //a panel tartalmát hozza létre
 		frame.add(menu);
 		
 		frame.pack();
 		frame.setVisible(true);
+		
+		//nézet frissítésére szolgáló időzítő
+		Timer timer = new Timer(40, new RefreshListener());
+		timer.start();
 	}
 	
 	public int[] getTilePosition(Tile tile) { //visszaadja a paraméterként kapott csempe helyét a képernyőn pixelben.
+		Tile[][] tiles = geometry.getTiles();
+		for (int x = 0; x < tiles.length; x++) {
+			for (int y = 0; y < tiles[0].length; y++) {
+				if (tiles[x][y] == tile)
+					return new int[] {x * 60, y * 60};
+			}
+		}
 		return null;
 	}
 	
@@ -78,35 +101,54 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		Graphics g = image.getGraphics(); //a kirajzolandó képhez tartozó Graphics
 		
 		//csempék rajzolása
-		int num = 0;
 		for (Object obj : drawables.keySet()) { //végigiterálunk a drawables Map-en
-			//ha csempét találunk a listában, akkor azonosítjuk, hogy milyen típusú és kirajzoljuk
-			if (obj.getClass().toString().equals("class game.FieldTile")) {
-				//((FieldTileView) obj).draw(g);
-				System.out.println(num+". :"+obj.getClass().toString());
-				num++;
-			} else if (obj.getClass().toString().equals("class game.EndTile")) {
-				//((EndTileView) obj).draw(g);
-				System.out.println(num+". :"+obj.getClass().toString());
-				num++;
-			} else if (obj.getClass().toString().equals("class game.PathTile")) {
-				//((PathTileView) obj).draw(g);
-				System.out.println(num+". :"+obj.getClass().toString());
-				num++;
+			//ha csempét találunk a listában, akkor kirajzoljuk
+			if (obj.getClass().toString().equals("class game.FieldTile") || obj.getClass().toString().equals("class game.EndTile")
+					|| obj.getClass().toString().equals("class game.PathTile")) {
+				drawables.get(obj).draw(g);
 			}
 		}
 		
-		//épületek rajzolása
-		ArrayList<Construct> constructs = updater.getConstructs();
-	}
-	
-	public void addView(Drawable drawable) {
-		drawables.put(null, drawable);
-	}
-	
-	/*public void removeView (Drawable drawable) {
+		//épületek kirajzolása
+		ArrayList<Construct> constructs = updater.getConstructs(); //lekérjük a pályán lévő épületek listáját
+		for (int i = 0; i < constructs.size(); i++) { //végigjárjuk az épületek listáját
+			/* ha az épület még nem szerepel a drawables listában, akkor létrehozzuk hozzá a hozzá tartozó
+			 * nézetet és hozzáadjuk őket a drawables-hez.*/
+			if (!drawables.containsKey(constructs.get(i))) {
+				if (constructs.get(i).getType().equals("Tower")) {
+					TowerView view = new TowerView(this, (Tower) constructs.get(i));
+					drawables.put(constructs.get(i), view);
+				} else if (constructs.get(i).getType().equals("Barricade")) {
+					BarricadeView view = new BarricadeView(this, (Barricade) constructs.get(i));
+					drawables.put(constructs.get(i), view);
+				}
+			}
+			drawables.get(constructs.get(i)).draw(g); 	//lekérjük az épülethez tartozó nézetet és kirajzoljuk
+		}
 		
-	}*/
+		//ellenségek rajzolása
+		ArrayList<Enemy> enemies = updater.getEnemies();	//lekérjük a pályán lévő ellenségek listáját
+		for (int i = 0; i < enemies.size(); i++) {	//végigjárjuk az ellenségek listáját
+			/* ha az ellenség még nem szerepel a drawables listában, akkor létrehozzuk hozzá a hozzá tartozó
+			 * nézetet és hozzáadjuk őket a drawables-hez.*/
+			if (!drawables.containsKey(enemies.get(i))) {
+				if (enemies.get(i).getType().equals("hobbit")) {
+					HobbitView view = new HobbitView(this, (Hobbit) enemies.get(i));
+					drawables.put(enemies.get(i), view);
+				} else if (enemies.get(i).getType().equals("dwarf")) {
+					DwarfView view = new DwarfView(this, (Dwarf) enemies.get(i));
+					drawables.put(enemies.get(i), view);
+				} else if (enemies.get(i).getType().equals("elf")) {
+					ElfView view = new ElfView(this, (Elf) enemies.get(i));
+					drawables.put(enemies.get(i), view);
+				} else if (enemies.get(i).getType().equals("human")) {
+					HumanView view = new HumanView(this, (Human) enemies.get(i));
+					drawables.put(enemies.get(i), view);
+				}
+			}
+			drawables.get(enemies.get(i)).draw(g); 	//lekérjük az épülethez tartozó nézetet és kirajzoljuk
+		}
+	}
 	
 	private void initTileList() { //létrehozza a csempékhez a hozzájuk tartozó nézeteket, majd páronként beteszi őket a drawables Map-be.
 		Tile[][] tiles = geometry.getTiles();
@@ -114,20 +156,20 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[0].length; y++) {
 				if (tiles[x][y].getType().equals("FieldTile")) {
-					FieldTileView view = null;
+					FieldTileView view = new FieldTileView(this, (FieldTile) tiles[x][y]);
 					drawables.put(tiles[x][y], view);
 				} else if (tiles[x][y].getType().equals("PathTile")) {
-					PathTileView view = null;
+					PathTileView view = new PathTileView(this, (PathTile) tiles[x][y]);
 					drawables.put(tiles[x][y], view);
 				} else if (tiles[x][y].getType().equals("EndTile")) {
-					EndTileView view = null;
+					EndTileView view = new EndTileView(this, (EndTile) tiles[x][y]);
 					drawables.put(tiles[x][y], view);
 				}
 			}
 		}
 	}
 	
-	private void buildMenu() {	// a menüsor elemeit helyezi el
+	private void initMenu() {	// a menüsor elemeit helyezi el
 		menu.setSize(200, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.rowHeights = new int[]{50, 50, 50, 30};
@@ -162,7 +204,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		gbc_comboBox.gridy = 3;
 		menu.add(comboBoxTypes, gbc_comboBox);
 		
-		JLabel manaLabel = new JLabel("Varázserő: "+manaValue);
+		manaLabel = new JLabel("Varázserő: "+updater.getMana());
 		GridBagConstraints gbc_manaLabel = new GridBagConstraints();
 		gbc_manaLabel.gridx = 0;
 		gbc_manaLabel.gridy = 16;
@@ -171,11 +213,15 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.setBackground(Color.GREEN);
+		this.setBackground(Color.GRAY);
+		
+		drawAll(); //játékelemek nézeteinek frissítése
+		manaLabel.setText("Varázserő: "+updater.getMana()); //varázserő mennyiség frissítése
+		
 		g.drawImage(image, 0, 0, null);
 		if (selectedX >= 0 && selectedY >= 0) { //amennyiben van érvényes kijelölt csempe, jelöljük azt
-			//egy sága négyzetet rajzolunk a kijelölt csempe köré
-			g.setColor(Color.YELLOW);
+			//egy fehér négyzetet rajzolunk a kijelölt csempe köré
+			g.setColor(Color.WHITE);
 			g.drawRect(selectedX * 60, selectedY * 60, 60, 60);
 		}
 	}
@@ -209,11 +255,37 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		}
 	}
 	
+	private class RefreshListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			frame.repaint();
+			
+		}
+		
+	}
+	
 	private class GameMouseListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			//ha kattintunk az egérrel, akkor megnézzük, hogy épp milyen cellán van és ez lesz a kijelölés értéke
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {			
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			//ha felengedjük az egér bal gombját, akkor megnézzük, hogy épp milyen cellán van és ez lesz a kijelölés értéke
 			
 			//a kurzor X és Y koordinátája
 			int mouseX = arg0.getX();
@@ -232,32 +304,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 				
 				//a kiválasztott csempe
 				highlitedTile = (geometry.getTiles())[selectedX][selectedY];
-				repaint(); //a kijelölés miatt újrarajzoljuk a képet
 			}
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		

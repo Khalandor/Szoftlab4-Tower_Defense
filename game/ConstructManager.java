@@ -40,7 +40,7 @@ public class ConstructManager {
 				construct = new Tower((FieldTile) location);  
 			} else
 			if(type.equals("barricade") && location.getType().equals("PathTile")) {
-				construct = new Barricade();
+				construct = new Barricade((PathTile) location);
 			} else
 				return;
 			

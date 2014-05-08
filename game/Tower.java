@@ -17,7 +17,7 @@ public class Tower extends Construct {
 	 */
 	public Tower (FieldTile towerLocation)
 	{
-		//this.towerLocation = towerLocation;
+		this.towerLocation = towerLocation;
 		type = "Tower";										//Beállítjuk a saját típusát
 		damage = 20;
 		fireRate = 3;
