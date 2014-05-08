@@ -120,6 +120,15 @@ public class Tower extends Construct {
 	public void setTowerLocation(FieldTile loc) {
 		towerLocation = loc;
 	}
+	/**
+	 * Visszaadja azt a Tile-t amin a torony van
+	 * @return a tile ami tartalmazza a tornyot
+	 */
+
+	public Tile getTile() {
+		// TODO Auto-generated method stub
+		return towerLocation;
+	}
 	
 	
 }
