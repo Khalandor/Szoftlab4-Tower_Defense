@@ -2,8 +2,6 @@ package draw;
 import game.Elf;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Random;
 
 public class ElfView extends Drawable {
 	private String texture;
@@ -22,6 +20,6 @@ public class ElfView extends Drawable {
 	public void draw(Graphics g) {
 		View view = this.getView();
 		int point[] = view.getTilePosition(elf.getTile());		
-		g.drawImage(getImage() , point[0] , point[1], 16, 16, null); 
+		g.drawImage(getImage() , point[0] , point[1], 32, 32, null);
 	}
 }

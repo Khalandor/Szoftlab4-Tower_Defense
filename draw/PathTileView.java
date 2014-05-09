@@ -15,7 +15,7 @@ public class PathTileView extends Drawable {
 		setView(v);
 		texture = "textures/tiles/pathTile.png";
 		pathTile = p;
-		setImage(texture);
+		setSubImage(texture, 30);
 	}
 	
 	@Override

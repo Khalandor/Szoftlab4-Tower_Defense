@@ -19,6 +19,6 @@ public class HobbitView extends Drawable {
 	public void draw(Graphics g) {
 		View view = this.getView();
 		int point[] = view.getTilePosition(hobbit.getTile());
-		g.drawImage(getImage() , point[0]+5 , point[1], 16, 16, null); 
+		g.drawImage(getImage() , point[0]+5 , point[1], 32, 32, null);
 	}
 }

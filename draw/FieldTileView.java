@@ -12,7 +12,7 @@ public class FieldTileView extends Drawable {
 		setView(v);
 		texture = "textures/tiles/fieldTile.png";
 		fieldTile = f;
-		setImage(texture);
+        setSubImage(texture, 30);
 	}
 	
 	@Override

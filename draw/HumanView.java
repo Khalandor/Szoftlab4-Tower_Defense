@@ -19,6 +19,6 @@ public class HumanView extends Drawable {
 	public void draw(Graphics g) {
 		View view = this.getView();
 		int point[] = view.getTilePosition(human.getTile());
-		g.drawImage(getImage() , point[0]+15 , point[1]+10, 16, 16, null); 
+		g.drawImage(getImage() , point[0]-5 , point[1]+5, 32, 32, null);
 	}
 }

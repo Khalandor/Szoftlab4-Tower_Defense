@@ -1,11 +1,11 @@
 package draw;
 
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.util.Random;
 
 public abstract class Drawable {
 	private View view;
@@ -21,12 +21,30 @@ public abstract class Drawable {
 		}
 		
 	}
+
+    public void setSubImage(String path, int size)
+    {
+        try {
+            Image fullImage = ImageIO.read(new File(path));
+            BufferedImage bFullImage= (BufferedImage) fullImage;
+            int width = bFullImage.getWidth();
+            int height = bFullImage.getHeight();
+            int xParts = width / size;
+            int yParts = height / size;
+            int xMultiplier = new Random().nextInt(xParts);
+            int yMultiplier = new Random().nextInt(yParts);
+            drawableImage = bFullImage.getSubimage(xMultiplier * size, yMultiplier * size, size, size);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 	
 	public Image getImage()
 	{
 		return drawableImage;
 	}
-	
+
 	
 	public View getView(){
 		return this.view;
