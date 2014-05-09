@@ -1,8 +1,8 @@
 package draw;
 
-import java.awt.Graphics;
-
 import game.FieldTile;
+
+import java.awt.*;
 
 public class FieldTileView extends Drawable {
 	private String texture;
@@ -10,7 +10,7 @@ public class FieldTileView extends Drawable {
 	
 	FieldTileView(View v  , FieldTile f){
 		setView(v);
-		texture = "tiles/fieldTile.png";
+		texture = "textures/tiles/fieldTile.png";
 		fieldTile = f;
 		setImage(texture);
 	}

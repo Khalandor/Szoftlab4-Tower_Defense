@@ -1,10 +1,8 @@
 package draw;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
 import game.EndTile;
+
+import java.awt.*;
 
 public class EndTileView extends Drawable {
 	private String texture;
@@ -12,7 +10,7 @@ public class EndTileView extends Drawable {
 	
 	EndTileView(View v , EndTile e){
 		setView(v);
-		texture = "tiles/mount_doom.png";
+		texture = "textures/tiles/mount_doom.png";
 		endTile = e;
 		setImage(texture);
 	}

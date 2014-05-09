@@ -1,9 +1,8 @@
 package draw;
-import java.awt.Graphics;
-
-import game.Elf;
 import game.MagicGem;
 import game.Tower;
+
+import java.awt.*;
 
 public class TowerView extends Drawable {
 	private String texture;
@@ -20,7 +19,7 @@ public class TowerView extends Drawable {
 	{
 		setView(view);
 		tower = t;
-		texture = "constructs/tower/tower.png";
+		texture = "textures/constructs/tower/tower.png";
 		this.setImage(texture);
 		
 	}

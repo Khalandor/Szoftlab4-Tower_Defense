@@ -1,8 +1,8 @@
 package draw;
 
-import java.awt.Graphics;
-
 import game.Barricade;
+
+import java.awt.*;
 
 public class BarricadeView extends Drawable {
 	private String texture;
@@ -13,7 +13,7 @@ public class BarricadeView extends Drawable {
 		barricade = b;
 		
 		// Textura elérésí útjának beállítása
-			texture = "constructs/barricade/barricade.png";
+			texture = "textures/constructs/barricade/barricade.png";
 		
 		// Textura betöltése
 		setImage(texture);
@@ -23,7 +23,7 @@ public class BarricadeView extends Drawable {
 	public void draw(Graphics g) {
 		int[] poz = this.getView().getTilePosition((barricade.getBarricadeLocation()));
 		if (barricade.getMagicGem()!= null)
-			this.setImage("constructs/barricade/barricade_gem.png");
+			this.setImage("texture/constructs/barricade/barricade_gem.png");
 		g.drawImage(getImage() , poz[0] , poz[1] , null);
 	}
 }

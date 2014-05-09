@@ -1,9 +1,7 @@
 package draw;
-import game.Dwarf;
 import game.Hobbit;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 public class HobbitView extends Drawable {
 	private String texture;
@@ -13,7 +11,7 @@ public class HobbitView extends Drawable {
 	{
 		setView(view);
 		hobbit = h;
-		texture = "enemies/hobbit.png";
+		texture = "textures/enemies/hobbit.png";
 		this.setImage(texture);
 		
 	}

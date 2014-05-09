@@ -1,7 +1,7 @@
 package draw;
-import java.awt.Graphics;
-
 import game.Elf;
+
+import java.awt.*;
 
 public class ElfView extends Drawable {
 	private String texture;
@@ -12,7 +12,7 @@ public class ElfView extends Drawable {
 	{
 		setView(view);
 		elf = e;
-		texture = "enemies/elf.png";
+		texture = "textures/enemies/elf.png";
 		this.setImage(texture);
 		
 	}

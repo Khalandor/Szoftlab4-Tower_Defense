@@ -1,9 +1,10 @@
 package draw;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import game.PathTile;
 
-import game.PathTile;;
+import java.awt.*;
+
+;
 
 public class PathTileView extends Drawable {
 	private String texture;
@@ -12,7 +13,7 @@ public class PathTileView extends Drawable {
 	
 	PathTileView(View v , PathTile p){
 		setView(v);
-		texture = "tiles/pathTile.png";
+		texture = "textures/tiles/pathTile.png";
 		pathTile = p;
 		setImage(texture);
 	}
