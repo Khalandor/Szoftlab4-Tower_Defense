@@ -27,7 +27,7 @@ public class Barricade extends Construct {
 	 * A Barricade lassitasanak beallitoja
 	 * @param speedModifier a beallitando ertek
 	 */
-	public void setSpeedModifier(int speedModifier) //TODO  nincs rajta a class diagramokon
+	public void setSpeedModifier(int speedModifier) 
 	{	
 		this.speedModifier = speedModifier;
 	}

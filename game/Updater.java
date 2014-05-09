@@ -15,6 +15,7 @@ public class Updater {
     private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
     private ArrayList<Construct> constructs = new ArrayList<Construct>();
     private Mana mana = new Mana();
+    private Timer timer;
 
     public Updater(){
         isFoggy = false;
@@ -23,9 +24,9 @@ public class Updater {
         PathGenerator pathGenerator = new PathGenerator(geometry);
         enemyGenerator = new EnemyGenerator(pathGenerator, this);
         constructManager = new ConstructManager(this, mana);
-        mana.setMana(200);
+        mana.setMana(150);
         
-		Timer timer = new Timer(true);
+		timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask() {
 			  @Override
 			  public void run() {
@@ -70,10 +71,14 @@ public class Updater {
 	 * @param isover 
 	 */
 	public void gameOver(Boolean isover) {
-		if (isover == true)
+		if (isover == true) {
 			result= "win";
-		else
-            result = "lose";
+			timer.cancel();
+		}
+		else {
+			result = "lose";	
+			timer.cancel();
+        }
     }
 	
 	/**
@@ -88,14 +93,14 @@ public class Updater {
 	 * Visszadja a geometry-t
 	 * @return a geometry
 	 */
-	public Geometry getGeometry() { //TODO  nincs rajta a class diagramokon, View miatt kell
+	public Geometry getGeometry() {
 		return geometry;
 	}
 
     /**
      * Ellenségek / tereptárgyak aktiválása
      */
-    public void update() { //TODO  nincs rajta a class diagramokon
+    public void update() {
         // minden ellenség mozgatása, az ellenség jelzi, hogy nyert-e
         for (Enemy e : enemies) {
             boolean lose = e.move();
@@ -110,7 +115,6 @@ public class Updater {
                 Enemy shotEnemy = ((Tower) c).shoot();
                 // ha a torony eltalál valakit
                 if (shotEnemy != null) {
-                	System.out.println("Találat");
                     // ha az ellenség belehal a lövésbe, megkapjuk a manat, töröljük a listából és a celláról
                     if (shotEnemy.getHealth() <= 0) {
                         mana.increase(shotEnemy.getManaValue());
@@ -125,8 +129,15 @@ public class Updater {
         enemyGenerator.generateEnemies();
 
         // 10%, hogy le/felszáll a köd
-        if (new Random().nextInt(100) < 10)
-            isFoggy = !isFoggy;
+        if (new Random().nextInt(100) < 10) {
+        	isFoggy = !isFoggy;
+        	for (Construct c : constructs) {
+        		if (c.getType().equals("Tower")) {
+        			if (isFoggy) ((Tower) c).setRangeModifier(0.75);
+        			else ((Tower) c).setRangeModifier(1);
+        		}
+        	}
+        }
 
         // ha nincs több ellenség, akkor győzelem
         if (enemies.isEmpty() && enemyGenerator.isLastEnemyGenerated()) {
@@ -135,11 +146,20 @@ public class Updater {
         }
     }
     
-	public ConstructManager getConstructManager() { //TODO Controller miatt kell
+	public ConstructManager getConstructManager() {
 		return constructManager;
 	}
 	
 	public int getMana() {
 		return mana.getMana();
+	}
+	
+	public String getGameState() {
+		return result;
+		
+	}
+	
+	public boolean getFogStatus() {
+		return isFoggy;
 	}
 }

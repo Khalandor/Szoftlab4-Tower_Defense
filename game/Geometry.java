@@ -13,20 +13,31 @@ public class Geometry {
 	 */
 	public Geometry() {
 		tiles = new Tile[10][10];
-		for (int x = 0; x < 10; x++) {
-			for (int y = 0; y < 10; y++) {
-				tiles[x][y] = new FieldTile(this);
-			}
-		}
+		size_x = 20;
+		size_y = 20;
+		for (Tile[] row : tiles)
+			for (Tile tile : row)
+				tile = new FieldTile(this);
+
 
 		for (int y = 1; y < 10; y++) {
 			tiles[4][y] = new PathTile(this);
 		}
 
         //bal-jobb
-        for (int x = 0; x < 9; x++) {
+        for (int x = 0; x < 10; x++) {
             tiles[x][6] = new PathTile(this);
         }
+        
+        //bal-jobb fent
+        for (int x = 5; x < 10; x++) {
+            tiles[x][2] = new PathTile(this);
+        }
+        
+		/*for (int y = 1; y < 10; y++) {
+			tiles[8][y] = new PathTile(this);
+		}*/
+        
 
         //hurok
         /*

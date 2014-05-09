@@ -17,7 +17,6 @@ public abstract class Drawable {
 		try {
 			drawableImage = ImageIO.read(new File (path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

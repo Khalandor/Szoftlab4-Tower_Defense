@@ -17,9 +17,8 @@ public class HobbitView extends Drawable {
 	}
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		View view = this.getView();
 		int point[] = view.getTilePosition(hobbit.getTile());
-		g.drawImage(getImage(), point[0]+10, point[1], null);
+		g.drawImage(getImage() , point[0]+5 , point[1], 16, 16, null); 
 	}
 }

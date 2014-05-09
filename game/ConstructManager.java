@@ -33,7 +33,8 @@ public class ConstructManager {
 	 * @param location - egy csempe, ahova az adott épülettípust elhelyezzük
 	 */
 	public void build(String type, Tile location) {
-		if (mana.hasEnough(costs.get(type)) && location.getConstruct()==null) {
+		if (mana.hasEnough(costs.get(type)) && location.getConstruct()==null && (!updater.getGameState().equals("win") &&
+				!updater.getGameState().equals("lose"))) {
 			Construct construct = null;
 			
 			if(type.equals("tower") && location.getType().equals("FieldTile")) {
@@ -56,7 +57,8 @@ public class ConstructManager {
 	 * @param construct az épület, amelyen a fejlesztést véghezvisszük
 	 */
 	public void upgrade(String type, Construct construct) {
-		if (mana.hasEnough(costs.get(type)) && construct.getMagicGem()==null) {
+		if (mana.hasEnough(costs.get(type)) && construct.getMagicGem()==null && (!updater.getGameState().equals("win") &&
+				!updater.getGameState().equals("lose"))) {
 			MagicGem gem = new MagicGem(type);
 			
 			if(construct.getType().equals("Tower")) {

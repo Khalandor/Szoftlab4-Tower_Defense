@@ -16,7 +16,7 @@ public class Controller {
 		updater = new Updater();
 		view = new View(updater);
 		
-		/*TODO szerintem jobb felvenni egy ilyen függvényt az Updaterbe,
+		/*
 		*mint ha itt hoznánk létre a ConstructManagert 
 		*és adnánk hozzá az Updaterhez*/
 		constructManager = updater.getConstructManager(); 	
@@ -26,7 +26,6 @@ public class Controller {
 	
 	public static void buildTower(Tile tile) {
 		constructManager.build("tower", tile);
-		view.drawAll();
 	}
 	
 	public static void buildBarricade(Tile tile) {

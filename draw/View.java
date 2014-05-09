@@ -21,15 +21,20 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.ImageCapabilities;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -91,7 +96,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[0].length; y++) {
 				if (tiles[x][y] == tile)
-					return new int[] {x * 60, y * 60};
+					return new int[] {x * 30, y * 30};
 			}
 		}
 		return null;
@@ -146,7 +151,38 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 					drawables.put(enemies.get(i), view);
 				}
 			}
-			drawables.get(enemies.get(i)).draw(g); 	//lekérjük az épülethez tartozó nézetet és kirajzoljuk
+			//lekérjük az épülethez tartozó nézetet és kirajzoljuk
+			drawables.get(enemies.get(i)).draw(g);
+		}
+		
+		
+		if (updater.getFogStatus()) {
+			try {
+				Image fog;
+				fog = ImageIO.read(new File ("textures/fog.png"));
+				g.drawImage(fog, 0, 0, null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+			
+		//ha véget ér a játék, akkor kirajzoljuk a megfelelő képet
+		if (updater.getGameState().equals("win")) {
+			try {
+				Image end;
+				end = ImageIO.read(new File ("textures/victory.png"));
+				g.drawImage(end, (this.getWidth() - end.getWidth(null)) / 2, (this.getHeight() - end.getHeight(null)) / 2, null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else if (updater.getGameState().equals("lose")) {
+			try {
+				Image end;
+				end = ImageIO.read(new File ("textures/defeat.png"));
+				g.drawImage(end, (this.getWidth() - end.getWidth(null)) / 2, (this.getHeight() - end.getHeight(null)) / 2, null);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -219,10 +255,16 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		manaLabel.setText("Varázserő: "+updater.getMana()); //varázserő mennyiség frissítése
 		
 		g.drawImage(image, 0, 0, null);
+		
+		//ha a játék már véget ért, akkor érvénytelenítjük a kijelölést
+		if (updater.getGameState().equals("win") || updater.getGameState().equals("lose")) {
+			selectedX = selectedY = -1;
+		}
+		
 		if (selectedX >= 0 && selectedY >= 0) { //amennyiben van érvényes kijelölt csempe, jelöljük azt
 			//egy fehér négyzetet rajzolunk a kijelölt csempe köré
 			g.setColor(Color.WHITE);
-			g.drawRect(selectedX * 60, selectedY * 60, 60, 60);
+			g.drawRect(selectedX * 30, selectedY * 30, 30, 30);
 		}
 	}
 	
@@ -295,8 +337,10 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 			if (arg0.getButton() == MouseEvent.BUTTON1) { //ha a bal gombbal kattintottunk
 				
 				//megnézzük a pálya méretét
-				int lenY = (geometry.getTiles())[0].length;
-				int lenX = geometry.getTiles().length;
+				//int lenY = (geometry.getTiles())[0].length;
+				//int lenX = geometry.getTiles().length;
+				int lenY = 20;
+				int lenX = 20;
 				
 				//a pálya mérete, a kurzor helye és a rajzolt nézet mérete alapján kiszámoljuk, hogy hányadik csempére kattintottunk
 				selectedX = mouseX / (600 / lenX);

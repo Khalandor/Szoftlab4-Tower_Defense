@@ -20,9 +20,8 @@ public class ElfView extends Drawable {
 	}
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		View view = this.getView();
-		int point[] = view.getTilePosition(elf.getTile());
-		g.drawImage(getImage(), point[0], point[1]+10, null);		
+		int point[] = view.getTilePosition(elf.getTile());		
+		g.drawImage(getImage() , point[0] , point[1], 16, 16, null); 
 	}
 }

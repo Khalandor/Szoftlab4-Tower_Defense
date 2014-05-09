@@ -18,6 +18,6 @@ public class FieldTileView extends Drawable {
 	@Override
 	public void draw(Graphics g) {
 		int[] poz = this.getView().getTilePosition(fieldTile);
-		g.drawImage(getImage() , poz[0] , poz[1] , null);		
+		g.drawImage(getImage() , poz[0] , poz[1], 30, 30, null); 
 	}
 }

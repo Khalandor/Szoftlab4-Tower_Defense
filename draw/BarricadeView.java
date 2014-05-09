@@ -24,6 +24,6 @@ public class BarricadeView extends Drawable {
 		int[] poz = this.getView().getTilePosition((barricade.getBarricadeLocation()));
 		if (barricade.getMagicGem()!= null)
 			this.setImage("textures/constructs/barricade/barricade_gem.png");
-		g.drawImage(getImage() , poz[0] , poz[1] , null);
+		g.drawImage(getImage() , poz[0] , poz[1], 30, 30, null); 
 	}
 }

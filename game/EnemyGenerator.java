@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class EnemyGenerator {
 	private final int maxGeneratingSpeed = 10;
-	private int maxEnemies = 30;
+	private int maxEnemies = 60;
 
 	private int generatingSpeed;
 	private int generatedEnemies;
@@ -70,7 +70,7 @@ public class EnemyGenerator {
      */
     public void generateEnemies() {
         delay--;
-        if(delay > 0)
+        if(delay > 0 || generatedEnemies >= maxEnemies)
             return;
         // sebesség nő a maxig => delay csökken 0-ig
         if (maxGeneratingSpeed > generatingSpeed){
@@ -81,6 +81,7 @@ public class EnemyGenerator {
             delay = 0;
 
         Enemy newEnemy = createRandomEnemy();
+        generatedEnemies++;
         updater.addEnemy(newEnemy);
         pathGenerator.start(newEnemy);
     }
