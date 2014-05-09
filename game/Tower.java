@@ -9,7 +9,6 @@ public class Tower extends Construct {
 	private double rangeModifier;
 	private int range;
 	private FieldTile towerLocation;
-	private int shootParam = -1;
 	private int shootDelay;
 
 	/**
@@ -35,11 +34,11 @@ public class Tower extends Construct {
 	 * @return a meglőtt ellenség
 	 */
 	public Enemy shoot() {
-		if (shootParam == -1) {
-			shootDelay--;
-			if (shootDelay > 0) return null;
-			else shootDelay = fireRate;
-		}
+
+		shootDelay--;
+		if (shootDelay > 0) return null;
+		else shootDelay = fireRate;
+
 		
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, (int) (range * rangeModifier));
@@ -60,26 +59,12 @@ public class Tower extends Construct {
 			String type = target.getType();
 			damageBonus = gem.getDamageBonus(type);
 		};
-		
-		//TODO kicsit értelmesebbé kéne tenni a a felező lövések számát
-		shootParam = 0;
-		switch (shootParam)
-		{
-		case 1  : target.damageHalf();
-				  break;				 		
-		
-		case 0  : target.damage(damage+damageBonus);
-				  break;
-		
-		case -1 : if (rand.nextInt(10) < 5)	  {
-						target.damageHalf();
-						} else {
-						target.damage(damage+damageBonus);
-					}
-				  break;
+
+		if (rand.nextInt(100) < 10)	  {
+			target.damageHalf();
+		} else {
+				target.damage(damage+damageBonus);
 		}
-		
-		shootParam = -1;
 		return target;
 	}
 

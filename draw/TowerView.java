@@ -40,7 +40,7 @@ public class TowerView extends Drawable {
 				 else if (gem.getType().equals("elf")) this.setImage("textures/constructs/tower/tower_elf.png");
 				      else if (gem.getType().equals("dwarf")) this.setImage("textures/constructs/tower/tower_dwarf.png");
 				           else if (gem.getType().equals("range")) this.setImage("textures/constructs/tower/tower_range.png");
-		
+				           		else if (gem.getType().equals("firerate")) this.setImage("textures/constructs/tower/tower_firerate.png");
 		}
 		g.drawImage(getImage() , point[0] , point[1], 30, 30, null); 		
 	}

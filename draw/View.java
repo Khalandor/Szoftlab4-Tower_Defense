@@ -233,7 +233,7 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		gbc_btnUpgrade.gridy = 2;
 		menu.add(btnUpgrade, gbc_btnUpgrade);
 		
-		String[] types = { "Human", "Elf", "Hobbit", "Dwarf", "Range", "Slow" , "Fire Rate", "Range"};
+		String[] types = { "Human", "Elf", "Hobbit", "Dwarf", "Range", "Slow" , "Fire Rate"};
 		comboBoxTypes = new JComboBox(types);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridx = 0;
