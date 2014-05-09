@@ -142,6 +142,7 @@ public class PathGenerator {
                         for (Tile startTile : edgesFromCurrent)
                             segmentStarts.add(new Tile[]{current, startTile});
                         seen.add(current);
+                        actualSegment.add(current);
                     }
                 }
             }

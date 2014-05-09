@@ -23,6 +23,21 @@ public class Geometry {
 			tiles[4][y] = new PathTile(this);
 		}
 
+        //bal-jobb
+        for (int x = 0; x < 9; x++) {
+            tiles[x][6] = new PathTile(this);
+        }
+
+        //hurok
+        /*
+        tiles[5][2] = new PathTile(this);
+        tiles[6][2] = new PathTile(this);
+        tiles[6][3] = new PathTile(this);
+        tiles[6][4] = new PathTile(this);
+        tiles[5][4] = new PathTile(this);
+        */
+
+
         /*
         cheating off :)
 
