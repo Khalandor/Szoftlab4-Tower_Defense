@@ -120,7 +120,7 @@ public class PathGenerator {
 
                 // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
                 HashSet<Tile> edgesFromCurrent = new HashSet<Tile>();
-                edgesFromCurrent = edges.get(current);
+                edgesFromCurrent.addAll(edges.get(current));
                 edgesFromCurrent.removeAll(seen);
 
                 while (edgesFromCurrent.size() == 1){
@@ -129,11 +129,16 @@ public class PathGenerator {
                     seen.add(current);
                     // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
                     current = edgesFromCurrent.iterator().next();
-                    edgesFromCurrent = edges.get(current);
+                    edgesFromCurrent = new HashSet<Tile>();
+                    edgesFromCurrent.addAll(edges.get(current));
                     edgesFromCurrent.removeAll(seen);
 
-                    // Ha a soron következő csúcs elágazás, akkor minden róla induló útnak létre kell hozni egy új szegmenst, és felvenni őket a sorba
-                    if(edgesFromCurrent.size() >= 2) {
+                    // Ha a soron következő csúcs út eleje, akkor itt vesszük fel a szegmensbe a következő ciklus eleje helyett, mert a ciklusnak itt vége
+                    if (edgesFromCurrent.size() == 0)
+                        actualSegment.add(current);
+
+                        // Ha a soron következő csúcs elágazás, akkor minden róla induló útnak létre kell hozni egy új szegmenst, és felvenni őket a sorba
+                    else if (edgesFromCurrent.size() >= 2) {
                         for (Tile startTile : edgesFromCurrent)
                             segmentStarts.add(new Tile[]{current, startTile});
                         seen.add(current);

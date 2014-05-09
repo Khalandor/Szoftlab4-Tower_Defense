@@ -22,10 +22,14 @@ public class Geometry {
 		for (int y = 1; y < 10; y++) {
 			tiles[4][y] = new PathTile(this);
 		}
-		
+
+        /*
+        cheating off :)
+
 		for (int y = 9; y > 1; y--) {
 			((PathTile) tiles[4][y]).setNextTile(tiles[4][y-1]);
 		}
+		         */
 		
 		tiles[4][0] = new EndTile(this);
 	}
