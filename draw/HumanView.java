@@ -20,6 +20,6 @@ public class HumanView extends Drawable {
 		// TODO Auto-generated method stub
 		View view = this.getView();
 		int point[] = view.getTilePosition(human.getTile());
-		g.drawImage(getImage(), point[0], point[1], null);		
+		g.drawImage(getImage(), point[0]+30, point[1]+20, null);	
 	}
 }

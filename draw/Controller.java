@@ -22,15 +22,6 @@ public class Controller {
 		constructManager = updater.getConstructManager(); 	
 
 		view.drawAll();
-		
-		Timer timer = new Timer(true);
-		timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-				  System.out.println("Update called");
-			    updater.update();
-			  }
-			}, 0, 1000);
 	}
 	
 	public static void buildTower(Tile tile) {

@@ -42,7 +42,9 @@ public class Tower extends Construct {
 		}
 		
 		Geometry geometry = towerLocation.getGeometry();
+		//TODO a tilesInRange lista üres marad
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, range);
+		System.out.println("range: "+towerLocation+", "+range+", "+(tilesInRange.size()));
 		Random rand = new Random();
 		
 		Enemy target = null;

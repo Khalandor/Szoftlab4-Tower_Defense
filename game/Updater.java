@@ -2,6 +2,8 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Updater {
@@ -22,6 +24,14 @@ public class Updater {
         enemyGenerator = new EnemyGenerator(pathGenerator, this);
         constructManager = new ConstructManager(this, mana);
         mana.setMana(200);
+        
+		Timer timer = new Timer(true);
+		timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+			    update();
+			  }
+			}, 0, 1000);
     }
 	/**
 	 * Visszadja az összes ellenség listáját
@@ -98,9 +108,9 @@ public class Updater {
         for (Construct c : constructs) {
             if (c.getType().equals("Tower")) {
                 Enemy shotEnemy = ((Tower) c).shoot();
-
                 // ha a torony eltalál valakit
                 if (shotEnemy != null) {
+                	System.out.println("Találat");
                     // ha az ellenség belehal a lövésbe, megkapjuk a manat, töröljük a listából és a celláról
                     if (shotEnemy.getHealth() <= 0) {
                         mana.increase(shotEnemy.getManaValue());

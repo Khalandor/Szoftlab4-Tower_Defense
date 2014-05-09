@@ -56,7 +56,7 @@ public class ConstructManager {
 	 * @param construct az épület, amelyen a fejlesztést véghezvisszük
 	 */
 	public void upgrade(String type, Construct construct) {
-		if (mana.hasEnough(costs.get(type))) {
+		if (mana.hasEnough(costs.get(type)) && construct.getMagicGem()==null) {
 			MagicGem gem = new MagicGem(type);
 			
 			if(construct.getType().equals("Tower")) {

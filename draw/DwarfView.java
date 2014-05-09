@@ -19,7 +19,7 @@ public class DwarfView extends Drawable {
 	public void draw(Graphics g) {
 		// TODO Auto-generated method stub
 		View view = this.getView();
-		int point[] = view.getTilePosition(dwarf.getTile());
-		g.drawImage(getImage(), point[0], point[1], null);		
+		int point[] = view.getTilePosition(dwarf.getTile());	
+		g.drawImage(getImage(), point[0]+10, point[1]+25, null);		
 	}
 }
