@@ -12,58 +12,61 @@ public class Geometry {
 	 * Létrehozza a csempéket.
 	 */
 	public Geometry() {
-		size_x = 20;
-		size_y = 20;
+        size_x = 20;
+        size_y = 20;
         tiles = new Tile[size_x][size_y];
         for (int x = 0; x < size_x; x++)
             for (int y = 0; y < size_y; y++)
                 tiles[x][y] = new FieldTile(this);
+        createMap1();
 
-		for (int y = 1; y < 20; y++) {
-			tiles[10][y] = new PathTile(this);
-		}
-
-        //bal-jobb
-        for (int x = 0; x < 20; x++) {
-            tiles[x][6] = new PathTile(this);
-        }
-        
-        //bal-jobb fent
-        for (int x = 0; x < 10; x++) {
-            tiles[x][2] = new PathTile(this);
-        }
-        
-		/*for (int y = 1; y < 10; y++) {
-			tiles[8][y] = new PathTile(this);
-		}*/
-        
-
-        //hurok
-        /*
-        tiles[5][2] = new PathTile(this);
-        tiles[6][2] = new PathTile(this);
-        tiles[6][3] = new PathTile(this);
-        tiles[6][4] = new PathTile(this);
-        tiles[5][4] = new PathTile(this);
-        */
-
-
-        /*
-        cheating off :)
-
-		for (int y = 9; y > 1; y--) {
-			((PathTile) tiles[4][y]).setNextTile(tiles[4][y-1]);
-		}
-		         */
-		
-		tiles[10][0] = new EndTile(this);
 	}
-	
-	/*public Geometry(int size) {
-		tiles = new Tile[size];
-	}*/
-	
-	
+
+    private void createMap1(){
+        tiles[10][0] = new EndTile(this);
+        for (int y = 1; y <= 4; y++)
+            tiles[10][y] = new PathTile(this);
+
+        for (int x = 11; x <= 15; x++)
+            tiles[x][4] = new PathTile(this);
+        for (int y = 5; y <= 12; y++)
+            tiles[15][y] = new PathTile(this);
+        for (int y = 12; y <= 14; y++)
+            tiles[14][y] = new PathTile(this);
+        tiles[13][14] = new PathTile(this);
+        for (int y = 14; y <=16; y++)
+            tiles[12][y] = new PathTile(this);
+        tiles[11][16] = new PathTile(this);
+        for (int y = 13; y <=19; y++)
+            tiles[10][y] = new PathTile(this);
+        for (int x = 6; x <= 9; x++)
+            tiles[x][13] = new PathTile(this);
+        tiles[6][14] = new PathTile(this);
+        for (int y = 14; y <= 16; y++)
+            tiles[5][y] = new PathTile(this);
+        tiles[4][16] = new PathTile(this);
+        for (int y = 16; y <= 19; y++)
+            tiles[3][y] = new PathTile(this);
+        for (int y = 4; y <= 13; y++)
+            tiles[7][y] = new PathTile(this);
+        for (int x = 6; x <= 8; x++)
+            tiles[x][3] = new PathTile(this);
+        for (int x = 8; x <= 9; x++)
+            tiles[x][2] = new PathTile(this);
+        tiles[6][2] = new PathTile(this);
+        tiles[5][2] = new PathTile(this);
+        for (int x = 2; x <= 5; x++)
+            tiles[x][1] = new PathTile(this);
+        for (int y = 1; y <= 6; y++)
+            tiles[2][y] = new PathTile(this);
+        tiles[3][6] = new PathTile(this);
+        for (int y = 6; y <= 8; y++)
+            tiles[4][y] = new PathTile(this);
+        for (int y = 8; y <= 10; y++)
+            tiles[5][y] = new PathTile(this);
+        tiles[6][10] = new PathTile(this);
+    }
+
 	/**
 	 * Egy csempe adott sugarú körén belüli csempéit adja vissza
 	 * @param center a csempe, amelyikről a lövést indítjuk
