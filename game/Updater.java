@@ -107,6 +107,7 @@ public class Updater {
             	if (lose) {
             		gameOver(false);
             	}
+
         }
 
         // minden torony lő, a halott ellenséget törli

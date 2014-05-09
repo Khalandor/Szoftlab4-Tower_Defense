@@ -12,25 +12,24 @@ public class Geometry {
 	 * Létrehozza a csempéket.
 	 */
 	public Geometry() {
-		tiles = new Tile[10][10];
 		size_x = 20;
 		size_y = 20;
-		for (Tile[] row : tiles)
-			for (Tile tile : row)
-				tile = new FieldTile(this);
+        tiles = new Tile[size_x][size_y];
+        for (int x = 0; x < size_x; x++)
+            for (int y = 0; y < size_y; y++)
+                tiles[x][y] = new FieldTile(this);
 
-
-		for (int y = 1; y < 10; y++) {
-			tiles[4][y] = new PathTile(this);
+		for (int y = 1; y < 20; y++) {
+			tiles[10][y] = new PathTile(this);
 		}
 
         //bal-jobb
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 20; x++) {
             tiles[x][6] = new PathTile(this);
         }
         
         //bal-jobb fent
-        for (int x = 5; x < 10; x++) {
+        for (int x = 0; x < 10; x++) {
             tiles[x][2] = new PathTile(this);
         }
         
@@ -57,7 +56,7 @@ public class Geometry {
 		}
 		         */
 		
-		tiles[4][0] = new EndTile(this);
+		tiles[10][0] = new EndTile(this);
 	}
 	
 	/*public Geometry(int size) {

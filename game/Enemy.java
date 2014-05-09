@@ -86,8 +86,19 @@ public abstract class Enemy {
 				
 				ArrayList<Tile> nextTile  = ((PathTile) currentTile).getNextTiles();//lekéri az elérhető cellákat
 				((PathTile) currentTile).removeEnemy(this); 						//eltávolítja magát az aktuális celláról
+                /* //TODO teszteléshez kivéve rakd, vissza!
 				currentTile = nextTile.get((int) (Math.random() % nextTile.size())); 	//véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
 				currentTile.addEnemy(this); 										//hozzáadja magát az akutális csempéhez
+				*/
+               //Tesztelés, töröld: (ha EndTile-ra lépne, akkor nem lép, hanem meghal
+                Tile chosenTile = nextTile.get((int) (Math.random() % nextTile.size()));
+                if (chosenTile.getType().equals("EndTile")){
+                    health=0;
+                }
+                else{
+                    currentTile = nextTile.get((int) (Math.random() % nextTile.size())); 	//véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
+                    currentTile.addEnemy(this); 										//hozzáadja magát az akutális csempéhez
+                }
 				
 				if (currentTile.getType().equals("EndTile")) { 						//ha végzet hegyére lépett, akkor igazzal visszatér -> vége a játéknak
 					return true;

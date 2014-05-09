@@ -109,9 +109,9 @@ public class PathGenerator {
             Tile intersection = segmentsStart[0];
             Tile current = segmentsStart[1];
 
-            // lehetséges, hogy már bejártuk a másik oldalról a szegmens elejét, akkor nem vesszük figyelembe
+            // lehetséges, hogy már bejártuk a másik oldalról a szegmens elejét, akkor nem vesszük figyelembe, egyébként:
             if (!seen.contains(current)){
-                // a szegmens elején új szegmenst hozunk létre, aminek első eleme az elágazás
+                // a szegmens elején vagyunk, tároljuk az új szegmenst, aminek első eleme az elágazás
                 ArrayList<Tile> actualSegment = new ArrayList<Tile>();
                 segments.add(actualSegment);
                 // az EndTile is egy szegmens eleje, de azt nem előzi meg elágazás
@@ -131,21 +131,36 @@ public class PathGenerator {
                     current = edgesFromCurrent.iterator().next();
                     edgesFromCurrent = new HashSet<Tile>();
                     edgesFromCurrent.addAll(edges.get(current));
-                    edgesFromCurrent.removeAll(seen);
 
+
+                    // TODO, ha út elje elágazás, ez lehet szar.
                     // Ha a soron következő csúcs út eleje, akkor itt vesszük fel a szegmensbe a következő ciklus eleje helyett, mert a ciklusnak itt vége
-                    if (edgesFromCurrent.size() == 0)
+                    if (edgesFromCurrent.size() == 1) {
                         actualSegment.add(current);
-
+                        edgesFromCurrent.removeAll(seen);
+                    }
+                    else {
+                        edgesFromCurrent.removeAll(seen);
                         // Ha a soron következő csúcs elágazás, akkor minden róla induló útnak létre kell hozni egy új szegmenst, és felvenni őket a sorba
-                    else if (edgesFromCurrent.size() >= 2) {
-                        for (Tile startTile : edgesFromCurrent)
-                            segmentStarts.add(new Tile[]{current, startTile});
-                        seen.add(current);
-                        actualSegment.add(current);
+                        if (edgesFromCurrent.size() >= 2 || edgesFromCurrent.isEmpty()) {
+                            for (Tile startTile : edgesFromCurrent)
+                                segmentStarts.add(new Tile[]{current, startTile});
+                            seen.add(current);
+                            actualSegment.add(current);
+                        }
                     }
                 }
             }
+
+            // a hurkoknál itt kezeljük, hogy a szegmens vége a csomópont legyen
+            // a current egy sima Path, nem csomópont vagy EndTile. a szegmensek végén tehát nem lehet a current
+            // tehát ha egy szegmens utolsó eleme most a current, akkor az rossz, a szegmens végéhez adjuk az elágazást, amihez a current csatlakozik.
+            //TODO szomszédos csomópontok? (current is csomópont?)
+            else
+                for (ArrayList<Tile> segment : segments){
+                    if (segment.get( segment.size() -1) == current)
+                        segment.add(intersection);
+                }
         }
         // Létrejöttek a szegmensek, de fordítva vannak, az EndTile-tól az utak kezdete felé sorrendben vannak, megfordítjuk őket.
         for (ArrayList<Tile> segment : segments)
