@@ -16,7 +16,7 @@ public class PathGenerator {
     public PathGenerator (Geometry geometry){
         map = geometry.getTiles();	//Elkérjük az összes csempét
         buildUnorientedGraph();     // létrehoz egy irányítatlan gráfot
-        createPathSegments2();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
+        createPathSegments();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
         setNextTiles();             // Beállítja az útvonalszegmensek alapján a PathTile-ok nextTile értékét
         setPathStarts();            // Beállítja az útvonalak kezdőpontját
     }
