@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public abstract class Enemy {
 	protected int health;
@@ -87,24 +88,24 @@ public abstract class Enemy {
 				ArrayList<Tile> nextTile  = ((PathTile) currentTile).getNextTiles();//lekéri az elérhető cellákat
 				((PathTile) currentTile).removeEnemy(this); 						//eltávolítja magát az aktuális celláról
 
-                //Nem tesztelés:
-                currentTile = nextTile.get((int) (Math.random() % nextTile.size())); 	//véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
+
+                int randomNumber = new Random().nextInt(nextTile.size());
+                currentTile = nextTile.get(randomNumber); 	                        //véletlenszerűen választ egy cellát a listából és beállítja aktuálisnak
                 currentTile.addEnemy(this); 										//hozzáadja magát az akutális csempéhez
 
-                //Tesztelés:
                 /*
-                Tile chosenTile = nextTile.get((int) (Math.random() % nextTile.size()));
+                //Tesztelés:
+                int randomNumber = new Random().nextInt(nextTile.size());
+                Tile chosenTile = nextTile.get(randomNumber);
                 if (chosenTile.getType().equals("EndTile")){
                     health=0;
                 }
                 else{
-                    currentTile = nextTile.get((int) (Math.random() % nextTile.size()));
+                    currentTile = chosenTile;
                     currentTile.addEnemy(this);
                 }
                 */
 
-
-				
 				if (currentTile.getType().equals("EndTile")) { 						//ha végzet hegyére lépett, akkor igazzal visszatér -> vége a játéknak
 					return true;
 				}

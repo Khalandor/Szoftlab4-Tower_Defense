@@ -16,7 +16,7 @@ public class PathGenerator {
     public PathGenerator (Geometry geometry){
         map = geometry.getTiles();	//Elkérjük az összes csempét
         buildUnorientedGraph();     // létrehoz egy irányítatlan gráfot
-        createPathSegments();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
+        createPathSegments2();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
         setNextTiles();             // Beállítja az útvonalszegmensek alapján a PathTile-ok nextTile értékét
         setPathStarts();            // Beállítja az útvonalak kezdőpontját
     }
@@ -93,12 +93,109 @@ public class PathGenerator {
         return neighbours;
     }
 
+    private void removeSameSegments(){
+        HashSet<ArrayList<Tile>> newSegments = new HashSet<ArrayList<Tile>>();
+        for (ArrayList<Tile> segment : segments){
+            ArrayList<Tile> reversedSegment = new ArrayList<Tile>();
+            reversedSegment.addAll(segment);
+            Collections.reverse(reversedSegment);
+            if (!newSegments.contains(segment) && !newSegments.contains(reversedSegment))
+                newSegments.add(segment);
+        }
+        segments = newSegments;
+    }
+
     /**
      * Útszegmenseket hoz létre a pályán.
      * Minden szegmens eleje egy elágazás, a vége egy másik elágazás vagy az EndTile
      * Köztük a kettő közti utak vannak SORRENDBEN
      */
     private void createPathSegments(){
+        // inicializálás.
+        // seenSegmentStarts: a szegmensek kezdetei közül a már bejártak
+        HashSet<Tile> seenSegmentStarts = new HashSet<Tile>();
+        // segmentStartsLeft: a szegmensek kezdetei közül a már megtaláltak, de még nem bejártak.
+        // 2-elemű tömb, Formátuma: [szegmenst megelőző elágazás, szegmens első eleme]
+        Queue<Tile[]> segmentStartQueue = new ArrayDeque<Tile[]>();
+        // az első szegmens eleje az endTile, megelőző elágazása nincs
+        segmentStartQueue.add( new Tile[]{null,endTile});
+
+        while (!segmentStartQueue.isEmpty()){
+            Tile[] newStart = segmentStartQueue.poll();
+            Tile intersection = newStart[0];
+            Tile current = newStart[1];
+            Tile previous;
+
+            // a szegmens elején vagyunk, tároljuk az új szegmenst, aminek első eleme az elágazás
+            ArrayList<Tile> actualSegment = new ArrayList<Tile>();
+            segments.add(actualSegment);
+            // az EndTile is egy szegmens eleje, de azt nem előzi meg elágazás
+            if (current != endTile)
+                actualSegment.add(intersection);
+
+            // az elágazás utáni mezőből elérhető mezők, kivéve az elágazást magát.
+            HashSet<Tile> reachableFromCurrent = new HashSet<Tile>();
+            reachableFromCurrent.addAll(edges.get(current));
+            reachableFromCurrent.remove(intersection);
+
+            // nem lehet innen tovább menni -> ez egy új út kezdete, ami szomszédos egy elágazással, tehát egy szegmens eleje és vége is!
+            if (reachableFromCurrent.isEmpty()){
+                // pathStarts.add((PathTile) current);
+                actualSegment.add(current);
+                seenSegmentStarts.add(current);
+                segmentStartQueue.remove(current);
+            }
+            // 1 irányba lehet továbbmenni -> egy új szegmens kezdete
+            else if (reachableFromCurrent.size() == 1)
+                seenSegmentStarts.add(current);
+
+            // 2 vagy 3 irányba lehet továbbmenni -> 2 elágazás van szomszédos mezőn, ez nem támogatott
+            else if (reachableFromCurrent.size() >= 2){
+                System.out.println("Egymás melletti elágazások.");
+                // TODO ez nincs lekezelve
+            }
+
+            while (reachableFromCurrent.size() == 1){
+                //felvesszük a szegmensbe a mezőt
+                actualSegment.add(current);
+                // itt currentből a while feltétele miatt, garantáltan csak 1 Tile érhető el, ez lesz az új current, az új previous pedig a mostani current
+                previous = current;
+                current = reachableFromCurrent.iterator().next();
+
+                // megkeressük az új currentből elérhető mezőket
+                reachableFromCurrent = new HashSet<Tile>();
+                reachableFromCurrent.addAll(edges.get(current));
+                reachableFromCurrent.remove(previous);
+
+                // nem lehet innen tovább menni -> current egy új út kezdete, szegmens vége
+                if (reachableFromCurrent.isEmpty()){
+                    // pathStarts.add((PathTile) current);
+                    actualSegment.add(current);
+                }
+
+                // az új current egy elágazás -> szegmens vége, az elágazás még be nem járt kezdeteinek felvétele a sorba
+                if (reachableFromCurrent.size() >=2){
+                    seenSegmentStarts.add(previous);
+                    segmentStartQueue.remove(previous);
+                    actualSegment.add(current);
+                    for (Tile segmentStart : reachableFromCurrent)
+                        if (!seenSegmentStarts.contains(segmentStart))
+                            segmentStartQueue.add(new Tile[]{current, segmentStart});
+                }
+            }
+        }
+        // dupla utak törlése
+        removeSameSegments();
+        // Létrejöttek a szegmensek, de fordítva vannak, az EndTile-tól az utak kezdete felé sorrendben vannak, megfordítjuk őket.
+        for (ArrayList<Tile> segment : segments)
+            Collections.reverse(segment);
+    }
+    /**
+     * Útszegmenseket hoz létre a pályán.
+     * Minden szegmens eleje egy elágazás, a vége egy másik elágazás vagy az EndTile
+     * Köztük a kettő közti utak vannak SORRENDBEN
+     */
+    private void createPathSegments2(){
         HashSet<Tile> seen = new HashSet<Tile>();
         // a megtalált, de még nem bejárt szegmensek eleje van benne ebben a formában: [elágazás, szegmens első eleme]
         Queue<Tile[]> segmentStarts = new ArrayDeque<Tile[]>();
@@ -121,7 +218,7 @@ public class PathGenerator {
                 // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
                 HashSet<Tile> edgesFromCurrent = new HashSet<Tile>();
                 edgesFromCurrent.addAll(edges.get(current));
-                edgesFromCurrent.removeAll(seen);
+                edgesFromCurrent.remove(intersection);
 
                 while (edgesFromCurrent.size() == 1){
                     // Felvesszük az aktuális szegmensbe a csúcsot, és jelöljük, hogy bejártuk

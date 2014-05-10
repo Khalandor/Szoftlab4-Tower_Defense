@@ -49,10 +49,14 @@ public class Geometry {
             tiles[3][y] = new PathTile(this);
         for (int y = 4; y <= 13; y++)
             tiles[7][y] = new PathTile(this);
-        for (int x = 6; x <= 8; x++)
+
+        for (int x = 7; x <= 8; x++)
             tiles[x][3] = new PathTile(this);
         for (int x = 8; x <= 9; x++)
             tiles[x][2] = new PathTile(this);
+
+        // Hurok
+        tiles[6][3] = new PathTile(this);
         tiles[6][2] = new PathTile(this);
         tiles[5][2] = new PathTile(this);
         for (int x = 2; x <= 5; x++)
@@ -65,6 +69,7 @@ public class Geometry {
         for (int y = 8; y <= 10; y++)
             tiles[5][y] = new PathTile(this);
         tiles[6][10] = new PathTile(this);
+
     }
 
 	/**
