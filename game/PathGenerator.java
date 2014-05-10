@@ -18,7 +18,6 @@ public class PathGenerator {
         buildUnorientedGraph();     // létrehoz egy irányítatlan gráfot
         createPathSegments();       // szegmensekre tördeli a gráfot. Minden szegmens eleje és vége egy elágazás
         setNextTiles();             // Beállítja az útvonalszegmensek alapján a PathTile-ok nextTile értékét
-        setPathStarts();            // Beállítja az útvonalak kezdőpontját
     }
 
     /**
@@ -93,20 +92,8 @@ public class PathGenerator {
         return neighbours;
     }
 
-    private void removeSameSegments(){
-        HashSet<ArrayList<Tile>> newSegments = new HashSet<ArrayList<Tile>>();
-        for (ArrayList<Tile> segment : segments){
-            ArrayList<Tile> reversedSegment = new ArrayList<Tile>();
-            reversedSegment.addAll(segment);
-            Collections.reverse(reversedSegment);
-            if (!newSegments.contains(segment) && !newSegments.contains(reversedSegment))
-                newSegments.add(segment);
-        }
-        segments = newSegments;
-    }
-
     /**
-     * Útszegmenseket hoz létre a pályán.
+     * Útszegmenseket hoz létre az élek alapján.
      * Minden szegmens eleje egy elágazás, a vége egy másik elágazás vagy az EndTile
      * Köztük a kettő közti utak vannak SORRENDBEN
      */
@@ -140,7 +127,8 @@ public class PathGenerator {
 
             // nem lehet innen tovább menni -> ez egy új út kezdete, ami szomszédos egy elágazással, tehát egy szegmens eleje és vége is!
             if (reachableFromCurrent.isEmpty()){
-                // pathStarts.add((PathTile) current);
+                if (!pathStarts.contains(current))
+                    pathStarts.add((PathTile) current);
                 actualSegment.add(current);
                 seenSegmentStarts.add(current);
                 segmentStartQueue.remove(current);
@@ -169,7 +157,8 @@ public class PathGenerator {
 
                 // nem lehet innen tovább menni -> current egy új út kezdete, szegmens vége
                 if (reachableFromCurrent.isEmpty()){
-                    // pathStarts.add((PathTile) current);
+                    if (!pathStarts.contains(current))
+                        pathStarts.add((PathTile) current);
                     actualSegment.add(current);
                 }
 
@@ -189,79 +178,79 @@ public class PathGenerator {
         // Létrejöttek a szegmensek, de fordítva vannak, az EndTile-tól az utak kezdete felé sorrendben vannak, megfordítjuk őket.
         for (ArrayList<Tile> segment : segments)
             Collections.reverse(segment);
+        // törli a hurkok miatt keletkező dupla utakat
+        removeTwoWaySegments();
     }
+
     /**
-     * Útszegmenseket hoz létre a pályán.
-     * Minden szegmens eleje egy elágazás, a vége egy másik elágazás vagy az EndTile
-     * Köztük a kettő közti utak vannak SORRENDBEN
+     * Törli az ugyanolyan szegmenseket.
      */
-    private void createPathSegments2(){
-        HashSet<Tile> seen = new HashSet<Tile>();
-        // a megtalált, de még nem bejárt szegmensek eleje van benne ebben a formában: [elágazás, szegmens első eleme]
-        Queue<Tile[]> segmentStarts = new ArrayDeque<Tile[]>();
-        segmentStarts.add( new Tile[]{null,endTile});
-
-        while (!segmentStarts.isEmpty()){
-            Tile[] segmentsStart = segmentStarts.poll();
-            Tile intersection = segmentsStart[0];
-            Tile current = segmentsStart[1];
-
-            // lehetséges, hogy már bejártuk a másik oldalról a szegmens elejét, akkor nem vesszük figyelembe, egyébként:
-            if (!seen.contains(current)){
-                // a szegmens elején vagyunk, tároljuk az új szegmenst, aminek első eleme az elágazás
-                ArrayList<Tile> actualSegment = new ArrayList<Tile>();
-                segments.add(actualSegment);
-                // az EndTile is egy szegmens eleje, de azt nem előzi meg elágazás
-                if (current != endTile)
-                    actualSegment.add(intersection);
-
-                // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
-                HashSet<Tile> edgesFromCurrent = new HashSet<Tile>();
-                edgesFromCurrent.addAll(edges.get(current));
-                edgesFromCurrent.remove(intersection);
-
-                while (edgesFromCurrent.size() == 1){
-                    // Felvesszük az aktuális szegmensbe a csúcsot, és jelöljük, hogy bejártuk
-                    actualSegment.add(current);
-                    seen.add(current);
-                    // a jelenlegi csúcsból kiinduló, még nem bejárt csúcsban végződő élek keresése
-                    current = edgesFromCurrent.iterator().next();
-                    edgesFromCurrent = new HashSet<Tile>();
-                    edgesFromCurrent.addAll(edges.get(current));
-
-
-                    // TODO, ha út elje elágazás, ez lehet szar.
-                    // Ha a soron következő csúcs út eleje, akkor itt vesszük fel a szegmensbe a következő ciklus eleje helyett, mert a ciklusnak itt vége
-                    if (edgesFromCurrent.size() == 1) {
-                        actualSegment.add(current);
-                        edgesFromCurrent.removeAll(seen);
-                    }
-                    else {
-                        edgesFromCurrent.removeAll(seen);
-                        // Ha a soron következő csúcs elágazás, akkor minden róla induló útnak létre kell hozni egy új szegmenst, és felvenni őket a sorba
-                        if (edgesFromCurrent.size() >= 2 || edgesFromCurrent.isEmpty()) {
-                            for (Tile startTile : edgesFromCurrent)
-                                segmentStarts.add(new Tile[]{current, startTile});
-                            seen.add(current);
-                            actualSegment.add(current);
-                        }
-                    }
-                }
-            }
-
-            // a hurkoknál itt kezeljük, hogy a szegmens vége a csomópont legyen
-            // a current egy sima Path, nem csomópont vagy EndTile. a szegmensek végén tehát nem lehet a current
-            // tehát ha egy szegmens utolsó eleme most a current, akkor az rossz, a szegmens végéhez adjuk az elágazást, amihez a current csatlakozik.
-            //TODO szomszédos csomópontok? (current is csomópont?)
-            else
-                for (ArrayList<Tile> segment : segments){
-                    if (segment.get( segment.size() -1) == current)
-                        segment.add(intersection);
-                }
+    private void removeSameSegments(){
+        HashSet<ArrayList<Tile>> uniqueSegments = new HashSet<ArrayList<Tile>>();
+        for (ArrayList<Tile> segment : segments){
+            ArrayList<Tile> reversedSegment = new ArrayList<Tile>();
+            reversedSegment.addAll(segment);
+            Collections.reverse(reversedSegment);
+            if (!uniqueSegments.contains(segment))
+                uniqueSegments.add(segment);
         }
-        // Létrejöttek a szegmensek, de fordítva vannak, az EndTile-tól az utak kezdete felé sorrendben vannak, megfordítjuk őket.
+        segments = uniqueSegments;
+    }
+
+    /**
+     * Törli a hurkok miatt keletkező dupla élek közül azt, amelyik azt okozza, hogy bent lehessen ragadni a hurokban
+     */
+    private void removeTwoWaySegments(){
+        HashSet<Tile> discovered = new HashSet<Tile>();
+        for (Tile p : pathStarts)
+            DFSRemoveDouble(p, discovered);
+    }
+
+    /**
+     * Rekurzív mélységi keresés  függvény
+     * Mélységi keresést végez a gráfon, aminek élei az út elejétől az EndTile-ig szegmensek, csúcsai az elágazások
+     * A keresés közben törli a megfelelő dupla éleket
+     * @param v A gráf pontja, ahonnan a rekurzív mélységi keresés mostani ciklusa fut
+     * @param discovered A gráf eddig meglátogatott pontjai
+     */
+    private void DFSRemoveDouble(Tile v, HashSet<Tile> discovered){
+        discovered.add(v);
+        // minden itt kezdődő szegmens
+        HashSet<ArrayList<Tile>> allSegmentsFromHere = new HashSet<ArrayList<Tile>>();
         for (ArrayList<Tile> segment : segments)
-            Collections.reverse(segment);
+            if (segment.get(0) == v)
+                allSegmentsFromHere.add(segment);
+
+        HashSet<Tile> reachableTiles = new HashSet<Tile>();
+        // Innen kivezető élek végpontjai:
+        for (ArrayList<Tile> segment : allSegmentsFromHere)
+            reachableTiles.add(segment.get( segment.size() - 1));
+
+        // Ha visszafele is mutat onnan egy él, azt törlöm
+        // Minden a végpontokban kezdődő szegmens:
+        HashSet<ArrayList<Tile>> segmentsFromNeighbours = new HashSet<ArrayList<Tile>>();
+        for (Tile neighbour : reachableTiles)
+            for (ArrayList<Tile> segment : segments)
+                if (segment.get(0) == neighbour)
+                    segmentsFromNeighbours.add(segment);
+
+        // A végpontokban kezdődő szegmensek, amik ide mutatnak vissza
+        HashSet<ArrayList<Tile>> edgesToRemove = new HashSet<ArrayList<Tile>>();
+        for (ArrayList<Tile> segment : segmentsFromNeighbours)
+            if (segment.get( segment.size() -1) == v)
+                edgesToRemove.add(segment);
+
+        if (!edgesToRemove.isEmpty()) {
+            HashSet<ArrayList<Tile>> segmentsToKeep = new HashSet<ArrayList<Tile>>();
+            for (ArrayList<Tile> segment : segments)
+                if (!edgesToRemove.contains(segment))
+                    segmentsToKeep.add(segment);
+            segments = segmentsToKeep;
+        }
+
+        for (Tile w : reachableTiles)
+            if (!discovered.contains(w))
+                DFSRemoveDouble(w, discovered);
     }
 
     /**
@@ -272,22 +261,6 @@ public class PathGenerator {
         for (ArrayList<Tile> segment : segments)
             for (int i=0; i < segment.size() - 1; i++)
                 ((PathTile) segment.get(i)).setNextTile(segment.get(i+1));
-    }
-
-    /**
-     * Beállítja az útszegmensek alapján az utak kezdetét.
-     * Összevonható gyorsításként a setNextTiles-al
-     */
-    private void setPathStarts(){
-        // az utak kezdetei az olyan Tile-ok, amik útszegmensek kezdőpontjai, de nem végpontjai.
-        HashSet<PathTile> startPoints = new HashSet<PathTile>();
-        HashSet<Tile> endPoints = new HashSet<Tile>();
-        for (ArrayList<Tile> segment : segments){
-            startPoints.add((PathTile)segment.get(0));
-            endPoints.add(segment.get(segment.size() - 1));
-        }
-        startPoints.removeAll(endPoints);
-        pathStarts = new ArrayList<PathTile>(startPoints);
     }
 
     /**
@@ -308,6 +281,5 @@ public class PathGenerator {
     // ez nem kell már, megtalálja magának
     @Deprecated
     public void add(PathTile pathTile) {
-        pathStarts.add(pathTile);
     }
 }
