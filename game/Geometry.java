@@ -70,6 +70,14 @@ public class Geometry {
             tiles[5][y] = new PathTile(this);
         tiles[6][10] = new PathTile(this);
 
+        // Összekötés
+        for (int x = 7; x <= 15; x++)
+            tiles[x][7] = new PathTile(this);
+
+        // Jobb alsó bejárat
+        for (int x = 14; x <= 19; x++)
+            tiles[x][15] = new PathTile(this);
+
     }
 
 	/**
