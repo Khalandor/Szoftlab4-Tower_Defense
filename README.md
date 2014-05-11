@@ -25,10 +25,17 @@ Diagramok:
 ###Use-case diagram:
 ![Use-case Diagram](diagrams/use-case.png "Use-case diagram")
 
-###Class diagram:
-![Class Diagram](diagrams/class.png "Class diagram")
+###Osztály diagramok:
 
-###Sequence diagramok:
+1. Model:
+
+ ![Class Diagram](diagrams/class-model.png "Class diagram")
+2. Controller és View
+
+ ![Class Diagram](diagrams/class-view_controller.png "Class diagram")
+
+
+###Szekvencia diagramok:
 
 1. Építés:
 
