@@ -32,7 +32,7 @@ public class Updater {
 			  public void run() {
 			    update();
 			  }
-			}, 0, 1000);
+			}, 0, 800);
     }
 	/**
 	 * Visszadja az összes ellenség listáját
@@ -107,7 +107,6 @@ public class Updater {
             	if (lose) {
             		gameOver(false);
             	}
-
         }
 
         // minden torony lő, a halott ellenséget törli
@@ -129,8 +128,8 @@ public class Updater {
         // ellenség-generálás
         enemyGenerator.generateEnemies();
 
-        // 10%, hogy le/felszáll a köd
-        if (new Random().nextInt(100) < 10) {
+        // 5%, hogy le/felszáll a köd
+        if (new Random().nextInt(100) < 5) {
         	isFoggy = !isFoggy;
         	for (Construct c : constructs) {
         		if (c.getType().equals("Tower")) {
