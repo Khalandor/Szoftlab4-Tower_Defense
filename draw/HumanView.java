@@ -18,6 +18,9 @@ public class HumanView extends Drawable {
 	@Override
 	public void draw(Graphics g) {
 		View view = this.getView();
+        if (human.getHealth() < 50)
+            texture = "textures/enemies/human-damaged.png";
+        this.setImage(texture);
 		int point[] = view.getTilePosition(human.getTile());
 		g.drawImage(getImage() , point[0]-5 , point[1]+5, 32, 32, null);
 	}

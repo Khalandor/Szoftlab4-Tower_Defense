@@ -1,5 +1,0 @@
-createMap 2 2
-addPathTile 1 1
-setMana 50
-build T0 barricade 1
-getStatus

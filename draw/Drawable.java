@@ -25,8 +25,7 @@ public abstract class Drawable {
     public void setSubImage(String path, int size)
     {
         try {
-            Image fullImage = ImageIO.read(new File(path));
-            BufferedImage bFullImage= (BufferedImage) fullImage;
+            BufferedImage bFullImage= ImageIO.read(new File(path));
             int width = bFullImage.getWidth();
             int height = bFullImage.getHeight();
             int xParts = width / size;

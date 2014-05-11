@@ -18,7 +18,10 @@ public class HobbitView extends Drawable {
 	@Override
 	public void draw(Graphics g) {
 		View view = this.getView();
-		int point[] = view.getTilePosition(hobbit.getTile());
-		g.drawImage(getImage() , point[0]+5 , point[1], 32, 32, null);
+        if (hobbit.getHealth() < 20)
+            texture = "textures/enemies/hobbit-damaged.png";
+        this.setImage(texture);
+        int point[] = view.getTilePosition(hobbit.getTile());
+		g.drawImage(drawableImage , point[0]+5 , point[1], 32, 32, null);
 	}
 }

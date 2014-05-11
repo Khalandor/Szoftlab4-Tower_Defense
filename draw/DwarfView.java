@@ -18,6 +18,9 @@ public class DwarfView extends Drawable {
 	@Override
 	public void draw(Graphics g) {
 		View view = this.getView();
+        if (dwarf.getHealth() < 80)
+            texture = "textures/enemies/dwarf-damaged.png";
+        this.setImage(texture);
 		int point[] = view.getTilePosition(dwarf.getTile());			
 		g.drawImage(getImage() , point[0]+5 , point[1]-5, 32, 32, null);
 	}

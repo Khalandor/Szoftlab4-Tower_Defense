@@ -19,6 +19,9 @@ public class ElfView extends Drawable {
 	@Override
 	public void draw(Graphics g) {
 		View view = this.getView();
+        if (elf.getHealth() < 20)
+            texture = "textures/enemies/elf-damaged.png";
+        this.setImage(texture);
 		int point[] = view.getTilePosition(elf.getTile());		
 		g.drawImage(getImage() , point[0] , point[1], 32, 32, null);
 	}
