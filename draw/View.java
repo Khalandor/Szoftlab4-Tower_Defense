@@ -211,28 +211,28 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		gridBagLayout.rowHeights = new int[]{50, 50, 50, 30};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		menu.setLayout(gridBagLayout);
-		
+		//toronyépítés gombja
 		JButton btnBuildTower = new JButton("Build Tower");
 		btnBuildTower.addActionListener(new buildTowerActionListener());
 		GridBagConstraints gbc_btnBuildTower = new GridBagConstraints();
 		gbc_btnBuildTower.gridx = 0;
 		gbc_btnBuildTower.gridy = 0;
 		menu.add(btnBuildTower, gbc_btnBuildTower);
-		
+		//akadályépítés gombja
 		JButton btnBuildBarricade = new JButton("Build Barricade");
 		btnBuildBarricade.addActionListener(new buildBarricadeActionListener());
 		GridBagConstraints gbc_btnBuildBarricade = new GridBagConstraints();
 		gbc_btnBuildBarricade.gridx = 0;
 		gbc_btnBuildBarricade.gridy = 1;
 		menu.add(btnBuildBarricade, gbc_btnBuildBarricade);
-		
+		//fejlesztés gombja
 		JButton btnUpgrade = new JButton("Upgrade");
 		btnUpgrade.addActionListener(new upgradeActionListener());
 		GridBagConstraints gbc_btnUpgrade = new GridBagConstraints();
 		gbc_btnUpgrade.gridx = 0;
 		gbc_btnUpgrade.gridy = 2;
 		menu.add(btnUpgrade, gbc_btnUpgrade);
-		
+		//fejlesztés típusának legördülő menüje
 		String[] types = { "Human", "Elf", "Hobbit", "Dwarf", "Range", "Slow" , "Fire Rate"};
 		comboBoxTypes = new JComboBox(types);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();

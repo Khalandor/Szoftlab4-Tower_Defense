@@ -9,7 +9,7 @@ public class TowerView extends Drawable {
 	private Tower tower;
 	
 	/**
-	 * A tower konstruktora
+	 * A towerview konstruktora
 	 * Hozzarendeli a TowerView objektumhoz a view-t es a towert
 	 * beallitja a torony texturajat az alap toronyera
 	 * @param view a beallitando view

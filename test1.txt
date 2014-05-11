@@ -1,0 +1,22 @@
+createMap 4 4
+addFieldTile 0 0
+addEndTile 0 1
+addFieldTile 0 2
+addFieldTile 0 3
+addFieldTile 1 0
+addPathTile 1 1
+addFieldTile 1 2
+addFieldTile 1 3
+addFieldTile 2 0
+addPathTile 2 1
+addPathTile 2 2
+addFieldTile 2 3
+addFieldTile 3 0
+addFieldTile 3 1
+addPathTile 3 2
+addFieldTile 3 3
+setStartTile T14
+addNextTile T14 T10
+addNextTile T10 T9
+addNextTile T9 T5
+addNextTile T5 T1
