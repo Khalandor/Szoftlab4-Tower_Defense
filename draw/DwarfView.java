@@ -7,6 +7,13 @@ public class DwarfView extends Drawable {
 	private String texture;
 	private Dwarf dwarf;
 	
+	/**
+	 * A DwarfView konstruktora, beallitja a texturat a dwarféra
+	 * a paraméterben kapott view-t a dwarfviewhoz rendeli hozzá
+	 * a paraméterben kapott dwarfot hozzarendeli a DwarfView-hoz, hogy tudja melyik tilehoz tartozó Dwarfról van szó
+	 * @param view beallitando view
+	 * @param d beallitando dwarf
+	 */
 	public DwarfView(View view,Dwarf d)
 	{
 		setView(view);
@@ -15,7 +22,14 @@ public class DwarfView extends Drawable {
 		this.setImage(texture);
 		
 	}
-	@Override
+
+	
+	/**
+	 * Lekerjuk az aktualis view-t
+	 * Ha a dwarf mar sebzodott atallitjuk a texturat a sebzodottre
+	 * Lekerjuk az ellenseg Tile-ját, es ebbol meghatarozzuk a pixel koordinatakat
+	 * kirajzoljuk a kepet 
+	 */
 	public void draw(Graphics g) {
 		View view = this.getView();
         if (dwarf.getHealth() < 80)

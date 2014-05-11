@@ -6,7 +6,13 @@ import java.awt.*;
 public class ElfView extends Drawable {
 	private String texture;
 	private Elf elf;
-	
+	/**
+	 * A ElfView konstruktora, beallitja a texturat a Elféra
+	 * a paraméterben kapott view-t a Elfviewhoz rendeli hozzá
+	 * a paraméterben kapott Elfet hozzarendeli a ElfView-hoz, hogy tudja melyik tilehoz tartozó Elfrõl van szó
+	 * @param view beallitando view
+	 * @param e beallitando Elf
+	 */
 	
 	public ElfView(View view,Elf e)
 	{
@@ -16,7 +22,14 @@ public class ElfView extends Drawable {
 		this.setImage(texture);
 		
 	}
-	@Override
+	
+	
+	/**
+	 * Lekerjuk az aktualis view-t
+	 * Ha az elf mar sebzodott atallitjuk a texturat a sebzodottre
+	 * Lekerjuk az ellenseg Tile-ját, es ebbol meghatarozzuk a pixel koordinatakat
+	 * kirajzoljuk a kepet 
+	 */
 	public void draw(Graphics g) {
 		View view = this.getView();
         if (elf.getHealth() < 20)

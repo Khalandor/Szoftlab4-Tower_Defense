@@ -12,6 +12,10 @@ public abstract class Drawable {
 	
 	protected Image drawableImage;
 	
+	/**
+	 * Az Image texturajanak beallitasa a parameterben megkapott eleris utvonal szerint
+	 * @param path az eleresi utvonal
+	 */
 	public void setImage(String path)
 	{
 		try {
@@ -38,21 +42,36 @@ public abstract class Drawable {
             e.printStackTrace();
         }
     }
-	
+	/**
+	 * visszaadja az Image-t
+	 * @return az Image
+	 */
 	public Image getImage()
 	{
 		return drawableImage;
 	}
 
-	
+	/**
+	 * View getter fuggvenye
+	 * @return visszaadja a View-t
+	 */
 	public View getView(){
 		return this.view;
 	}
-	
+	/**
+	 * A View setter fuggvenye
+	 * 
+	 * @param view a beallitando View
+	 */
 	public void setView (View view)
 	{
 		this.view = view;
 	}
+	
+	/**
+	 * draw fuggveny ami minden Drawable objektum megvalosit
+	 * @param g
+	 */
 	public abstract void draw(Graphics g);
 	
 	

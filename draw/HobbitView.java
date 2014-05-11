@@ -7,6 +7,14 @@ public class HobbitView extends Drawable {
 	private String texture;
 	private Hobbit hobbit;
 	
+	
+	/**
+	 * A HobbitView konstruktora, beallitja a texturat a Hobbitéra
+	 * a paraméterben kapott view-t a Hobbitviewhoz rendeli hozzá
+	 * a paraméterben kapott Hobbitot hozzarendeli a HobbitView-hoz, hogy tudja melyik tilehoz tartozó Hobbitról van szó
+	 * @param view beallitando view
+	 * @param h beallitando Hobbit
+	 */
 	public HobbitView(View view,Hobbit h)
 	{
 		setView(view);
@@ -15,7 +23,13 @@ public class HobbitView extends Drawable {
 		this.setImage(texture);
 		
 	}
-	@Override
+
+	/**
+	 * Lekerjuk az aktualis view-t
+	 * Ha a hobbit mar sebzodott atallitjuk a texturat a sebzodottre
+	 * Lekerjuk az ellenseg Tile-ját, es ebbol meghatarozzuk a pixel koordinatakat
+	 * kirajzoljuk a kepet 
+	 */
 	public void draw(Graphics g) {
 		View view = this.getView();
         if (hobbit.getHealth() < 20)
