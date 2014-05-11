@@ -1,6 +1,6 @@
 Szoftlab4-Tower_Defense
 =======================
- ![Látvány](diagrams/gui.png "Látvány")
+ ![Látvány](diagrams/gui.jpg "Látvány")
 
 Feladat specifikációja:
 -----------------------
