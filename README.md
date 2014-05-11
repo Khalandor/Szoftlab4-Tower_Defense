@@ -1,5 +1,7 @@
 Szoftlab4-Tower_Defense
 =======================
+ ![Látvány](diagrams/gui.png "Látvány")
+
 Feladat specifikációja:
 -----------------------
 
@@ -53,3 +55,14 @@ Diagramok:
 
  ![Játékos nyer](diagrams/seq08-fogup.png "Játékos nyer")
 
+9. Controller: építés:
+
+ ![Controller: építés](diagrams/seq09-controller-build.png "Controller: építés")
+10. Controller: fejlesztés: 
+
+ ![Controller: fejlesztés](diagrams/seq10-controller-upgrade.png "Controller: fejlesztés")
+11. View
+
+ ![View](diagrams/seq11-view.png "View")
+ 
+ 
