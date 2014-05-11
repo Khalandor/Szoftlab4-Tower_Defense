@@ -1,28 +1,10 @@
 package draw;
 
-import game.Barricade;
-import game.Construct;
-import game.Dwarf;
-import game.Elf;
-import game.EndTile;
-import game.Enemy;
-import game.FieldTile;
-import game.Geometry;
-import game.Hobbit;
-import game.Human;
-import game.PathTile;
-import game.Tile;
-import game.Tower;
-import game.Updater;
+import game.*;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -34,19 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-
 public class View extends JPanel { //az osztály maga a játékállást megjelenítő nézet
 	private Map<Object, Drawable> drawables = new HashMap<Object, Drawable>();
 	private Updater updater;
 	private Geometry geometry;
-	private JPanel menu;
+	private JLabel menu;
 	private JFrame frame;
 	//private String manaValue= "0";
 	private JLabel manaLabel;
@@ -78,9 +52,11 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		
 		
 		//a gombokat tartalmazó panel
-		menu = new JPanel();
+		menu = new JLabel();
 		menu.setPreferredSize(new Dimension(200, 600));
-		initMenu(); //a panel tartalmát hozza létre
+        ImageIcon background = new ImageIcon("textures/menubackground.jpg");
+        menu.setIcon(background);
+        initMenu(); //a panel tartalmát hozza létre
 		frame.add(menu);
 		
 		frame.pack();
@@ -213,6 +189,8 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		menu.setLayout(gridBagLayout);
 		//toronyépítés gombja
 		JButton btnBuildTower = new JButton("Build Tower");
+        btnBuildTower.setFocusPainted(false);
+        btnBuildTower.setBackground(Color.white);
 		btnBuildTower.addActionListener(new buildTowerActionListener());
 		GridBagConstraints gbc_btnBuildTower = new GridBagConstraints();
 		gbc_btnBuildTower.gridx = 0;
@@ -220,6 +198,8 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		menu.add(btnBuildTower, gbc_btnBuildTower);
 		//akadályépítés gombja
 		JButton btnBuildBarricade = new JButton("Build Barricade");
+        btnBuildBarricade.setFocusPainted(false);
+        btnBuildBarricade.setBackground(Color.white);
 		btnBuildBarricade.addActionListener(new buildBarricadeActionListener());
 		GridBagConstraints gbc_btnBuildBarricade = new GridBagConstraints();
 		gbc_btnBuildBarricade.gridx = 0;
@@ -227,6 +207,8 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		menu.add(btnBuildBarricade, gbc_btnBuildBarricade);
 		//fejlesztés gombja
 		JButton btnUpgrade = new JButton("Upgrade");
+        btnUpgrade.setFocusPainted(false);
+        btnUpgrade.setBackground(Color.white);
 		btnUpgrade.addActionListener(new upgradeActionListener());
 		GridBagConstraints gbc_btnUpgrade = new GridBagConstraints();
 		gbc_btnUpgrade.gridx = 0;
@@ -235,12 +217,15 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		//fejlesztés típusának legördülő menüje
 		String[] types = { "Human", "Elf", "Hobbit", "Dwarf", "Range", "Slow" , "Fire Rate"};
 		comboBoxTypes = new JComboBox(types);
+        comboBoxTypes.setBackground(Color.white);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridx = 0;
 		gbc_comboBox.gridy = 3;
 		menu.add(comboBoxTypes, gbc_comboBox);
-		
+
+
 		manaLabel = new JLabel("Varázserő: "+updater.getMana());
+        manaLabel.setForeground(Color.white);
 		GridBagConstraints gbc_manaLabel = new GridBagConstraints();
 		gbc_manaLabel.gridx = 0;
 		gbc_manaLabel.gridy = 16;
