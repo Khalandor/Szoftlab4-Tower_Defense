@@ -8,9 +8,9 @@ public class DwarfView extends Drawable {
 	private Dwarf dwarf;
 	
 	/**
-	 * A DwarfView konstruktora, beallitja a texturat a dwarfÈra
-	 * a paramÈterben kapott view-t a dwarfviewhoz rendeli hozz·
-	 * a paramÈterben kapott dwarfot hozzarendeli a DwarfView-hoz, hogy tudja melyik tilehoz tartozÛ DwarfrÛl van szÛ
+	 * A DwarfView konstruktora, beallitja a texturat a dwarf√©ra
+	 * a param√©terben kapott view-t a dwarfviewhoz rendeli hozz√°
+	 * a param√©terben kapott dwarfot hozzarendeli a DwarfView-hoz, hogy tudja melyik tilehoz tartoz√≥ Dwarfr√≥l van sz√≥
 	 * @param view beallitando view
 	 * @param d beallitando dwarf
 	 */
@@ -27,7 +27,7 @@ public class DwarfView extends Drawable {
 	/**
 	 * Lekerjuk az aktualis view-t
 	 * Ha a dwarf mar sebzodott atallitjuk a texturat a sebzodottre
-	 * Lekerjuk az ellenseg Tile-j·t, es ebbol meghatarozzuk a pixel koordinatakat
+	 * Lekerjuk az ellenseg Tile-j√°t, es ebbol meghatarozzuk a pixel koordinatakat
 	 * kirajzoljuk a kepet 
 	 */
 	public void draw(Graphics g) {

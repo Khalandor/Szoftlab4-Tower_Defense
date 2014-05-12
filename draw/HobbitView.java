@@ -9,9 +9,9 @@ public class HobbitView extends Drawable {
 	
 	
 	/**
-	 * A HobbitView konstruktora, beallitja a texturat a HobbitÈra
-	 * a paramÈterben kapott view-t a Hobbitviewhoz rendeli hozz·
-	 * a paramÈterben kapott Hobbitot hozzarendeli a HobbitView-hoz, hogy tudja melyik tilehoz tartozÛ HobbitrÛl van szÛ
+	 * A HobbitView konstruktora, beallitja a texturat a Hobbit√©ra
+	 * a param√©terben kapott view-t a Hobbitviewhoz rendeli hozz√°
+	 * a param√©terben kapott Hobbitot hozzarendeli a HobbitView-hoz, hogy tudja melyik tilehoz tartoz√≥ Hobbitr√≥l van sz√≥
 	 * @param view beallitando view
 	 * @param h beallitando Hobbit
 	 */
@@ -27,7 +27,7 @@ public class HobbitView extends Drawable {
 	/**
 	 * Lekerjuk az aktualis view-t
 	 * Ha a hobbit mar sebzodott atallitjuk a texturat a sebzodottre
-	 * Lekerjuk az ellenseg Tile-j·t, es ebbol meghatarozzuk a pixel koordinatakat
+	 * Lekerjuk az ellenseg Tile-j√°t, es ebbol meghatarozzuk a pixel koordinatakat
 	 * kirajzoljuk a kepet 
 	 */
 	public void draw(Graphics g) {

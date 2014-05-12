@@ -8,9 +8,9 @@ public class HumanView extends Drawable {
 	private Human human;
 	
 	/**
-	 * A HumanView konstruktora, beallitja a texturat a HumanÈra
-	 * a paramÈterben kapott view-t a Humanviewhoz rendeli hozz·
-	 * a paramÈterben kapott Humant hozzarendeli a HumanView-hoz, hogy tudja melyik tilehoz tartozÛ HumanrÛl van szÛ
+	 * A HumanView konstruktora, beallitja a texturat a Human√©ra
+	 * a param√©terben kapott view-t a Humanviewhoz rendeli hozz√°
+	 * a param√©terben kapott Humant hozzarendeli a HumanView-hoz, hogy tudja melyik tilehoz tartoz√≥ Humanr√≥l van sz√≥
 	 * @param view beallitando view
 	 * @param h beallitando Human
 	 */
@@ -25,7 +25,7 @@ public class HumanView extends Drawable {
 	/**
 	 * Lekerjuk az aktualis view-t
 	 * Ha a human mar sebzodott atallitjuk a texturat a sebzodottre
-	 * Lekerjuk az ellenseg Tile-j·t, es ebbol meghatarozzuk a pixel koordinatakat
+	 * Lekerjuk az ellenseg Tile-j√°t, es ebbol meghatarozzuk a pixel koordinatakat
 	 * kirajzoljuk a kepet 
 	 */
 	public void draw(Graphics g) {

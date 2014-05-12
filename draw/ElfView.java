@@ -7,9 +7,9 @@ public class ElfView extends Drawable {
 	private String texture;
 	private Elf elf;
 	/**
-	 * A ElfView konstruktora, beallitja a texturat a ElfÈra
-	 * a paramÈterben kapott view-t a Elfviewhoz rendeli hozz·
-	 * a paramÈterben kapott Elfet hozzarendeli a ElfView-hoz, hogy tudja melyik tilehoz tartozÛ Elfrıl van szÛ
+	 * A ElfView konstruktora, beallitja a texturat a Elf√©ra
+	 * a param√©terben kapott view-t a Elfviewhoz rendeli hozz√°
+	 * a param√©terben kapott Elfet hozzarendeli a ElfView-hoz, hogy tudja melyik tilehoz tartoz√≥ Elfr√µl van sz√≥
 	 * @param view beallitando view
 	 * @param e beallitando Elf
 	 */
@@ -27,7 +27,7 @@ public class ElfView extends Drawable {
 	/**
 	 * Lekerjuk az aktualis view-t
 	 * Ha az elf mar sebzodott atallitjuk a texturat a sebzodottre
-	 * Lekerjuk az ellenseg Tile-j·t, es ebbol meghatarozzuk a pixel koordinatakat
+	 * Lekerjuk az ellenseg Tile-j√°t, es ebbol meghatarozzuk a pixel koordinatakat
 	 * kirajzoljuk a kepet 
 	 */
 	public void draw(Graphics g) {

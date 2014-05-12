@@ -9,25 +9,25 @@ public class EndTileView extends Drawable {
 	private EndTile endTile;
 	
 	/**
-	 * A EndTileView konstructora. Itt történik az attribútumok beállítása.
-	 * @param v Az osztály maga a játékállást megjelenítõ nézet
+	 * A EndTileView konstructora. Itt tÃ¶rtÃ©nik az attribÃºtumok beÃ¡llÃ­tÃ¡sa.
+	 * @param v Az osztÃ¡ly maga a jÃ¡tÃ©kÃ¡llÃ¡st megjelenÃ­tÃµ nÃ©zet
 	 * @param b A kirajzolando EndTile
 	 */
 	EndTileView(View v , EndTile e){
 		setView(v);
 		
-		// Textura elérésí útjának beállítása és atextúra betöltése
+		// Textura elÃ©rÃ©sÃ­ ÃºtjÃ¡nak beÃ¡llÃ­tÃ¡sa Ã©s atextÃºra betÃ¶ltÃ©se
 		texture = "textures/tiles/mount_doom.png";
 		endTile = e;
 		setImage(texture);
 	}
 	
 	/**
-	 * A textúra kirajzolását végzõ függvény.
-	 * @param g A felület amire a rajzolás történik
+	 * A textÃºra kirajzolÃ¡sÃ¡t vÃ©gzÃµ fÃ¼ggvÃ©ny.
+	 * @param g A felÃ¼let amire a rajzolÃ¡s tÃ¶rtÃ©nik
 	 */
 	public void draw(Graphics g) {
-		// A EndTile pozíciójának lekérése a textúra kirajzolása a megfelelõ helyre.
+		// A EndTile pozÃ­ciÃ³jÃ¡nak lekÃ©rÃ©se a textÃºra kirajzolÃ¡sa a megfelelÃµ helyre.
 		int[] poz = this.getView().getTilePosition(endTile);
 		g.drawImage(getImage() , poz[0] , poz[1], 30, 30, null); 
 	}

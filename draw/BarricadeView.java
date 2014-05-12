@@ -10,8 +10,8 @@ public class BarricadeView extends Drawable {
 	
 	
 	/**
-	 * A BarricadeView konstructora. Itt történik az attribútumok beállítása.
-	 * @param v Az osztály maga a játékállást megjelenítõ nézet
+	 * A BarricadeView konstructora. Itt tÃ¶rtÃ©nik az attribÃºtumok beÃ¡llÃ­tÃ¡sa.
+	 * @param v Az osztÃ¡ly maga a jÃ¡tÃ©kÃ¡llÃ¡st megjelenÃ­tÃµ nÃ©zet
 	 * @param b A kirajzolando barricade
 	 */
 	
@@ -19,26 +19,26 @@ public class BarricadeView extends Drawable {
 		setView(v);
 		barricade = b;
 		
-		// Textura elÃ©rÃ©sÃ­ ÃºtjÃ¡nak beÃ¡llÃ­tÃ¡sa
+		// Textura elÃƒÂ©rÃƒÂ©sÃƒÂ­ ÃƒÂºtjÃƒÂ¡nak beÃƒÂ¡llÃƒÂ­tÃƒÂ¡sa
 			texture = "textures/constructs/barricade/barricade.png";
 		
-		// Textura betÃ¶ltÃ©se
+		// Textura betÃƒÂ¶ltÃƒÂ©se
 		setImage(texture);
 	}
 	
 	/**
-	 * A textúra kirajzolását végzõ függvény.
-	 * @param g A felület amire a rajzolás történik
+	 * A textÃºra kirajzolÃ¡sÃ¡t vÃ©gzÃµ fÃ¼ggvÃ©ny.
+	 * @param g A felÃ¼let amire a rajzolÃ¡s tÃ¶rtÃ©nik
 	 */
 	public void draw(Graphics g) {
-		// A barricade pozíciójának lekérése.
+		// A barricade pozÃ­ciÃ³jÃ¡nak lekÃ©rÃ©se.
 		int[] poz = this.getView().getTilePosition((barricade.getBarricadeLocation()));
 		
-		// ha a barricádnak van magicgame-e akkor a textúrája megváltozik.
+		// ha a barricÃ¡dnak van magicgame-e akkor a textÃºrÃ¡ja megvÃ¡ltozik.
 		if (barricade.getMagicGem()!= null)
 			this.setImage("textures/constructs/barricade/barricade_gem.png");
 		
-		// A textúra kirajzolása a megfelelõ helyre.
+		// A textÃºra kirajzolÃ¡sa a megfelelÃµ helyre.
 		g.drawImage(getImage() , poz[0] , poz[1], 30, 30, null); 
 	}
 }
