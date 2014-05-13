@@ -10,7 +10,7 @@ public class EnemyGenerator {
 	private int generatedEnemies;
 	private PathGenerator pathGenerator;
 	private Updater updater;
-    private int delay;
+	private int delay;
 
 	/**
 	 * Az EnemyGenerator konstruktora.
@@ -18,22 +18,20 @@ public class EnemyGenerator {
 	 * @param pathGenerator PathGenerator, melyen keresztül le fogja tenni az ellenségeket egy útvonalra.
 	 * @param updater Updater, amire az új ellenségek felvételéhez van szükség
 	 */
-	public EnemyGenerator (PathGenerator pathGenerator, Updater updater){
+	public EnemyGenerator (PathGenerator pathGenerator, Updater updater) {
 		this.pathGenerator = pathGenerator;
 		this.updater = updater;
-        this.generatingSpeed = 1;
-        this.delay = 5;
-        this.generatedEnemies = 0;
+		this.generatingSpeed = 1;
+		this.delay = 5;
+		this.generatedEnemies = 0;
 	}
 
 	/**
 	 * Adott típusú ellenséget hoz létre
 	 * @param type String, az ellenség típusa
 	 * @return az új ellenség
-	 * @throws Exception ha olyan ellenséget kérnek tőle, ami nincs
 	 */
 	private Enemy createEnemy(String type) {
-		Enemy newEnemy;
 		if (type.equals("dwarf"))
 			return new Dwarf(this);
 		else if (type.equals("elf"))
@@ -52,39 +50,39 @@ public class EnemyGenerator {
 	private Enemy createRandomEnemy()
 	{
 		int random = new Random().nextInt(4);
-		switch (random){
-			case 0:
-				return new Dwarf(this);
-			case 1:
-				return new Elf(this);
-			case 2:
-				return new Hobbit(this);
-			case 3:
-				return new Human(this);
+		switch (random) {
+		case 0:
+			return new Dwarf(this);
+		case 1:
+			return new Elf(this);
+		case 2:
+			return new Hobbit(this);
+		case 3:
+			return new Human(this);
 		}
 		return null;
 	}
 
-    /**
-     * Új ellenség pályára helyezése a megfelelő időben
-     */
-    public void generateEnemies() {
-        delay--;
-        if(delay > 0 || generatedEnemies >= maxEnemies)
-            return;
-        // sebesség nő a maxig => delay csökken 0-ig
-        if (maxGeneratingSpeed > generatingSpeed){
-            delay = maxGeneratingSpeed - generatingSpeed;
-            generatingSpeed++;
-        }
-        else
-            delay = 0;
+	/**
+	 * Új ellenség pályára helyezése a megfelelő időben
+	 */
+	public void generateEnemies() {
+		delay--;
+		if(delay > 0 || generatedEnemies >= maxEnemies)
+			return;
+		// sebesség nő a maxig => delay csökken 0-ig
+		if (maxGeneratingSpeed > generatingSpeed) {
+			delay = maxGeneratingSpeed - generatingSpeed;
+			generatingSpeed++;
+		}
+		else
+			delay = 0;
 
-        Enemy newEnemy = createRandomEnemy();
-        generatedEnemies++;
-        updater.addEnemy(newEnemy);
-        pathGenerator.start(newEnemy);
-    }
+		Enemy newEnemy = createRandomEnemy();
+		generatedEnemies++;
+		updater.addEnemy(newEnemy);
+		pathGenerator.start(newEnemy);
+	}
 
 	/**
 	 *  Ha az utolsó ellenséget is leraktuk, igazzal tér vissza. Egyébként hamis.
@@ -99,7 +97,7 @@ public class EnemyGenerator {
 	 * Lemásolja a paraméterül kapott ellenséget a paraméterül kapott csempére
 	 */
 	public void duplicateEnemy(Enemy enemy, PathTile pathTile) {
-        Enemy clonedEnemy = addEnemy(pathTile, enemy.getType().toLowerCase()); // ugyanolyan típusú ellenség létrehozása
+		Enemy clonedEnemy = addEnemy(pathTile, enemy.getType().toLowerCase()); // ugyanolyan típusú ellenség létrehozása
 		clonedEnemy.setHealth(enemy.getHealth());	//azonos Health
 	}
 
@@ -112,16 +110,18 @@ public class EnemyGenerator {
 		Enemy newEnemy = createEnemy( type );		// a megadott típusú ellenség létrehozása
 		tile.addEnemy(newEnemy);		//rárakás a megadott útra
 		updater.addEnemy(newEnemy);		// hozzáadás az ellenség-listához
-        newEnemy.setTile(tile);
-        generatedEnemies++;
-        return newEnemy;
+		newEnemy.setTile(tile);
+		generatedEnemies++;
+		return newEnemy;
 	}
 
 	/**
+     * Nem használt.
 	 * Beállítja a még játék végéig legenerálandó ellenségek számát.
 	 * @param remaining a hátralévő ellensége száma
 	 */
+    @Deprecated
 	public void setRemainingEnemies(int remaining) {
-        maxEnemies = generatedEnemies + remaining;
+		maxEnemies = generatedEnemies + remaining;
 	}
 }

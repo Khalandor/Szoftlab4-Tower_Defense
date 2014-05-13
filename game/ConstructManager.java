@@ -13,7 +13,7 @@ public class ConstructManager {
 	 * Beállítja az updater attribútumot.
 	 * @param updater Az updater ami létrehozta
 	 */
-	public ConstructManager (Updater updater, Mana mana){
+	public ConstructManager (Updater updater, Mana mana) {
 		this.updater = updater;							//Beállítjuk az updater attribútumot
 		this.mana = mana;
 		costs.put("tower", 50);
@@ -25,8 +25,8 @@ public class ConstructManager {
 		costs.put("hobbit", 20);
 		costs.put("human", 20);
 		costs.put("slow", 20);
-	}	
-	
+	}
+
 	/**
 	 * egy épület létrehozása
 	 * @param type - az épület típusa, ami alapján tudja a függvény, mit hozzon létre
@@ -34,21 +34,20 @@ public class ConstructManager {
 	 */
 	public void build(String type, Tile location) {
 		if (mana.hasEnough(costs.get(type)) && location.getConstruct()==null && (!updater.getGameState().equals("win") &&
-				!updater.getGameState().equals("lose"))) {
+		        !updater.getGameState().equals("lose"))) {
 			Construct construct = null;
-			
+
 			if(type.equals("tower") && location.getType().equals("FieldTile")) {
-				construct = new Tower((FieldTile) location);  
-			} else
-			if(type.equals("barricade") && location.getType().equals("PathTile")) {
+				construct = new Tower((FieldTile) location);
+			} else if(type.equals("barricade") && location.getType().equals("PathTile")) {
 				construct = new Barricade((PathTile) location);
 			} else
 				return;
-			
+
 			location.addConstruct(construct);
 			mana.decrease(costs.get(type));
 			updater.addConstruct(construct);
-		}		
+		}
 	}
 
 	/**
@@ -58,11 +57,11 @@ public class ConstructManager {
 	 */
 	public void upgrade(String type, Construct construct) {
 		if (mana.hasEnough(costs.get(type)) && construct.getMagicGem()==null && (!updater.getGameState().equals("win") &&
-				!updater.getGameState().equals("lose"))) {
+		        !updater.getGameState().equals("lose"))) {
 			MagicGem gem = new MagicGem(type);
-			
+
 			if(construct.getType().equals("Tower")) {
-				
+
 				if(type.equals("range")) {
 					((Tower)construct).setRange(20);
 					construct.setMagicGem(gem);
@@ -78,9 +77,9 @@ public class ConstructManager {
 					mana.decrease(costs.get(type));
 				}
 			}
-			
+
 			if(construct.getType().equals("Barricade")) {
-				
+
 				if(type.equals("slow")) {
 					((Barricade)construct).setSpeedModifier(2);
 					construct.setMagicGem(gem);

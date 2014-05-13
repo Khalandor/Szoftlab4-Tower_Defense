@@ -9,17 +9,9 @@ public abstract class Tile {
 	public Tile(Geometry geometry) {
 		this.geometry = geometry;
 	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+
 	/**
-	 * A Tile-on egy Construct elhelyezeset szavatolja 
+	 * A Tile-on egy Construct elhelyezeset szavatolja
 	 * @param construct ezt a Constructott helyezzuk el a Tile-re
 	 */
 	public void addConstruct(Construct construct) {
@@ -30,7 +22,7 @@ public abstract class Tile {
 	 * Visszaadja a csempén lévő épületet.
 	 * @return a csempén lévő épület.
 	 */
-	
+
 	public Construct getConstruct() {
 		return constructOnTile;
 	}

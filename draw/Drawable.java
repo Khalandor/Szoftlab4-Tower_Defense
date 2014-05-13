@@ -9,9 +9,9 @@ import java.util.Random;
 
 public abstract class Drawable {
 	private View view;
-	
+
 	protected Image drawableImage;
-	
+
 	/**
 	 * Az Image texturajanak beallitasa a parameterben megkapott eleris utvonal szerint
 	 * @param path az eleresi utvonal
@@ -23,25 +23,24 @@ public abstract class Drawable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
-    public void setSubImage(String path, int size)
-    {
-        try {
-            BufferedImage bFullImage= ImageIO.read(new File(path));
-            int width = bFullImage.getWidth();
-            int height = bFullImage.getHeight();
-            int xParts = width / size;
-            int yParts = height / size;
-            int xMultiplier = new Random().nextInt(xParts);
-            int yMultiplier = new Random().nextInt(yParts);
-            drawableImage = bFullImage.getSubimage(xMultiplier * size, yMultiplier * size, size, size);
+	public void setSubImage(String path, int size)
+	{
+		try {
+			BufferedImage bFullImage= ImageIO.read(new File(path));
+			int width = bFullImage.getWidth();
+			int height = bFullImage.getHeight();
+			int xParts = width / size;
+			int yParts = height / size;
+			int xMultiplier = new Random().nextInt(xParts);
+			int yMultiplier = new Random().nextInt(yParts);
+			drawableImage = bFullImage.getSubimage(xMultiplier * size, yMultiplier * size, size, size);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * visszaadja az Image-t
 	 * @return az Image
@@ -55,24 +54,23 @@ public abstract class Drawable {
 	 * View getter fuggvenye
 	 * @return visszaadja a View-t
 	 */
-	public View getView(){
+	public View getView() {
 		return this.view;
 	}
 	/**
 	 * A View setter fuggvenye
-	 * 
+	 *
 	 * @param view a beallitando View
 	 */
 	public void setView (View view)
 	{
 		this.view = view;
 	}
-	
+
 	/**
 	 * draw fuggveny ami minden Drawable objektum megvalosit
-	 * @param g
 	 */
 	public abstract void draw(Graphics g);
-	
-	
+
+
 }

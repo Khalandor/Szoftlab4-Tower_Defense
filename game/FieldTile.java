@@ -1,7 +1,7 @@
 package game;
 
 public class FieldTile extends Tile {
-	
+
 	/**
 	 * A FieldTile osztály konstruktora.
 	 * Beállítja típusát, és a Geometry-re mutató referenciáját.

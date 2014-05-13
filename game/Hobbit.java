@@ -1,7 +1,7 @@
 package game;
 
 public class Hobbit extends Enemy {
-	
+
 	/**
 	 *  Hobbit osztaly konstruktora.
 	 */

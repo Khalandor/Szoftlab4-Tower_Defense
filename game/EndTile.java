@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class EndTile extends Tile {
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-	
+
 	/**
 	 * A PathTile osztály konstruktora.
 	 * Beállítja típusát, és a Geometry-re mutató referenciáját.

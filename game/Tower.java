@@ -24,10 +24,10 @@ public class Tower extends Construct {
 		range = 3;
 		shootDelay = 3;
 	}
-	
-	
+
+
 	/**
-	 * Lekérdezi a hatótávon belüli csempéket, majd kér valamelyikről egy ellenséget. 
+	 * Lekérdezi a hatótávon belüli csempéket, majd kér valamelyikről egy ellenséget.
 	 * Ha van varázskő a toronyban, megkérdezi milyen plusz sebzést biztosít a varázskő,
 	 * és a saját értékéhez hozzáadva belesebzi azt az ellenségbe, annyiszor, amennyi a fireRate attribútumának az értéke.
 	 * Visszatér azzal az ellenséggel, akit meglőtt.
@@ -39,11 +39,11 @@ public class Tower extends Construct {
 		if (shootDelay > 0) return null;
 		else shootDelay = fireRate;
 
-		
+
 		Geometry geometry = towerLocation.getGeometry();
 		ArrayList<PathTile> tilesInRange = geometry.getNearby(towerLocation, (int) (range * rangeModifier));
 		Random rand = new Random();
-		
+
 		Enemy target = null;
 		for (int i = 0; i < tilesInRange.size() && target == null; i++) {
 			if (tilesInRange.get(i) != null) {
@@ -58,12 +58,12 @@ public class Tower extends Construct {
 		{
 			String type = target.getType();
 			damageBonus = gem.getDamageBonus(type);
-		};
+		}
 
 		if (rand.nextInt(100) < 10)	  {
 			target.damageHalf();
 		} else {
-				target.damage(damage+damageBonus);
+			target.damage(damage+damageBonus);
 		}
 		return target;
 	}
@@ -72,6 +72,7 @@ public class Tower extends Construct {
 	 * Beállítja a damage attribútumot
 	 * @param damage a torony egy lövésének sebzése
 	 */
+    @Deprecated
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
@@ -91,7 +92,7 @@ public class Tower extends Construct {
 	public void setRange(int range) {
 		this.range = range;
 	}
-	
+
 	/**
 	 * Beállítja a torony hatótávolságának módosítóját
 	 * @param rangeModifier a torony hatótávának módosítója
@@ -99,11 +100,12 @@ public class Tower extends Construct {
 	public void setRangeModifier(double rangeModifier) {
 		this.rangeModifier = rangeModifier;
 	}
-	
+
 	/**
 	 * Beallitja azta referenciat amely megmondja hogy a torony melyik csempen van.
 	 * @param loc a csempe melyre a torony epult
 	 */
+    @Deprecated
 	public void setTowerLocation(FieldTile loc) {
 		towerLocation = loc;
 	}
@@ -115,6 +117,6 @@ public class Tower extends Construct {
 	public Tile getTile() {
 		return towerLocation;
 	}
-	
-	
+
+
 }

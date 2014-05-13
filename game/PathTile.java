@@ -22,7 +22,7 @@ public class PathTile extends Tile {
 	 * @return Az úton lévő ellenség
 	 */
 	public Enemy getEnemy() {
-		if(enemies.size()>0){
+		if(enemies.size()>0) {
 			return enemies.get(0);
 		}
 		return null;
@@ -35,7 +35,7 @@ public class PathTile extends Tile {
 	public ArrayList<Tile> getNextTiles() {
 		return nextTiles;
 	}
-	
+
 	/**
 	 * Beállítja a csempéket, amikre az úton innen lépni lehet
 	 * @param destTile ez lesz a nextTile uj erteke
@@ -51,7 +51,7 @@ public class PathTile extends Tile {
 	public void removeEnemy(Enemy enemy) {
 		enemies.remove(enemy);
 	}
-	
+
 
 	/**
 	 * A kapott ellenséget felveszi az ellenségek közé.

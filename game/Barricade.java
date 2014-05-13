@@ -3,18 +3,18 @@ package game;
 public class Barricade extends Construct {
 	private int speedModifier;
 	private PathTile barricadeLocation;
-	
+
 	/**
 	 * visszater a a lassitas mertekevel
-	 * @return speedModifier  
+	 * @return speedModifier
 	 */
 	public int getSpeedModifier() {
 		return speedModifier;
 	}
-	
+
 	/**
 	 * A Barricade konstruktora
-	 * @param location 
+	 * @param location
 	 */
 	public Barricade(PathTile location)
 	{
@@ -22,17 +22,17 @@ public class Barricade extends Construct {
 		speedModifier = 2 ;
 		barricadeLocation = location;
 	}
-	
+
 	/**
 	 * A Barricade lassitasanak beallitoja
 	 * @param speedModifier a beallitando ertek
 	 */
-	public void setSpeedModifier(int speedModifier) 
-	{	
+	public void setSpeedModifier(int speedModifier)
+	{
 		this.speedModifier = speedModifier;
 	}
 
-	public PathTile getBarricadeLocation(){
+	public PathTile getBarricadeLocation() {
 		return barricadeLocation;
 	}
 }
