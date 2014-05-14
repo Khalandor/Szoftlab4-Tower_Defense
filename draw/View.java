@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,8 +53,16 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 		//a gombokat tartalmazó panel
 		menu = new JLabel();
 		menu.setPreferredSize(new Dimension(200, 600));
-		ImageIcon background = new ImageIcon("textures/menubackground.jpg");
-		menu.setIcon(background);
+        if (this.getClass().getResource("/textures/menubackground.jpg") != null)
+            try {
+                ImageIcon background = new ImageIcon();
+                background.setImage(ImageIO.read(this.getClass().getResource("/textures/menubackground.jpg")));
+                menu.setIcon(background);
+            } catch (IOException e) {
+                System.out.println("Could not read: /textures/menubackground.jpg");
+            }
+        else
+            System.out.println("Could not read: /textures/menubackground.jpg");
 		initMenu(); //a panel tartalmát hozza létre
 		frame.add(menu);
 
@@ -134,30 +141,33 @@ public class View extends JPanel { //az osztály maga a játékállást megjelen
 
 		if (updater.getFogStatus()) {
 			try {
-				Image fog;
-				fog = ImageIO.read(new File ("textures/fog.png"));
+                if (this.getClass().getResource("/textures/fog.png") == null)
+                    throw new IOException();
+                Image fog = ImageIO.read(this.getClass().getResource("/textures/fog.png"));
 				g.drawImage(fog, 0, 0, null);
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Could not read: /textures/fog.png");
 			}
 		}
 
 		//ha véget ér a játék, akkor kirajzoljuk a megfelelő képet
 		if (updater.getGameState().equals("win")) {
 			try {
-				Image end;
-				end = ImageIO.read(new File ("textures/victory.png"));
-				g.drawImage(end, (this.getWidth() - end.getWidth(null)) / 2, (this.getHeight() - end.getHeight(null)) / 2, null);
+                if (this.getClass().getResource("/textures/victory.png") == null)
+                    throw new IOException();
+                Image end = ImageIO.read(this.getClass().getResource("/textures/victory.png"));
+                g.drawImage(end, (this.getWidth() - end.getWidth(null)) / 2, (this.getHeight() - end.getHeight(null)) / 2, null);
 			} catch (IOException e) {
-				e.printStackTrace();
+                System.out.println("Could not read: /textures/victory.png");
 			}
 		} else if (updater.getGameState().equals("lose")) {
 			try {
-				Image end;
-				end = ImageIO.read(new File ("textures/defeat.png"));
+                if (this.getClass().getResource("/textures/defeat.png") == null)
+                    throw new IOException();
+				Image end = ImageIO.read(this.getClass().getResource("/textures/defeat.png"));
 				g.drawImage(end, (this.getWidth() - end.getWidth(null)) / 2, (this.getHeight() - end.getHeight(null)) / 2, null);
 			} catch (IOException e) {
-				e.printStackTrace();
+                System.out.println("Could not read: /textures/defeat.png");
 			}
 		}
 	}

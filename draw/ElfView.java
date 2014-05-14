@@ -18,7 +18,7 @@ public class ElfView extends Drawable {
 	{
 		setView(view);
 		elf = e;
-		texture = "textures/enemies/elf.png";
+		texture = "/textures/enemies/elf.png";
 		this.setImage(texture);
 
 	}
@@ -33,7 +33,7 @@ public class ElfView extends Drawable {
 	public void draw(Graphics g) {
 		View view = this.getView();
 		if (elf.getHealth() < 20)
-			texture = "textures/enemies/elf-damaged.png";
+			texture = "/textures/enemies/elf-damaged.png";
 		this.setImage(texture);
 		int point[] = view.getTilePosition(elf.getTile());
 		g.drawImage(getImage() , point[0] , point[1], 32, 32, null);

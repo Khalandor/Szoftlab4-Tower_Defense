@@ -20,7 +20,7 @@ public class BarricadeView extends Drawable {
 		barricade = b;
 
 		// Textúra elérési útjának beállítása
-		texture = "textures/constructs/barricade/barricade.png";
+		texture = "/textures/constructs/barricade/barricade.png";
 
 		// Textúra betöltése
 		setImage(texture);
@@ -36,7 +36,7 @@ public class BarricadeView extends Drawable {
 
 		// ha a barricádnak van magicgame-e akkor a textúrája megváltozik.
 		if (barricade.getMagicGem()!= null)
-			this.setImage("textures/constructs/barricade/barricade_gem.png");
+			this.setImage("/textures/constructs/barricade/barricade_gem.png");
 
 		// A textúra kirajzolása a megfelelõ helyre.
 		g.drawImage(getImage() , poz[0] , poz[1], 30, 30, null);

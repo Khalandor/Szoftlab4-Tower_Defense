@@ -17,7 +17,7 @@ public class EndTileView extends Drawable {
 		setView(v);
 
 		// Textura elérésí útjának beállítása és atextúra betöltése
-		texture = "textures/tiles/mount_doom.png";
+		texture = "/textures/tiles/mount_doom.png";
 		endTile = e;
 		setImage(texture);
 	}

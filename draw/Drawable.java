@@ -3,7 +3,6 @@ package draw;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
@@ -19,28 +18,37 @@ public abstract class Drawable {
 	public void setImage(String path)
 	{
 		try {
-			drawableImage = ImageIO.read(new File (path));
+            if (this.getClass().getResource(path) != null)
+                drawableImage = ImageIO.read(this.getClass().getResource(path));
+            else throw new IOException("Could not read: " + path);
 		} catch (IOException e) {
-			e.printStackTrace();
+            System.out.println("Could not read:" + path);
 		}
 	}
 
-	public void setSubImage(String path, int size)
-	{
-		try {
-			BufferedImage bFullImage= ImageIO.read(new File(path));
-			int width = bFullImage.getWidth();
-			int height = bFullImage.getHeight();
-			int xParts = width / size;
-			int yParts = height / size;
-			int xMultiplier = new Random().nextInt(xParts);
-			int yMultiplier = new Random().nextInt(yParts);
-			drawableImage = bFullImage.getSubimage(xMultiplier * size, yMultiplier * size, size, size);
+    /**
+     * Beolvassa egy nagy képnek egy véletlenszerűen kiválasztott kis négyzet lalakú részét
+     * @param path a nagy kép elérési útvonala
+     * @param size a kis kép egy oldalának mérete
+     */
+	public void setSubImage(String path, int size) {
+        if (this.getClass().getResource(path) != null) {
+            try {
+                BufferedImage bFullImage = ImageIO.read(this.getClass().getResource(path));
+                int width = bFullImage.getWidth();
+                int height = bFullImage.getHeight();
+                int xParts = width / size;
+                int yParts = height / size;
+                int xMultiplier = new Random().nextInt(xParts);
+                int yMultiplier = new Random().nextInt(yParts);
+                drawableImage = bFullImage.getSubimage(xMultiplier * size, yMultiplier * size, size, size);
+            } catch (IOException e) {
+                System.out.println("Could not read:" + path);
+            }
+        }
+        else System.out.println("Could not read:" + path);
+    }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	/**
 	 * visszaadja az Image-t
 	 * @return az Image

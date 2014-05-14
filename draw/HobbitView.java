@@ -19,7 +19,7 @@ public class HobbitView extends Drawable {
 	{
 		setView(view);
 		hobbit = h;
-		texture = "textures/enemies/hobbit.png";
+		texture = "/textures/enemies/hobbit.png";
 		this.setImage(texture);
 
 	}
@@ -33,7 +33,7 @@ public class HobbitView extends Drawable {
 	public void draw(Graphics g) {
 		View view = this.getView();
 		if (hobbit.getHealth() < 20)
-			texture = "textures/enemies/hobbit-damaged.png";
+			texture = "/textures/enemies/hobbit-damaged.png";
 		this.setImage(texture);
 		int point[] = view.getTilePosition(hobbit.getTile());
 		g.drawImage(drawableImage , point[0]+5 , point[1], 32, 32, null);

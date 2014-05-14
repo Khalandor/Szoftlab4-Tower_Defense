@@ -17,7 +17,7 @@ public class FieldTileView extends Drawable {
 	FieldTileView(View v  , FieldTile f) {
 		setView(v);
 		// Textura elérésí útjának beállítása és atextúra betöltése
-		texture = "textures/tiles/fieldTile.png";
+		texture = "/textures/tiles/fieldTile.png";
 		fieldTile = f;
 		setSubImage(texture, 30);
 	}

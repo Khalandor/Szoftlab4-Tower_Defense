@@ -18,7 +18,7 @@ public class PathTileView extends Drawable {
 	PathTileView(View v , PathTile p) {
 		setView(v);
 		// Textura elérésí útjának beállítása és atextúra betöltése
-		texture = "textures/tiles/pathTile.png";
+		texture = "/textures/tiles/pathTile.png";
 		pathTile = p;
 		setSubImage(texture, 30);
 	}

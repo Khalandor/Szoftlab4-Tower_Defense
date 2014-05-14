@@ -19,7 +19,7 @@ public class TowerView extends Drawable {
 	{
 		setView(view);
 		tower = t;
-		texture = "textures/constructs/tower/tower.png";
+		texture = "/textures/constructs/tower/tower.png";
 		this.setImage(texture);
 
 	}
@@ -35,12 +35,12 @@ public class TowerView extends Drawable {
 		MagicGem gem = tower.getMagicGem();
 		if (gem!=null)
 		{
-			if (gem.getType().equals("hobbit")) this.setImage("textures/constructs/tower/tower_hobbit.png");
-			else if (gem.getType().equals("human")) this.setImage("textures/constructs/tower/tower_human.png");
-			else if (gem.getType().equals("elf")) this.setImage("textures/constructs/tower/tower_elf.png");
-			else if (gem.getType().equals("dwarf")) this.setImage("textures/constructs/tower/tower_dwarf.png");
-			else if (gem.getType().equals("range")) this.setImage("textures/constructs/tower/tower_range.png");
-			else if (gem.getType().equals("firerate")) this.setImage("textures/constructs/tower/tower_firerate.png");
+			if (gem.getType().equals("hobbit")) this.setImage("/textures/constructs/tower/tower_hobbit.png");
+			else if (gem.getType().equals("human")) this.setImage("/textures/constructs/tower/tower_human.png");
+			else if (gem.getType().equals("elf")) this.setImage("/textures/constructs/tower/tower_elf.png");
+			else if (gem.getType().equals("dwarf")) this.setImage("/textures/constructs/tower/tower_dwarf.png");
+			else if (gem.getType().equals("range")) this.setImage("/textures/constructs/tower/tower_range.png");
+			else if (gem.getType().equals("firerate")) this.setImage("/textures/constructs/tower/tower_firerate.png");
 		}
 		g.drawImage(getImage() , point[0] , point[1], 30, 30, null);
 	}
